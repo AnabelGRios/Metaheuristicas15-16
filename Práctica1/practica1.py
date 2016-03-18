@@ -1,17 +1,26 @@
 from scipy.io import arff
 import numpy as np
 from math import sqrt
+import time
 
 datos = arff.loadarff('wdbc.arff')
 
 # Hay que elegir primero la mitad de los datos para trabajar con ellos y guardarlos junto con su clase
 # Extraemos aleatoriamente la mitad de los datos
 tope = len(datos[0]) // 2
-posiciones = np.random.random_integers(0,568,tope)
+perm = np.random.permutation(len(datos[0]))
+tipos_clase = np.array([b'B', b'M'])
+posiciones = perm[0:tope]
+posiciones2 = perm[tope:len(datos[0])]
 # Pasamos los datos a un array de numpy, quitándole la clase, que estaba en la primera posición
 train = np.array([[datos[0][i][j] for j in range(1,len(datos[0][0]))] for i in posiciones],float)
 # Nos quedamos ahora con la clase de estos mismos datos, en un array distinto
 clase_train = np.array([datos[0][i][0] for i in posiciones])
+
+# Pasamos los datos de test a un numpy sin la clase_train
+test = np.array([[datos[0][i][j] for j in range(1,len(datos[0][0]))] for i in posiciones2],float)
+# Nos quedamos ahora con la clase de estos mismos datos, en un array distinto
+clase_test = np.array([datos[0][i][0] for i in posiciones2])
 
 # Normalizamos los datos y los dejamos entre 0 y 1
 minimo = train.min()
@@ -30,17 +39,6 @@ def getDistancia(dato1, dato2, mascara):
 	distancia = sum(cuadrados)
 	return sqrt(distancia)
 
-print( getDistancia(np.array([0,0,0,0,0]), np.array([1,1,1,1,1]),np.array([1,1,1,1,0])))
-# def getIndex(vector, valor):
-# 	posicion = 0
-# 	i = 0
-# 	encontrado = False
-# 	while (i < len(vector) and not encontrado):
-# 		if vector[i] == valor:
-# 			posicion = i
-# 			encontrado = True
-# 		i += 1
-# 	return posicion
 
 # Función para obtener las posiciones de los 3 vecinos más cercanos junto con sus distancias
 # según las características que nos diga la máscara que hay que mirar
@@ -62,8 +60,6 @@ def get3NN(entrenamiento, dato, mascara):
 	ret = [vec3NN, distancias3NN]
 	return ret
 
-print( get3NN(np.array([[0,0,0],[1,1,1],[2,2,2],[3,3,3],[4,4,4]]),np.array([5,5,5]),np.array([1,1,1])))
-
 
 # Función para obtener la clase de un dato, obteniendo previamente sus tres vecinos más cercanos junto con sus distancias
 def getClasePunto(entrenamiento, dato, mascara, clases):
@@ -74,19 +70,33 @@ def getClasePunto(entrenamiento, dato, mascara, clases):
 	# Hacemos un vector con las clases a las que pertenecen los tres vecinos más cercanos
 	clases3NN = np.array([clases[vec3NN[0]], clases[vec3NN[1]], clases[vec3NN[2]]])
 
-	# Contamos el número de veces que aparecen las dos clases en este vector
-	Bs = sum(clases3NN == b'B')
-	Ms = sum(clases3NN == b'M')
+	# # Contamos el número de veces que aparecen las dos clases en este vector
+	# Bs = sum(clases3NN == tipos_clase[0])
+	# Ms = sum(clases3NN == tipos_clase[1])
+	#
+	# # Nos quedamos con el que más apariciones tenga
+	# if Bs > Ms:
+	# 	clase = b'B'
+	# else:
+	# 	clase = b'M'
 
-	# Nos quedamos con el que más apariciones tenga
-	if Bs > Ms:
-		clase = b'B'
-	else:
-		clase = b'M'
+	# Contamos el número de veces que aparece cada clase y nos quedamos con el máximo
+	clase = 0
+	maximo = sum(clases3NN == tipos_clase[0])
+	for i in range(1, len(tipos_clase)):
+		loc = sum(clases3NN == tipos_clase[i])
+		if loc > maximo:
+			maximo = loc
+			clase = i
+
+	# Si el maximo es 1, entonces es porque hay un empate. Nos quedamos con el que esté más cerca
+	if maximo == 1:
+		clase = distancias3NN.argmin()
+
+	clase = tipos_clase[clase]
 
 	return clase
 
-print( getClasePunto(np.array([[0,0,0],[1,1,1],[2,2,2],[3,3,3],[4,4,4]]),np.array([5,5,5]),np.array([1,1,1]), np.array([b'M', b'M', b'M', b'B', b'B'])))
 
 # Función para obtener la clase de un conjunto de datos, distinguiendo entre si es el de entrenamiento o no,
 # puesto que si es el de entrenamiento habrá que quitar al calcular los vecinos el dato en concreto al que
@@ -106,7 +116,6 @@ def getClases(conjunto, is_train, mascara, clase_train):
 
 	return clases_deducidas
 
-print( getClases(np.array([[0,0,0],[1,1,1],[2,2,2],[3,3,3],[4,4,4]]), True ,np.array([1,1,1]), np.array([b'M', b'M', b'B', b'B', b'M'])))
 
 #Función para calcular la tasa y saber cómo de bien se han deducido las clases
 def calcularTasa(clases, clases_deducidas):
@@ -114,6 +123,7 @@ def calcularTasa(clases, clases_deducidas):
 	bien = sum(clases == clases_deducidas)
 	tasa = 100*(bien / len(clases))
 	return tasa
+
 
 # Función para obtener la característica siguiente más prometedora. Le pasamos por argumento la máscara que
 # tenemos hasta ese momento y nos devuelve la máscara modificada con un 1 en aquella posición que sea la
@@ -141,15 +151,16 @@ def caracteristicaMasPrometedora(clases, mascara, conjunto, is_train):
 	ret = [mascara, mejor_tasa]
 	return ret
 
+
 # Algoritmo greedy SFS
-def algoritmoSFS():
+def algoritmoSFS(clases, conjunto, is_train):
 	# El siguiente vector serán las características que debemos tener en cuenta para hacer la selección
 	# y que iremos modificando a lo largo del algoritmo greedy
-	caracteristicas = np.zeros(len(train[0]), int)
+	caracteristicas = np.zeros(len(conjunto[0]), int)
 	mejora = True
 	tasa_actual = 0
 	while(mejora):
-		ret = caracteristicaMasPrometedora(clase_train, caracteristicas, train, True)
+		ret = caracteristicaMasPrometedora(clases, caracteristicas, conjunto, is_train)
 		nueva_tasa = ret[1]
 		print(nueva_tasa)
 		if nueva_tasa > tasa_actual:
@@ -160,7 +171,68 @@ def algoritmoSFS():
 
 	return caracteristicas
 
-print(algoritmoSFS())
+# com = time.time()
+# mejores_car = algoritmoSFS(clase_train, train, True)
+# print(mejores_car)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# clases_test_deducidas = getClases(test, False, mejores_car, clase_train)
+# tasa_test = calcularTasa(clase_test, clases_test_deducidas)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
 
-#def nombrefuncion(x):
-#	return x
+
+def Flip(mascara, posicion):
+	if mascara[posicion] == 0:
+		mascara[posicion] = 1
+	else:
+		mascara[posicion] = 0
+	return mascara
+
+
+def busquedaLocal(clases, conjunto, is_train):
+	# Generamos una solución inicial aleatoria de ceros y unos
+	caracteristicas = np.random.random_integers(0, 1, len(conjunto[0]))
+	mejora = True
+	vuelta_completa = True
+	tasa_actual = 0
+	i = 0
+	while(mejora and i < 15000):
+		for j in range(0, len(conjunto[0])):
+			mascara_actual = Flip(caracteristicas, j)
+			clases_deducidas = getClases(conjunto, is_train, mascara_actual, clase_train)
+			nueva_tasa = calcularTasa(clases, clases_deducidas)
+			if nueva_tasa > tasa_actual:
+				tasa_actual = nueva_tasa
+				vuelta_completa = False
+				caracteristicas = Flip(caracteristicas, j)
+				print(nueva_tasa)
+
+		if vuelta_completa:
+			mejora = False
+		else:
+			vuelta_completa = True
+
+		i += 1
+	return [caracteristicas, tasa_actual]
+
+com = time.time()
+ret = busquedaLocal(clase_train, train, True)
+mejores_car = ret[0]
+tasa = ret[1]
+print(mejores_car)
+print(tasa)
+fin = time.time()
+print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+
+# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+com2 = time.time()
+clases_test_deducidas = getClases(test, False, mejores_car, clase_train)
+tasa_test = calcularTasa(clase_test, clases_test_deducidas)
+fin2 = time.time()
+print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
