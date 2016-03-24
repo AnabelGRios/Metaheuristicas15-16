@@ -135,10 +135,71 @@ def algoritmoSFS(clases, conjunto):
 
 	return caracteristicas
 
-# Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
+# # Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
+# com = time.time()
+# mejores_car = algoritmoSFS(clases_train, datos_train)
+# print(mejores_car)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+
+def Flip(mascara, posicion):
+	nueva_mascara = np.copy(mascara)
+	if nueva_mascara[posicion] == False:
+		nueva_mascara[posicion] = True
+	else:
+		nueva_mascara[posicion] = False
+	return nueva_mascara
+
+
+def generarSecuencia(longitud):
+	inicio = np.random.random_integers(0,longitud)
+	secuencia = np.arange(inicio, longitud)
+	np.append(secuencia, np.arange(0, inicio))
+	return secuencia
+
+
+def busquedaLocal(clases, conjunto):
+	# Generamos una solución inicial aleatoria de True y False para la solución inicial
+	caracteristicas = np.random.choice(np.array([True, False]), len(conjunto[0]))
+	mejora = True
+	vuelta_completa = True
+	tasa_actual = 0
+	i = 0
+	while(mejora and i < 15000):
+		# Hacemos que el inicio de la vuelta sea aleatorio
+		posiciones = generarSecuencia(len(conjunto[0]))
+		for j in posiciones:
+			mascara_actual = Flip(caracteristicas, j)
+			subconjunto = getSubconjunto(conjunto, mascara_actual)
+			nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
+			if nueva_tasa > tasa_actual:
+				tasa_actual = nueva_tasa
+				vuelta_completa = False
+				caracteristicas = mascara_actual
+				print(nueva_tasa)
+
+		if vuelta_completa:
+			mejora = False
+		else:
+			vuelta_completa = True
+
+		i += 1
+	return [caracteristicas, tasa_actual]
+
 com = time.time()
-mejores_car = algoritmoSFS(clases_train, datos_train)
+ret = busquedaLocal(clases_train, datos_train)
+mejores_car = ret[0]
+tasa = ret[1]
 print(mejores_car)
+print(tasa)
 fin = time.time()
 print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
 
@@ -148,4 +209,4 @@ subcjto = getSubconjunto(datos_test, mejores_car)
 tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
 fin2 = time.time()
 print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
