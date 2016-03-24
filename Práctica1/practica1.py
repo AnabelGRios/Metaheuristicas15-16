@@ -37,7 +37,7 @@ for i in range(0, len(tipos_clase)):
 datos_train = np.array([datos[i] for i in posiciones_train])
 clases_train = np.array([clases[i] for i in posiciones_train])
 datos_test = np.array([datos[i] for i in posiciones_test])
-clases_test = np.array([datos[i] for i in posiciones_test])
+clases_test = np.array([clases[i] for i in posiciones_test])
 
 
 # Función para obtener un subconjunto del conjunto inicial con todas las características, eliminando aquellas que no se vayan a utilizar,
@@ -73,7 +73,7 @@ def calcularTasaKNNTrain(subconjunto, clases):
 
 # Función para calcular la tasa utilizando el 3NN del módulo sklearn de python. Lo entrenamos con el conjunto de datos de entrenamiento
 # datos_train y las características que estamos teniendo en cuenta y después obtenemos la tasa de acierto con el conjunto de test
-def calcularTasaKNNTest(subconjunto, clases_test, mascara):
+def calcularTasaKNNTest(subconjunto, clases_test, datos_train, mascara):
 	knn = neighbors.KNeighborsClassifier(3)
 	sub_train = getSubconjunto(datos_train, mascara)
 	knn.fit(sub_train, clases_train)
@@ -84,7 +84,7 @@ def calcularTasaKNNTest(subconjunto, clases_test, mascara):
 # Función para obtener la característica siguiente más prometedora. Le pasamos por argumento la máscara que
 # tenemos hasta ese momento y nos devuelve la máscara modificada con un True en aquella posición que sea la
 # más prometedora.
-def caracteristicaMasPrometedora(clases, mascara, conjunto, is_train, boolPrint):
+def caracteristicaMasPrometedora(clases, mascara, conjunto):
 	# Buscamos las posiciones que estén a False, que son las que podemos cambiar a True
 	pos = np.array(range(0, len(mascara)))
 	pos = pos[mascara == False]
@@ -93,19 +93,11 @@ def caracteristicaMasPrometedora(clases, mascara, conjunto, is_train, boolPrint)
 	mejor_pos = 0
 
 	for i in pos:
-		nueva_mascara = list(mascara)
+		nueva_mascara = np.copy(mascara)
 		nueva_mascara[i] = True
 		# Nos quedamos con aquellas columnas que vayamos a utilizar, es decir, aquellas cuya posición en la máscara esté a True
 		subconjunto = getSubconjunto(conjunto, nueva_mascara)
-
-		# Distinguimos entre si es el conjunto de entrenamiento o el de test para hacer el leave one out
-		if (is_train):
-			nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
-		else:
-			nueva_tasa = calcularTasaKNNTest(subconjunto, clases, mascara)
-
-		if boolPrint:
-			print("Añadir característica " + str(i) + " sale tasa: " + str(nueva_tasa))
+		nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
 
 		if nueva_tasa > mejor_tasa:
 			mejor_tasa = nueva_tasa
@@ -113,13 +105,14 @@ def caracteristicaMasPrometedora(clases, mascara, conjunto, is_train, boolPrint)
 
 	# Devolvemos la nueva máscara y la mejor tasa, por si no se ha producido ganancia entre la
 	# nueva máscara y la que teníamos
-	mascara[mejor_pos] = 1
-	ret = [mascara, mejor_tasa]
+	nueva_mascara = np.copy(mascara)
+	nueva_mascara[mejor_pos] = 1
+	ret = [nueva_mascara, mejor_tasa]
 	return ret
 
 
 # Algoritmo greedy SFS
-def algoritmoSFS(clases, conjunto, is_train):
+def algoritmoSFS(clases, conjunto):
 	# El siguiente vector serán las características que debemos tener en cuenta para hacer la selección
 	# y que iremos modificando a lo largo del algoritmo greedy. Al principio no hemos cogido ninguna característica,
 	# por lo que tenemos un vector de False.
@@ -128,20 +121,13 @@ def algoritmoSFS(clases, conjunto, is_train):
 	tasa_actual = 0
 
 	while(mejora):
-		print()
-		print()
-		print()
-		print("antes de ciclar")
-		print(caracteristicas)
 		# Obtenemos la siguiente característica más prometedora en un vector de características donde habrá una nueva puesta a True
-		car = caracteristicaMasPrometedora(clases, caracteristicas, conjunto, is_train, True)
-		print("despues de ciclar")
-		print(caracteristicas)
+		car = caracteristicaMasPrometedora(clases, caracteristicas, conjunto)
 		nueva_tasa = car[1]
-		print(nueva_tasa)
 
 		# Si con la nueva característica sigue habiendo mejora seguimos, si no lo paramos y nos quedamos con el vector que teníamos.
 		if nueva_tasa > tasa_actual:
+			print(nueva_tasa)
 			caracteristicas = car[0]
 			tasa_actual = nueva_tasa
 		else:
@@ -151,7 +137,7 @@ def algoritmoSFS(clases, conjunto, is_train):
 
 # Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
 com = time.time()
-mejores_car = algoritmoSFS(clases_train, datos_train, True)
+mejores_car = algoritmoSFS(clases_train, datos_train)
 print(mejores_car)
 fin = time.time()
 print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
@@ -159,7 +145,7 @@ print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha
 # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
 com2 = time.time()
 subcjto = getSubconjunto(datos_test, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_test, mejores_car)
+tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
 fin2 = time.time()
 print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
+print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
