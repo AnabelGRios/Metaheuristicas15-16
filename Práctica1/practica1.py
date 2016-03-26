@@ -1,25 +1,43 @@
 from scipy.io import arff
 import numpy as np
+import argparse
 import time
 from sklearn import neighbors
 from sklearn.preprocessing import MinMaxScaler
 
-base = arff.loadarff('wdbc.arff')
+parser = argparse.ArgumentParser()
+parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
+parser.add_argument("base", help="base de datos a utilizar. Escribir 1 para WDBC, 2 para movement libras y 3 para arritmia", type=int)
+args = parser.parse_args()
 
-# Pasamos los datos a numpy array
-datos = np.array([[base[0][i][j] for j in range(1, len(base[0][0]))] for i in range(0, len(base[0]))], float)
-clases = np.array([base[0][i][0] for i in range(0, len(base[0]))])
+np.random.seed(args.semilla)
+if args.base == 1:
+	base = arff.loadarff('wdbc.arff')
+	# Los tipos de clase que hay
+	tipos_clase = np.array([b'B', b'M'])
+	# Pasamos los datos a numpy array (las clases están en la primera columna)
+	datos = np.array([[base[0][i][j] for j in range(1, len(base[0][0]))] for i in range(0, len(base[0]))], float)
+	clases = np.array([base[0][i][0] for i in range(0, len(base[0]))])
+elif args.base == 2:
+	base = arff.loadarff('movement_libras.arff')
+	tipos_clase = np.array(np.arange(1,16),'|S5')
+	# Pasamos los datos a numpy array (las clases están en la última columna)
+	datos = np.array([[base[0][i][j] for j in range(0, (len(base[0][0]))-1)] for i in range(0, len(base[0]))], float)
+	clases = np.array([base[0][i][(len(base[0][0])-1)] for i in range(0, len(base[0]))])
+else:
+	base = arff.loadarff('arrhythmia.arff')
+	tipos_clase = np.array([1,2,6,10,16], '|S5')
+	# Pasamos los datos a numpy array (las clases están en la última columna)
+	datos = np.array([[base[0][i][j] for j in range(0, (len(base[0][0]))-1)] for i in range(0, len(base[0]))], float)
+	clases = np.array([base[0][i][(len(base[0][0])-1)] for i in range(0, len(base[0]))])
 
-# Los tipos de clase que hay
-tipos_clase = np.array([b'B', b'M'])
 
 # Normalizamos los datos por columnas
 scaler = MinMaxScaler()
 datos = scaler.fit_transform(datos)
 
 # Tenemos que extraer los datos aleatoriamente pero de forma proporcionada. Separamos los índices de los datos por clases y hacemos
-# un aleatorio en cada clase, fijando primero la semilla
-np.random.seed(567891234)
+# un aleatorio en cada clase, una vez hemos fijado la semilla
 posiciones_train = np.array([], int)
 posiciones_test = np.array([], int)
 # Para cada clase, cogemos las posiciones en las que hay datos de esa clase, le hacemos una permutación aleatoria y nos quedamos con
@@ -135,21 +153,23 @@ def algoritmoSFS(clases, conjunto):
 
 	return caracteristicas
 
-# # Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
-# com = time.time()
-# mejores_car = algoritmoSFS(clases_train, datos_train)
-# print(mejores_car)
-# fin = time.time()
-# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
-#
-# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
-# com2 = time.time()
-# subcjto = getSubconjunto(datos_test, mejores_car)
-# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
-# fin2 = time.time()
-# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-# print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+# Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
+com = time.time()
+mejores_car = algoritmoSFS(clases_train, datos_train)
+print(mejores_car)
+fin = time.time()
+print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
 
+# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+com2 = time.time()
+subcjto = getSubconjunto(datos_test, mejores_car)
+tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
+fin2 = time.time()
+print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+
+
+# Función para cambiar una posición de la máscara que se pasa por argumento
 def Flip(mascara, posicion):
 	nueva_mascara = np.copy(mascara)
 	if nueva_mascara[posicion] == False:
@@ -159,6 +179,8 @@ def Flip(mascara, posicion):
 	return nueva_mascara
 
 
+# Función para generar una secuencia que empieza por un número aleatorio y da una vuelta completa,
+# acabando donde empezó.
 def generarSecuencia(longitud):
 	inicio = np.random.random_integers(0,longitud)
 	secuencia = np.arange(inicio, longitud)
@@ -166,8 +188,9 @@ def generarSecuencia(longitud):
 	return secuencia
 
 
+# Algoritmo de Búsqueda Local
 def busquedaLocal(clases, conjunto):
-	# Generamos una solución inicial aleatoria de True y False para la solución inicial
+	# Generamos una solución inicial aleatoria de True y False
 	caracteristicas = np.random.choice(np.array([True, False]), len(conjunto[0]))
 	mejora = True
 	vuelta_completa = True
@@ -180,12 +203,15 @@ def busquedaLocal(clases, conjunto):
 			mascara_actual = Flip(caracteristicas, j)
 			subconjunto = getSubconjunto(conjunto, mascara_actual)
 			nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
+			# Si mejora la tasa nos quedamos con esa característica cambiada
 			if nueva_tasa > tasa_actual:
 				tasa_actual = nueva_tasa
 				vuelta_completa = False
 				caracteristicas = mascara_actual
 				print(nueva_tasa)
 
+		# Si ha dado una vuelta completa al vecindario y no ha encontrado mejora, nos quedamos con la solución
+		# que teníamos y finaliza el algoritmo
 		if vuelta_completa:
 			mejora = False
 		else:
@@ -194,19 +220,22 @@ def busquedaLocal(clases, conjunto):
 		i += 1
 	return [caracteristicas, tasa_actual]
 
-com = time.time()
-ret = busquedaLocal(clases_train, datos_train)
-mejores_car = ret[0]
-tasa = ret[1]
-print(mejores_car)
-print(tasa)
-fin = time.time()
-print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+# com = time.time()
+# ret = busquedaLocal(clases_train, datos_train)
+# mejores_car = ret[0]
+# tasa = ret[1]
+# print(mejores_car)
+# print(tasa)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
 
-# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
-com2 = time.time()
-subcjto = getSubconjunto(datos_test, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
-fin2 = time.time()
-print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
+
+# Algoritmo de Enfriamiento Simulado
