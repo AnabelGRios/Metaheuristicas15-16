@@ -4,6 +4,7 @@ import argparse
 import time
 from sklearn import neighbors
 from sklearn.preprocessing import MinMaxScaler
+from sklearn import cross_validation
 
 parser = argparse.ArgumentParser()
 parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
@@ -57,16 +58,16 @@ clases_train = np.array([clases[i] for i in posiciones_train])
 datos_test = np.array([datos[i] for i in posiciones_test])
 clases_test = np.array([clases[i] for i in posiciones_test])
 
-
 # Función para obtener un subconjunto del conjunto inicial con todas las características, eliminando aquellas que no se vayan a utilizar,
 # es decir, aquellas cuya posición en la máscara estén a False.
 def getSubconjunto(conjunto, mascara):
-	i = len(conjunto[0])
-	subconjunto = np.copy(conjunto)
-	while(i > 0):
-		i -= 1
-		if (mascara[i] == False):
-			subconjunto = np.delete(subconjunto, i, 1)
+	posiciones = np.arange(0,len(mascara))
+	posiciones = posiciones[mascara]
+	subconjunto = np.empty([len(conjunto), len(posiciones)])
+	i = 0
+	for j in posiciones:
+		subconjunto[:,i] = conjunto[:,j]
+		i += 1
 
 	return subconjunto
 
@@ -75,24 +76,32 @@ def getSubconjunto(conjunto, mascara):
 # datos_train y las características que estamos teniendo en cuenta, hacemos el leave one out para cada dato y obtemos la tasa de acierto
 # en los demás. Finalmente devolvemos la media de las tasas
 def calcularTasaKNNTrain(subconjunto, clases):
-	suma_tasas = 0
-	for i in range(0, len(subconjunto)):
-		dato = np.array([subconjunto[i]])
-		clase = np.array([clases[i]])
-		sub_prueba = np.delete(subconjunto, i, 0)
-		clases_prueba = np.delete(clases, i, 0)
-		knn = neighbors.KNeighborsClassifier(3)
-		knn.fit(sub_prueba, clases_prueba)
-		suma_tasas += 100*knn.score(dato, clase)
+	suma_tasas = 0.0
+	leave = cross_validation.LeaveOneOut(len(clases))
+	knn = neighbors.KNeighborsClassifier(n_neighbors = 3)
+	# for i in range(0, len(subconjunto)):
+	# 	dato = np.array([subconjunto[i]])
+	# 	clase = np.array([clases[i]])
+	# 	sub_prueba = np.delete(subconjunto, i, 0)
+	# 	clases_prueba = np.delete(clases, i, 0)
+	# 	knn = neighbors.KNeighborsClassifier(n_neighbors = 3)
+	# 	knn.fit(sub_prueba, clases_prueba)
+	# 	suma_tasas += 100*knn.score(dato, clase)
 
-	tasa = suma_tasas / len(subconjunto)
+	for train_index, test_index in leave:
+		x_train, x_test = subconjunto[train_index], subconjunto[test_index]
+		y_train, y_test = clases[train_index], clases[test_index]
+		knn.fit(x_train, y_train)
+		suma_tasas += 100*knn.score(x_test, y_test)
+
+	tasa = suma_tasas / len(clases)
 	return tasa
 
 
 # Función para calcular la tasa utilizando el 3NN del módulo sklearn de python. Lo entrenamos con el conjunto de datos de entrenamiento
 # datos_train y las características que estamos teniendo en cuenta y después obtenemos la tasa de acierto con el conjunto de test
-def calcularTasaKNNTest(subconjunto, clases_test, datos_train, mascara):
-	knn = neighbors.KNeighborsClassifier(3)
+def calcularTasaKNNTest(subconjunto, clases_test, datos_train, clases_train, mascara):
+	knn = neighbors.KNeighborsClassifier(n_neighbors = 3)
 	sub_train = getSubconjunto(datos_train, mascara)
 	knn.fit(sub_train, clases_train)
 	tasa = 100*knn.score(subconjunto, clases_test)
@@ -111,21 +120,20 @@ def caracteristicaMasPrometedora(clases, mascara, conjunto):
 	mejor_pos = 0
 
 	for i in pos:
-		nueva_mascara = np.copy(mascara)
-		nueva_mascara[i] = True
+		mascara[i] = True
 		# Nos quedamos con aquellas columnas que vayamos a utilizar, es decir, aquellas cuya posición en la máscara esté a True
-		subconjunto = getSubconjunto(conjunto, nueva_mascara)
+		subconjunto = getSubconjunto(conjunto, mascara)
 		nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
+		# Volvemos a dejar la máscara como estaba
+		mascara[i] = False
 
 		if nueva_tasa > mejor_tasa:
 			mejor_tasa = nueva_tasa
 			mejor_pos = i
 
-	# Devolvemos la nueva máscara y la mejor tasa, por si no se ha producido ganancia entre la
+	# Devolvemos la mejor tasa y la posición, por si no se ha producido ganancia entre la
 	# nueva máscara y la que teníamos
-	nueva_mascara = np.copy(mascara)
-	nueva_mascara[mejor_pos] = 1
-	ret = [nueva_mascara, mejor_tasa]
+	ret = [mejor_tasa, mejor_pos]
 	return ret
 
 
@@ -141,42 +149,61 @@ def algoritmoSFS(clases, conjunto):
 	while(mejora):
 		# Obtenemos la siguiente característica más prometedora en un vector de características donde habrá una nueva puesta a True
 		car = caracteristicaMasPrometedora(clases, caracteristicas, conjunto)
-		nueva_tasa = car[1]
+		nueva_tasa = car[0]
+		mejor_pos = car[1]
 
 		# Si con la nueva característica sigue habiendo mejora seguimos, si no lo paramos y nos quedamos con el vector que teníamos.
 		if nueva_tasa > tasa_actual:
 			print(nueva_tasa)
-			caracteristicas = car[0]
+			caracteristicas[mejor_pos] = True
 			tasa_actual = nueva_tasa
 		else:
 			mejora = False
 
 	return caracteristicas
 
-# Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
-com = time.time()
-mejores_car = algoritmoSFS(clases_train, datos_train)
-print(mejores_car)
-fin = time.time()
-print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
-
-# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
-com2 = time.time()
-subcjto = getSubconjunto(datos_test, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
-fin2 = time.time()
-print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+# print("GREEDY")
+# # Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
+# com = time.time()
+# mejores_car = algoritmoSFS(clases_train, datos_train)
+# print(mejores_car)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
+#
+# print("Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo")
+# clases_train2 = clases_test
+# clases_test2 = clases_train
+# datos_train2 = datos_test
+# datos_test2 = datos_train
+#
+# # Calculamos el tiempo y la tasa de acierto para los datos de entrenamiento
+# com = time.time()
+# mejores_car = algoritmoSFS(clases_train2, datos_train2)
+# print(mejores_car)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test2, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test2, datos_train2, clases_train2, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundos para dicho conjunto ha sido: ", fin2-com2)
 
 
 # Función para cambiar una posición de la máscara que se pasa por argumento
 def Flip(mascara, posicion):
-	nueva_mascara = np.copy(mascara)
-	if nueva_mascara[posicion] == False:
-		nueva_mascara[posicion] = True
-	else:
-		nueva_mascara[posicion] = False
-	return nueva_mascara
+	mascara[posicion] = not mascara[posicion]
+	return mascara
 
 
 # Función para generar una secuencia que empieza por un número aleatorio y da una vuelta completa,
@@ -200,15 +227,17 @@ def busquedaLocal(clases, conjunto):
 		# Hacemos que el inicio de la vuelta sea aleatorio
 		posiciones = generarSecuencia(len(conjunto[0]))
 		for j in posiciones:
-			mascara_actual = Flip(caracteristicas, j)
-			subconjunto = getSubconjunto(conjunto, mascara_actual)
+			caracteristicas = Flip(caracteristicas, j)
+			subconjunto = getSubconjunto(conjunto, caracteristicas)
 			nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
 			# Si mejora la tasa nos quedamos con esa característica cambiada
 			if nueva_tasa > tasa_actual:
 				tasa_actual = nueva_tasa
 				vuelta_completa = False
-				caracteristicas = mascara_actual
 				print(nueva_tasa)
+			# Si no mejora, lo dejamos como estaba
+			else:
+				caracteristicas = Flip(caracteristicas, j)
 
 		# Si ha dado una vuelta completa al vecindario y no ha encontrado mejora, nos quedamos con la solución
 		# que teníamos y finaliza el algoritmo
@@ -220,6 +249,7 @@ def busquedaLocal(clases, conjunto):
 		i += 1
 	return [caracteristicas, tasa_actual]
 
+# print("Búsqueda Local")
 # com = time.time()
 # ret = busquedaLocal(clases_train, datos_train)
 # mejores_car = ret[0]
@@ -232,10 +262,30 @@ def busquedaLocal(clases, conjunto):
 # # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
 # com2 = time.time()
 # subcjto = getSubconjunto(datos_test, mejores_car)
-# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
 # fin2 = time.time()
 # print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
 # print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
-
-
-# Algoritmo de Enfriamiento Simulado
+#
+# print("Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo")
+# clases_train2 = clases_test
+# clases_test2 = clases_train
+# datos_train2 = datos_test
+# datos_test2 = datos_train
+#
+# com = time.time()
+# ret = busquedaLocal(clases_train2, datos_train2)
+# mejores_car = ret[0]
+# tasa = ret[1]
+# print(mejores_car)
+# print(tasa)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test2, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test2, datos_train2, clases_train2, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
