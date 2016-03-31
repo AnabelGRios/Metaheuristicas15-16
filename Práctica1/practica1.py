@@ -209,7 +209,7 @@ def Flip(mascara, posicion):
 # Función para generar una secuencia que empieza por un número aleatorio y da una vuelta completa,
 # acabando donde empezó.
 def generarSecuencia(longitud):
-	inicio = np.random.random_integers(0,longitud)
+	inicio = np.random.random_integers(0,longitud-1)
 	secuencia = np.arange(inicio, longitud)
 	np.append(secuencia, np.arange(0, inicio))
 	return secuencia
@@ -241,6 +241,10 @@ def busquedaLocal(clases, conjunto):
 			# Si no mejora, lo dejamos como estaba
 			else:
 				caracteristicas = Flip(caracteristicas, j)
+
+			# Comprobamos que no hemos pasado de las evaluaciones permitidas también en este bucle
+			if (i > 15000):
+				break
 
 		# Si ha dado una vuelta completa al vecindario y no ha encontrado mejora, nos quedamos con la solución
 		# que teníamos y finaliza el algoritmo
@@ -302,14 +306,15 @@ def enfriamientoSimulado(clases, conjunto):
 	# Generamos una solución inicial aleatoria de True y False
 	caracteristicas = np.random.choice(np.array([True, False]), len(conjunto[0]))
 	# Calculamos la tasa de la solución inicial
-	tasa_inicial = calcularTasaKNNTrain(subconjunto, clases)
+	sub = getSubconjunto(conjunto, caracteristicas)
+	tasa_inicial = calcularTasaKNNTrain(sub, clases)
 	# Inicilizamos la mejor solución a la solución inicial junto con su tasa
 	mejor_solucion = np.copy(caracteristicas)
 	mejor_tasa = tasa_inicial
 	tasa_actual = tasa_inicial
 
 	# Con todo esto calculamos la temperatura inicial
-	Tini = (mu*tasa_inicial)/(-log(fi))
+	Tini = (mu*tasa_inicial)/(-np.log(fi))
 	Tactual = Tini
 	Tk = Tini
 	# Definimos el número máximo de vecinos y de éxitos
@@ -327,13 +332,15 @@ def enfriamientoSimulado(clases, conjunto):
 	while(num_evaluaciones < 15000 and not no_exitos):
 		while(num_vecinos < max_vecinos and exitos_actual < max_exitos):
 			# Generamos una nueva solución
-			pos = np.random.random_integers(len(conjunto[0]))
+			pos = np.random.random_integers(len(conjunto[0])-1)
 			caracteristicas = Flip(caracteristicas, pos)
 			num_vecinos += 1	# Aumentamos el número de vecinos generados
-			subconjunto = getSubconjunto(conjunto, caracteristicas)
-			nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
+			sub = getSubconjunto(conjunto, caracteristicas)
+			nueva_tasa = calcularTasaKNNTrain(sub, clases)
 			num_evaluaciones += 1	# Aumentamos el número de evaluaciones hechas
-			if nueva_tasa > tasa_actual or np.random.uniform() <= np.exp(-(nueva_tasa-tasa_actual)/Tk):
+			print(num_evaluaciones)
+			if nueva_tasa > tasa_actual or np.random.uniform() <= np.exp((nueva_tasa-tasa_actual)/Tk):
+				print(nueva_tasa)
 				tasa_actual = nueva_tasa
 				exitos_actual += 1		# Aumentamos el número de vecinos que nos quedamos
 				if (tasa_actual > mejor_tasa):
@@ -347,8 +354,9 @@ def enfriamientoSimulado(clases, conjunto):
 			if (num_evaluaciones > 15000):
 				break
 
+		print(exitos_actual)
 		# Si no nos hemos quedado con ninguna solución, paramos el algoritmo.
-		if exitos_actual = 0:
+		if exitos_actual == 0:
 			no_exitos = True
 		else:
 			exitos_actual = 0
@@ -356,5 +364,27 @@ def enfriamientoSimulado(clases, conjunto):
 		# Actualizamos la temperatura
 		Tactual = Tk
 		Tk = Tactual/(1+beta*Tactual)
+		print(Tk)
+
+		# Volvemos a poner num_vecinos a 0
+		num_vecinos = 0
 
 	return [mejor_solucion, mejor_tasa]
+
+print("Enfriamiento Simulado")
+com = time.time()
+ret = enfriamientoSimulado(clases_train, datos_train)
+mejores_car = ret[0]
+tasa = ret[1]
+print(mejores_car)
+print(tasa)
+fin = time.time()
+print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+
+# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+com2 = time.time()
+subcjto = getSubconjunto(datos_test, mejores_car)
+tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
+fin2 = time.time()
+print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
