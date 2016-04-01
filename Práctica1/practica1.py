@@ -338,8 +338,7 @@ def enfriamientoSimulado(clases, conjunto):
 			sub = getSubconjunto(conjunto, caracteristicas)
 			nueva_tasa = calcularTasaKNNTrain(sub, clases)
 			num_evaluaciones += 1	# Aumentamos el número de evaluaciones hechas
-			print(num_evaluaciones)
-			if nueva_tasa > tasa_actual or np.random.uniform() <= np.exp((nueva_tasa-tasa_actual)/Tk):
+			if nueva_tasa > tasa_actual or (nueva_tasa != tasa_actual and np.random.uniform() <= np.exp((nueva_tasa-tasa_actual)/Tk)):
 				print(nueva_tasa)
 				tasa_actual = nueva_tasa
 				exitos_actual += 1		# Aumentamos el número de vecinos que nos quedamos
@@ -354,6 +353,7 @@ def enfriamientoSimulado(clases, conjunto):
 			if (num_evaluaciones > 15000):
 				break
 
+		print("Exitos")
 		print(exitos_actual)
 		# Si no nos hemos quedado con ninguna solución, paramos el algoritmo.
 		if exitos_actual == 0:
@@ -364,6 +364,7 @@ def enfriamientoSimulado(clases, conjunto):
 		# Actualizamos la temperatura
 		Tactual = Tk
 		Tk = Tactual/(1+beta*Tactual)
+		print("Temperatura")
 		print(Tk)
 
 		# Volvemos a poner num_vecinos a 0
@@ -371,20 +372,68 @@ def enfriamientoSimulado(clases, conjunto):
 
 	return [mejor_solucion, mejor_tasa]
 
-print("Enfriamiento Simulado")
-com = time.time()
-ret = enfriamientoSimulado(clases_train, datos_train)
-mejores_car = ret[0]
-tasa = ret[1]
-print(mejores_car)
-print(tasa)
-fin = time.time()
-print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+# print("Enfriamiento Simulado")
+# com = time.time()
+# ret = enfriamientoSimulado(clases_train, datos_train)
+# mejores_car = ret[0]
+# tasa = ret[1]
+# print(mejores_car)
+# print(tasa)
+# fin = time.time()
+# print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+#
+# # Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+# com2 = time.time()
+# subcjto = getSubconjunto(datos_test, mejores_car)
+# tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
+# fin2 = time.time()
+# print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+# print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
 
-# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
-com2 = time.time()
-subcjto = getSubconjunto(datos_test, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
-fin2 = time.time()
-print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
-print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
+# Algoritmo Búsqueda Tabú
+def busquedaTabu(conjunto, clases):
+	# Generamos una solución inicial aleatoria de True y False
+	caracteristicas = np.random.choice(np.array([True, False]), len(conjunto[0]))
+	# Calculamos la tasa de la solución inicial
+	sub = getSubconjunto(conjunto, caracteristicas)
+	tasa_actual = calcularTasaKNNTrain(sub, clases)
+
+	# Inicilizamos la mejor solución
+	mejor_solucion = np.copy(caracteristicas)
+	mejor_tasa = tasa_actual
+
+	# Creamos la lista tabú
+	tam = len(conjunto[0])//3
+	lista_tabu = np.empty(tam)
+	# Índice que nos dirá cuál ha sido la última posición que hemos metido
+	plista = -1
+
+	for i in range(0, 15000):
+		tasa_actual = 0
+		mejor_pos = 0
+		# Generamos los vecinos de forma aleatoria
+		pos = np.random.choice(np.arange(0,len(conjunto[0])), 30)
+		# Buscamos el mejor vecino
+		for j in pos:
+			caracteristicas = Flip(caracteristicas, j)
+			sub = getSubconjunto(conjunto, caracteristicas)
+			nueva_tasa = calcularTasaKNNTrain(sub, clases)
+			if np.in1d(j, lista_tabu)[0]:
+				if nueva_tasa > mejor_tasa:
+					tasa_actual = nueva_tasa
+					mejor_pos = j
+			elif nueva_tasa > tasa_actual:
+				tasa_actual = nueva_tasa
+				mejor_pos = j
+			caracteristicas = Flip(caracteristicas, j)
+
+		# Nos quedamos con el mejor vecino
+		caracteristicas = Flip(caracteristicas, mejor_pos)
+		plista = (plista+1)%tam
+		lista_tabu[plista] = mejor_pos
+		# Comprobamos si el mejor vecino es mejor que la mejor solución hasta el momento
+		if (tasa_actual > mejor_tasa):
+			mejor_tasa = tasa_actual
+			mejor_solucion = np.copy(caracteristicas)
+
+		return [mejor_solucion, mejor_tasa]
