@@ -1,6 +1,11 @@
 import numpy as np
 from knn import *
 
+# Función para cambiar una posición de la máscara que se pasa por argumento
+def Flip(mascara, posicion):
+	mascara[posicion] = not mascara[posicion]
+	return mascara
+
 # Algoritmo de Enfriamiento Simulado
 def enfriamientoSimulado(clases, conjunto):
 	# Temperatura final y parámetros
