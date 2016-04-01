@@ -408,7 +408,9 @@ def busquedaTabu(clases, conjunto):
 	# Índice que nos dirá cuál ha sido la última posición que hemos metido
 	plista = -1
 
-	for i in range(0, 15000):
+	num_evaluaciones = 0
+
+	while(num_evaluaciones < 15000):
 		tasa_actual = 0
 		mejor_pos = 0
 		# Generamos los vecinos de forma aleatoria
@@ -418,6 +420,7 @@ def busquedaTabu(clases, conjunto):
 			caracteristicas = Flip(caracteristicas, j)
 			sub = getSubconjunto(conjunto, caracteristicas)
 			nueva_tasa = calcularTasaKNNTrain(sub, clases)
+			num_evaluaciones += 1
 			if np.in1d(j, lista_tabu)[0]:
 				if nueva_tasa > mejor_tasa:
 					print("mejor tasa que la mejor solucion")
