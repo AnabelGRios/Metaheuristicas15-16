@@ -404,7 +404,7 @@ def busquedaTabu(clases, conjunto):
 
 	# Creamos la lista tabú
 	tam = len(conjunto[0])//3
-	lista_tabu = np.empty(tam)
+	lista_tabu = np.repeat(-1, tam)
 	# Índice que nos dirá cuál ha sido la última posición que hemos metido
 	plista = -1
 
@@ -412,7 +412,7 @@ def busquedaTabu(clases, conjunto):
 
 	while(num_evaluaciones < 15000):
 		tasa_actual = 0
-		mejor_pos = 0
+		mejor_pos = -1
 		# Generamos los vecinos de forma aleatoria
 		pos = np.random.choice(len(conjunto[0]), 30, replace=False)
 		# Buscamos el mejor vecino
@@ -422,7 +422,7 @@ def busquedaTabu(clases, conjunto):
 			nueva_tasa = calcularTasaKNNTrain(sub, clases)
 			num_evaluaciones += 1
 			if np.in1d(j, lista_tabu)[0]:
-				if nueva_tasa > mejor_tasa:
+				if nueva_tasa > mejor_tasa and nueva_tasa > tasa_actual:
 					print("mejor tasa que la mejor solucion")
 					print(nueva_tasa)
 					tasa_actual = nueva_tasa
