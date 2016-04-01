@@ -391,7 +391,7 @@ def enfriamientoSimulado(clases, conjunto):
 # print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
 
 # Algoritmo Búsqueda Tabú
-def busquedaTabu(conjunto, clases):
+def busquedaTabu(clases, conjunto):
 	# Generamos una solución inicial aleatoria de True y False
 	caracteristicas = np.random.choice(np.array([True, False]), len(conjunto[0]))
 	# Calculamos la tasa de la solución inicial
@@ -412,7 +412,7 @@ def busquedaTabu(conjunto, clases):
 		tasa_actual = 0
 		mejor_pos = 0
 		# Generamos los vecinos de forma aleatoria
-		pos = np.random.choice(np.arange(0,len(conjunto[0])), 30)
+		pos = np.random.choice(len(conjunto[0]), 30, replace=False)
 		# Buscamos el mejor vecino
 		for j in pos:
 			caracteristicas = Flip(caracteristicas, j)
@@ -420,6 +420,8 @@ def busquedaTabu(conjunto, clases):
 			nueva_tasa = calcularTasaKNNTrain(sub, clases)
 			if np.in1d(j, lista_tabu)[0]:
 				if nueva_tasa > mejor_tasa:
+					print("mejor tasa que la mejor solucion")
+					print(nueva_tasa)
 					tasa_actual = nueva_tasa
 					mejor_pos = j
 			elif nueva_tasa > tasa_actual:
@@ -428,6 +430,8 @@ def busquedaTabu(conjunto, clases):
 			caracteristicas = Flip(caracteristicas, j)
 
 		# Nos quedamos con el mejor vecino
+		print("mejor vecino")
+		print(tasa_actual)
 		caracteristicas = Flip(caracteristicas, mejor_pos)
 		plista = (plista+1)%tam
 		lista_tabu[plista] = mejor_pos
@@ -436,4 +440,22 @@ def busquedaTabu(conjunto, clases):
 			mejor_tasa = tasa_actual
 			mejor_solucion = np.copy(caracteristicas)
 
-		return [mejor_solucion, mejor_tasa]
+	return [mejor_solucion, mejor_tasa]
+
+print("Búsqueda Tabú simple")
+com = time.time()
+ret = busquedaTabu(clases_train, datos_train)
+mejores_car = ret[0]
+tasa = ret[1]
+print(mejores_car)
+print(tasa)
+fin = time.time()
+print("El tiempo transcurrido, en segundos y para los datos de entrenamiento, ha sido:", fin-com)
+
+# Vamos ahora a calcular el tiempo y la tasa para los nuevos datos
+com2 = time.time()
+subcjto = getSubconjunto(datos_test, mejores_car)
+tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
+fin2 = time.time()
+print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
+print("El tiempo transcurrido en segundo para dicho conjunto ha sido: ", fin2-com2)
