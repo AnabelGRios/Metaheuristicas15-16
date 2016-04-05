@@ -37,7 +37,6 @@ def busquedaLocal(clases, conjunto):
 			if nueva_tasa > tasa_actual:
 				tasa_actual = nueva_tasa
 				vuelta_completa = False
-				print(nueva_tasa)
 				break
 			# Si no mejora, lo dejamos como estaba
 			else:

@@ -1,0 +1,93 @@
+Búsqueda Local
+Características seleccionadas
+[False  True  True  True  True  True False False False False  True  True
+ False False  True  True False False  True  True  True  True  True  True
+ False False False False False  True]
+Tasa de acierto para el conjunto de test:  97,5352112676
+El tiempo transcurrido en segundos ha sido:  3,7190263271331787
+La tasa de acierto para el conjunto de test ha sido:  93,6842105263
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Local
+Características seleccionadas
+[False False False  True  True  True  True False False  True False False
+  True False  True  True  True  True False False  True  True  True False
+  True False  True  True False False]
+Tasa de acierto para el conjunto de test:  94,3859649123
+El tiempo transcurrido en segundos ha sido: 1,2673962116241455
+La tasa de acierto para el conjunto de test ha sido:  95,4225352113
+
+
+Búsqueda Local
+Características seleccionadas
+[False  True  True False False False False False  True  True  True False
+ False False False False  True False  True  True  True False  True False
+  True False  True False False False]
+Tasa de acierto para el conjunto de test:  95,7746478873
+El tiempo transcurrido en segundos ha sido:  3,36810040473938
+La tasa de acierto para el conjunto de test ha sido:  96,8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Local
+Características seleccionadas
+[False False False False  True  True  True False  True False False False
+ False  True  True  True  True  True  True False False  True False  True
+  True  True False False  True  True]
+Tasa de acierto para el conjunto de test:  96,4912280702
+El tiempo transcurrido en segundos ha sido: 7,160431146621704
+La tasa de acierto para el conjunto de test ha sido:  92,9577464789
+
+
+Búsqueda Local
+Características seleccionadas
+[False False  True  True  True  True False  True False  True  True  True
+  True  True False  True False False False  True  True  True  True  True
+  True  True False  True  True False]
+Tasa de acierto para el conunto de test:  96,1267605634
+El tiempo transcurrido en segundos ha sido:  11,984321117401123
+La tasa de acierto para el conjunto de test ha sido:  96,1403508772
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Local
+Características seleccionadas
+[False False  True False  True False  True  True False False  True  True
+ False False False  True False  True False  True  True  True  True  True
+  True False  True False  True  True]
+Tasa de acierto para el conjunto de test:  96,4912280702
+El tiempo transcurrido en segundos ha sido: 11,084577798843384
+La tasa de acierto para el conjunto de test ha sido:  97,1830985915
+
+
+Búsqueda Local
+Características seleccionadas
+[ True  True False False  True  True  True  True  True  True  True False
+ False  True False  True False  True  True False False False False  True
+  True  True False False  True  True]
+Tasa de acierto para el conjunto de test:  96,1267605634
+El tiempo transcurrido en segundos ha sido:  5,8839921951293945
+La tasa de acierto para el conjunto de test ha sido:  95,4385964912
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Local
+Características seleccionadas
+[ True False  True  True False False False False False  True False  True
+ False False  True False  True False False False False False False False
+  True False  True  True  True False]
+Tasa de acierto para el conjunto de test:  95,7894736842
+El tiempo transcurrido en segundos ha sido: 10,461913347244263
+La tasa de acierto para el conjunto de test ha sido:  94,3661971831
+
+
+Búsqueda Local
+Características seleccionadas
+[ True False False False  True  True  True False  True  True False  True
+  True  True  True False False  True  True  True False  True  True False
+ False  True False False False False]
+Tasa de acierto para el conjunto de test:  96,1267605634
+El tiempo transcurrido en segundos ha sido:  9,403634786605835
+La tasa de acierto para el conjunto de test ha sido:  96,8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Local
+Características seleccionadas
+[ True  True False  True False False  True False False False False  True
+ False  True False  True  True  True False False False  True False False
+  True  True  True  True False  True]
+Tasa de acierto para el conjunto de test:  97,5438596491
+El tiempo transcurrido en segundos ha sido: 8,331140756607056
+La tasa de acierto para el conjunto de test ha sido:  95,7746478873

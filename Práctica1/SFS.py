@@ -47,10 +47,9 @@ def algoritmoSFS(clases, conjunto):
 
 		# Si con la nueva característica sigue habiendo mejora seguimos, si no lo paramos y nos quedamos con el vector que teníamos.
 		if nueva_tasa > tasa_actual:
-			print(nueva_tasa)
 			caracteristicas[mejor_pos] = True
 			tasa_actual = nueva_tasa
 		else:
 			mejora = False
 
-	return [caracteristicas, mejor_tasa]
+	return [caracteristicas, tasa_actual]

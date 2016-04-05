@@ -1,0 +1,93 @@
+Enfriamiento Simulado
+Características seleccionadas
+[False False  True  True  True  True  True  True False False False  True
+ False False  True False  True False  True  True  True  True  True False
+  True False False  True False  True]
+Tasa de acierto para el conjunto de train:  98.9436619718
+El tiempo transcurrido en segundos ha sido:  190.66661167144775
+La tasa de acierto para el conjunto de test ha sido:  95.0877192982
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False  True  True False  True False  True False  True False  True  True
+ False False False  True False  True  True False  True False False  True
+  True  True False  True False  True]
+Tasa de acierto para el conjunto de train:  95.7894736842
+El tiempo transcurrido en segundos ha sido: 186.55563592910767
+La tasa de acierto para el conjunto de test ha sido:  96.1267605634
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[False False  True False  True False  True False  True  True  True  True
+  True False  True False  True  True False  True False  True False False
+  True False  True False False False]
+Tasa de acierto para el conjunto de train:  97.5352112676
+El tiempo transcurrido en segundos ha sido:  185.7704107761383
+La tasa de acierto para el conjunto de test ha sido:  95.7894736842
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True  True False False  True False  True False False  True False
+  True False False False False False  True  True  True  True False False
+  True False  True False False  True]
+Tasa de acierto para el conjunto de train:  98.2456140351
+El tiempo transcurrido en segundos ha sido: 188.59992384910583
+La tasa de acierto para el conjunto de test ha sido:  94.014084507
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[False  True  True  True False False False False False False  True  True
+  True False False  True False  True False False  True False  True False
+ False False False  True  True False]
+Tasa de acierto para el conjunto de train:  97.1830985915
+El tiempo transcurrido en segundos ha sido:  185.90461587905884
+La tasa de acierto para el conjunto de test ha sido:  95.0877192982
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False False  True  True False  True False False  True False  True  True
+  True  True False False  True False  True  True  True  True False  True
+  True False False  True False False]
+Tasa de acierto para el conjunto de train:  97.8947368421
+El tiempo transcurrido en segundos ha sido: 188.80942034721375
+La tasa de acierto para el conjunto de test ha sido:  94.7183098592
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[ True False False False  True False  True  True False False False  True
+ False  True False False False  True  True  True False  True  True False
+  True False  True False  True False]
+Tasa de acierto para el conjunto de train:  97.1830985915
+El tiempo transcurrido en segundos ha sido:  197.0699119567871
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True  True  True  True  True False  True  True  True  True  True
+  True False False False False  True False  True False False  True  True
+ False False False  True  True  True]
+Tasa de acierto para el conjunto de train:  96.8421052632
+El tiempo transcurrido en segundos ha sido: 210.12858963012695
+La tasa de acierto para el conjunto de test ha sido:  94.014084507
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True  True False  True False False False  True  True  True False
+ False False False False False False  True False False  True False  True
+  True  True  True  True False  True]
+Tasa de acierto para el conjunto de train:  96.8309859155
+El tiempo transcurrido en segundos ha sido:  195.4051809310913
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True False False False False False  True False False  True False
+  True  True False False  True  True  True False False  True  True False
+  True False  True False  True False]
+Tasa de acierto para el conjunto de train:  97.5438596491
+El tiempo transcurrido en segundos ha sido: 189.59624457359314
+La tasa de acierto para el conjunto de test ha sido:  96.4788732394

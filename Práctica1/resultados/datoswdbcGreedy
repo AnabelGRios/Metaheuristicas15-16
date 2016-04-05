@@ -1,0 +1,93 @@
+Greedy
+Características seleccionadas
+[False False False False False False False False False  True False False
+ False False False False False False False False False False  True  True
+  True False False False False  True]
+Tasa de acierto para el conjunto de test:  98,9436619718
+El tiempo transcurrido en segundos ha sido:  47,75831890106201
+La tasa de acierto para el conjunto de test ha sido:  93,3333333333
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False  True False False False False  True False False False False False
+ False False False  True False False False False False False False False
+ False False False  True False  True]
+Tasa de acierto para el conjunto de test:  95,7894736842
+El tiempo transcurrido en segundos ha sido: 47,5713324546814
+La tasa de acierto para el conjunto de test ha sido:  94,014084507
+
+
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False  True False False False False False False False  True  True False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  95,4225352113
+El tiempo transcurrido en segundos ha sido:  32,64848589897156
+La tasa de acierto para el conjunto de test ha sido:  93,3333333333
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False  True False False False False False False False
+ False False False False False False False False False  True  True False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  97,5438596491
+El tiempo transcurrido en segundos ha sido: 32,84989595413208
+La tasa de acierto para el conjunto de test ha sido:  94,3661971831
+
+
+Greedy
+Características seleccionadas
+[ True  True False False False False  True False  True False False False
+ False False False False False False False False False  True  True False
+  True False False False False False]
+Tasa de acierto para el conjunto de test:  97,8873239437
+El tiempo transcurrido en segundos ha sido:  61,507880449295044
+La tasa de acierto para el conjunto de test ha sido:  96,4912280702
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False False  True False
+ False False False False False False  True False  True False False False
+  True False False False False False]
+Tasa de acierto para el conjunto de test:  97,5438596491
+El tiempo transcurrido en segundos ha sido: 40,939762592315674
+La tasa de acierto para el conjunto de test ha sido:  93,661971831
+
+
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False  True False False False False False False False  True False  True
+ False False False  True False False]
+Tasa de acierto para el conjunto de test:  96,8309859155
+El tiempo transcurrido en segundos ha sido:  39,88841128349304
+La tasa de acierto para el conjunto de test ha sido:  97,8947368421
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+  True False  True False False False False False False  True  True False
+ False False False False  True False]
+Tasa de acierto para el conjunto de test:  97,5438596491
+El tiempo transcurrido en segundos ha sido: 46,90996170043945
+La tasa de acierto para el conjunto de test ha sido:  95,4225352113
+
+
+Greedy
+Características seleccionadas
+[False  True False False False False False False False False False False
+ False False False False False False False False  True False False False
+  True False False False False False]
+Tasa de acierto para el conjunto de test:  97,5352112676
+El tiempo transcurrido en segundos ha sido:  32,378010749816895
+La tasa de acierto para el conjunto de test ha sido:  95,7894736842
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False  True False False False False  True False False  True False False
+ False False False False False False False False  True False False False
+ False False False  True False False]
+Tasa de acierto para el conjunto de test:  96,1403508772
+El tiempo transcurrido en segundos ha sido: 47,91947293281555
+La tasa de acierto para el conjunto de test ha sido:  94,7183098592

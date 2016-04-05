@@ -1,0 +1,143 @@
+Greedy
+Características seleccionadas
+[False False False False False False False False False False  True  True
+ False False False False False False False False False False False False
+ False False False False False  True False False  True False False False
+ False False False False False False  True  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False  True False False False False False
+ False False False False False False False False False False False False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  65.5555555556
+El tiempo transcurrido en segundos ha sido:  128.11560654640198
+La tasa de acierto para el conjunto de test ha sido:  64.4444444444
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False  True  True False False False False False False False False
+ False  True False False  True  True False False False False False False
+ False False False False False False False False False False False  True
+ False False False  True False False False False  True False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  73.8888888889
+El tiempo transcurrido en segundos ha sido: 141.50705695152283
+La tasa de acierto para el conjunto de test ha sido:  70.0
+
+
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False  True
+ False False False  True  True False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False  True False  True  True
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  70.0
+El tiempo transcurrido en segundos ha sido:  141.56074261665344
+La tasa de acierto para el conjunto de test ha sido:  70.5555555556
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False  True False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False  True False False False False
+ False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False False False False False False  True False False False
+ False False False False False False False False False False False  True
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  67.2222222222
+El tiempo transcurrido en segundos ha sido: 110.74659657478333
+La tasa de acierto para el conjunto de test ha sido:  66.1111111111
+
+
+Greedy
+Características seleccionadas
+[ True False  True False False False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False  True  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False  True
+ False False False False  True False]
+Tasa de acierto para el conjunto de test:  71.1111111111
+El tiempo transcurrido en segundos ha sido:  159.579363822937
+La tasa de acierto para el conjunto de test ha sido:  70.0
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False False False False False  True False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False False False False  True False False
+ False False False False False False False False False False False False
+ False  True  True False False False False False False False False False
+ False  True False False False False]
+Tasa de acierto para el conjunto de test:  66.6666666667
+El tiempo transcurrido en segundos ha sido: 127.13826441764832
+La tasa de acierto para el conjunto de test ha sido:  70.0
+
+
+Greedy
+Características seleccionadas
+[False False False False False False  True False False False False  True
+ False False False False False False False False False False False False
+ False  True False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False  True False False False]
+Tasa de acierto para el conjunto de test:  67.7777777778
+El tiempo transcurrido en segundos ha sido:  128.90916538238525
+La tasa de acierto para el conjunto de test ha sido:  70.5555555556
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False  True False False  True False False False False False False
+ False False False  True False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False  True False False False False False False False False  True False
+ False False False  True False False False False False False False False
+  True False False False False False False False False False False False
+ False False  True False False False]
+Tasa de acierto para el conjunto de test:  78.3333333333
+El tiempo transcurrido en segundos ha sido: 157.26383328437805
+La tasa de acierto para el conjunto de test ha sido:  62.2222222222
+
+
+Greedy
+Características seleccionadas
+[ True  True False False False False False False False False False False
+ False False False False False  True False  True False False False False
+ False  True False False False False False False False False False False
+ False  True False False False  True False False False False False False
+  True False False False  True  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False  True False False]
+Tasa de acierto para el conjunto de test:  80.0
+El tiempo transcurrido en segundos ha sido:  204.00125288963318
+La tasa de acierto para el conjunto de test ha sido:  62.2222222222
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False  True False False  True False False False False False
+ False False False False False False False False  True False False  True
+ False False False  True False False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False  True
+ False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False False False False]
+Tasa de acierto para el conjunto de test:  77.7777777778
+El tiempo transcurrido en segundos ha sido: 159.47420740127563
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889

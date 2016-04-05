@@ -38,7 +38,7 @@ def enfriamientoSimulado(clases, conjunto):
 	exitos_actual = 0		# Número de exitos en el enfriamiento actual
 	no_exitos = False		# Controlamos si ha habido o no exitos en el enfriamiento actual
 
-	while(num_evaluaciones < 15000 and not no_exitos):
+	while(not no_exitos and Tk > Tf and num_evaluaciones < 15000):
 		while(num_vecinos < max_vecinos and exitos_actual < max_exitos):
 			# Generamos una nueva solución
 			pos = np.random.random_integers(len(conjunto[0])-1)
@@ -47,8 +47,8 @@ def enfriamientoSimulado(clases, conjunto):
 			sub = getSubconjunto(conjunto, caracteristicas)
 			nueva_tasa = calcularTasaKNNTrain(sub, clases)
 			num_evaluaciones += 1	# Aumentamos el número de evaluaciones hechas
-			if nueva_tasa > tasa_actual or (nueva_tasa != tasa_actual and np.random.uniform() <= np.exp((nueva_tasa-tasa_actual)/Tk)):
-				print(nueva_tasa)
+			delta = nueva_tasa - tasa_actual
+			if delta != 0 and (delta > 0 or np.random.uniform() <= np.exp(delta/Tk)):
 				tasa_actual = nueva_tasa
 				exitos_actual += 1		# Aumentamos el número de vecinos que nos quedamos
 				if (tasa_actual > mejor_tasa):
@@ -62,8 +62,6 @@ def enfriamientoSimulado(clases, conjunto):
 			if (num_evaluaciones > 15000):
 				break
 
-		print("Exitos")
-		print(exitos_actual)
 		# Si no nos hemos quedado con ninguna solución, paramos el algoritmo.
 		if exitos_actual == 0:
 			no_exitos = True
@@ -71,10 +69,7 @@ def enfriamientoSimulado(clases, conjunto):
 			exitos_actual = 0
 
 		# Actualizamos la temperatura
-		Tactual = Tk
-		Tk = Tactual/(1+beta*Tactual)
-		print("Temperatura")
-		print(Tk)
+		Tk = Tk/(1+beta*Tk)
 
 		# Volvemos a poner num_vecinos a 0
 		num_vecinos = 0

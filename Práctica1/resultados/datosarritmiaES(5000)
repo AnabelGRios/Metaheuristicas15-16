@@ -1,0 +1,303 @@
+Enfriamiento Simulado
+Características seleccionadas
+[False False  True  True  True False False False  True False False  True
+ False False  True False False False False False False  True False  True
+  True  True  True  True  True  True  True  True  True False  True  True
+  True  True False  True  True  True False False  True  True  True  True
+ False False  True  True  True  True False  True  True False  True False
+ False  True False  True False  True False  True False False  True  True
+ False  True False False  True False  True  True False False  True False
+  True  True  True False  True False  True  True False False False  True
+  True False  True False False False False False  True  True  True False
+  True  True  True False  True False  True False  True  True  True  True
+  True  True  True False False False  True  True False False False  True
+ False  True  True  True  True  True False False  True False False  True
+  True False  True False False False  True False False False  True  True
+  True False  True False  True  True  True  True  True False  True False
+ False False False False False False  True  True False False  True False
+  True False False False False  True  True False  True False  True  True
+ False False  True  True  True  True False False False False False False
+ False  True False  True False False False False False False False  True
+ False False  True False False False  True  True False False  True False
+  True False  True False False  True  True  True False  True  True  True
+  True False  True False  True False  True False  True  True False False
+ False  True  True  True  True False False  True  True  True  True False
+ False False  True  True  True False False  True False  True False False
+ False False]
+Tasa de acierto para el conjunto de train:  73.9583333333
+El tiempo transcurrido en segundos ha sido:  861.6460659503937
+La tasa de acierto para el conjunto de test ha sido:  62.3711340206
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False  True  True False False False  True  True False  True False False
+  True False False  True False False  True False False False  True False
+ False False False  True False  True  True  True  True False  True  True
+ False False False  True  True False  True  True False False  True  True
+  True False  True False  True False False  True  True False False False
+  True  True  True  True  True False False False False False False False
+ False False False  True  True False  True  True  True False False False
+ False  True  True False  True  True  True  True  True False False False
+  True False False False False False False False False  True  True  True
+  True False False  True False False  True  True  True  True  True  True
+  True False False  True  True  True  True  True False  True  True False
+ False False False  True  True False  True False  True  True False  True
+ False False False False False False False False  True False  True False
+  True False False  True  True  True False False False False False  True
+ False  True  True False  True  True  True False  True  True False  True
+ False False False False False False False  True False  True  True  True
+ False  True False  True  True  True  True  True False False  True  True
+ False False  True False False False  True  True False False False False
+ False  True  True  True False  True  True False  True  True False  True
+ False False False False False False False False  True False False False
+  True False False False  True  True False False False False False  True
+ False False False  True False  True  True False  True False  True False
+ False False  True False  True  True False False False  True False False
+ False False]
+Tasa de acierto para el conjunto de train:  68.5567010309
+El tiempo transcurrido en segundos ha sido: 857.932825088501
+La tasa de acierto para el conjunto de test ha sido:  65.1041666667
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True  True  True False False False False False  True False  True
+ False  True  True  True  True False  True False False  True  True False
+  True  True False False  True False False  True  True False False  True
+  True False False  True  True False  True  True False  True False False
+ False False False  True False  True False  True False False  True  True
+  True False False  True  True  True False  True  True False False False
+  True False  True False  True False  True False  True False False False
+ False  True  True  True  True False False False  True  True False False
+ False  True  True False False False False  True False False False False
+ False  True False  True False False False False  True  True False False
+  True False False  True  True False False  True  True  True  True False
+  True False  True False False  True  True  True  True  True False False
+ False  True  True False False  True False False False  True  True False
+  True  True  True False  True  True  True False False  True False False
+  True  True False False  True  True  True  True False False  True  True
+  True  True  True False  True False  True  True  True  True  True False
+ False  True False False False False  True False  True  True False  True
+ False  True  True False  True False False False False  True  True  True
+ False  True  True  True  True False False False  True False False  True
+  True False False False False  True  True False False False  True  True
+ False  True  True False  True  True False  True False  True False False
+  True False  True False False  True  True  True  True False  True  True
+  True False  True False False  True False  True  True False False  True
+  True  True]
+Tasa de acierto para el conjunto de train:  66.1458333333
+El tiempo transcurrido en segundos ha sido:  887.7161138057709
+La tasa de acierto para el conjunto de test ha sido:  61.8556701031
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False False False False  True False  True  True  True False False  True
+ False  True False  True False False False False  True  True  True False
+  True False False  True  True  True  True False False False False False
+  True  True False False False  True False False False  True  True False
+  True  True  True  True  True  True False False  True  True  True  True
+  True  True  True False  True  True False  True False False  True  True
+  True False  True  True  True  True  True False False  True  True False
+  True  True False False  True  True  True False  True False  True False
+  True False  True  True  True  True  True  True  True  True  True False
+ False  True  True False False False  True  True False False  True  True
+  True False False False  True  True False False False  True False False
+ False  True  True False  True False  True False False  True  True  True
+ False  True False False False False  True  True False False False  True
+  True  True  True  True False False  True False False False  True  True
+ False  True  True False False False  True  True  True  True False  True
+ False  True  True False  True  True False False  True False False  True
+ False False  True  True  True  True False False  True False  True False
+  True  True  True  True False  True False False False False False  True
+  True  True False False  True False  True False False False False False
+  True  True  True False False  True  True  True  True  True  True False
+ False  True  True  True  True False  True False  True False False  True
+  True False  True  True  True False False False False  True  True False
+ False  True  True False False False  True False  True False  True  True
+ False  True]
+Tasa de acierto para el conjunto de train:  72.6804123711
+El tiempo transcurrido en segundos ha sido: 898.6531164646149
+La tasa de acierto para el conjunto de test ha sido:  66.1458333333
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[ True False False  True  True False  True  True False  True False False
+  True False  True False  True False  True False False False False False
+  True  True  True  True False  True  True  True False False  True  True
+ False  True False False False False  True False  True  True False  True
+ False  True  True  True  True False  True False  True False False False
+  True  True False False False False  True  True  True False False False
+ False False  True  True  True False False  True  True  True  True  True
+ False False False  True  True  True  True  True False  True  True  True
+ False False  True  True False False  True  True False  True  True  True
+  True  True False False  True  True False False  True False  True  True
+ False  True  True  True False False False  True False  True False False
+  True False  True  True False False  True  True False False False False
+ False False False  True  True False  True  True False False  True  True
+ False False  True False  True  True  True  True  True False False False
+ False False False  True False False  True False  True False False False
+  True  True  True False  True False False False False  True  True  True
+ False  True False False False  True False  True False False False  True
+ False  True  True False  True  True  True  True  True False  True  True
+ False  True False False False  True False  True False  True  True  True
+  True  True  True False  True False False  True False False False  True
+ False  True False  True  True  True  True False  True False  True  True
+  True  True  True False  True  True  True  True False False False False
+  True  True  True  True False  True  True False False  True  True False
+  True False]
+Tasa de acierto para el conjunto de train:  69.2708333333
+El tiempo transcurrido en segundos ha sido:  903.4211356639862
+La tasa de acierto para el conjunto de test ha sido:  65.4639175258
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False False False  True  True False  True  True  True False False False
+  True False False False  True False  True False  True False False False
+  True False  True  True False False  True False  True False  True  True
+ False  True False  True False  True  True  True  True False False  True
+  True False  True  True False False  True  True  True  True False False
+ False  True False False  True False False False False False  True  True
+  True  True  True False  True  True  True False False False False  True
+ False False  True  True False False  True  True False False  True False
+  True False False  True  True  True False  True False False  True  True
+ False False  True False False  True False  True  True  True  True False
+ False False False False  True  True False  True  True False False False
+ False  True  True  True False  True  True False False  True False  True
+ False False False  True  True False  True False  True False False  True
+  True False  True False  True  True  True False  True  True  True False
+ False False  True  True  True  True  True False False False  True  True
+ False  True False  True False  True  True  True False False  True False
+ False False False False False False  True  True False  True False False
+ False False False False False False  True  True  True  True False False
+  True False  True False False False False False False  True False False
+ False  True  True  True False False False  True False  True  True  True
+  True False  True False  True False False  True False False False False
+  True False  True  True  True  True  True  True False False False  True
+  True False False  True False  True False  True False False  True False
+ False  True]
+Tasa de acierto para el conjunto de train:  70.618556701
+El tiempo transcurrido en segundos ha sido: 844.3077685832977
+La tasa de acierto para el conjunto de test ha sido:  66.1458333333
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True False False False False False  True False False False  True
+ False  True False False  True False  True False  True  True False  True
+  True False False False False  True  True False  True False  True False
+ False False False  True False False False  True  True  True False  True
+ False  True  True False False False  True False  True  True  True  True
+  True False False  True False  True False  True False  True False False
+  True False False False  True  True False False False False False  True
+ False  True False  True False  True False  True  True  True  True  True
+  True False False  True False  True  True False False False  True  True
+ False False False  True  True  True False  True  True  True False  True
+ False False  True  True False False False  True  True False  True  True
+ False False False  True False False  True False False  True  True False
+  True False False False  True  True  True  True False  True False  True
+ False False  True False False False  True False False False False False
+  True False  True False False  True False  True False  True  True  True
+  True False  True  True  True  True  True False  True  True False False
+ False  True False False False  True  True False  True  True  True  True
+ False  True  True  True  True False False False  True  True False  True
+ False  True False False  True  True False  True False  True  True  True
+ False  True False  True  True  True  True False False False  True  True
+  True False False False False False False  True  True False False  True
+ False False  True  True False  True False  True  True  True False  True
+  True  True  True False  True  True False  True False  True False  True
+ False  True]
+Tasa de acierto para el conjunto de train:  70.8333333333
+El tiempo transcurrido en segundos ha sido:  870.9446244239807
+La tasa de acierto para el conjunto de test ha sido:  64.9484536082
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[False False False False  True  True False False False False False False
+ False False False  True  True False False  True False False  True False
+  True  True  True False False  True  True False False False  True  True
+  True False  True False  True  True  True False  True False False  True
+  True False False False  True  True  True False False  True  True False
+  True False False False False  True False False False False False  True
+ False  True False  True False  True False False False False  True  True
+  True  True  True False  True  True False  True  True False False  True
+ False False False False  True False False False False  True  True  True
+ False False False False False False False  True False  True False False
+ False False False  True False False False False False False  True  True
+  True  True False False  True  True False False False  True False  True
+ False False  True  True  True False  True  True  True False False False
+ False False  True  True  True False False  True False False False False
+  True  True  True False  True False False  True  True False  True  True
+  True  True  True  True False  True  True  True  True False False  True
+  True  True  True False False False False  True  True False False False
+  True  True  True False  True False  True  True False False False False
+  True False  True False False False  True  True False  True  True False
+  True False  True  True  True  True  True False False False False  True
+ False  True  True  True False  True  True False  True False  True False
+ False  True  True  True False False False  True False False False  True
+  True False  True  True False False False  True False  True  True False
+ False  True]
+Tasa de acierto para el conjunto de train:  71.1340206186
+El tiempo transcurrido en segundos ha sido: 928.9694554805756
+La tasa de acierto para el conjunto de test ha sido:  69.2708333333
+
+
+Enfriamiento Simulado
+Características seleccionadas
+[False False  True  True  True False  True  True False False  True False
+  True  True  True  True False  True  True False False False False False
+ False False  True False  True  True  True  True False False False  True
+  True False  True  True False False False  True  True False  True  True
+  True False False  True  True  True  True False  True False  True False
+  True False  True False False False  True  True  True  True False  True
+  True False False  True  True False  True  True False False False  True
+  True False  True False False  True  True  True  True  True  True False
+ False False  True  True False  True  True  True  True False False  True
+  True  True  True  True False  True  True  True  True  True  True  True
+ False False False False  True  True False  True False  True False False
+  True False  True False False False False False  True False False  True
+ False False  True False False  True  True False False False  True False
+  True  True  True False False  True False  True False  True  True  True
+ False  True  True  True False False False False  True  True  True  True
+ False False False False  True  True False  True  True False  True False
+ False False False False False  True  True False False False  True  True
+  True False False  True False  True False  True  True False False  True
+  True False  True  True  True False  True False  True  True  True False
+ False False False False False False False  True  True  True False  True
+  True False  True False  True False  True  True  True  True  True False
+ False False  True False False False  True  True False False  True  True
+  True  True  True False False False  True False False  True False False
+ False False]
+Tasa de acierto para el conjunto de train:  71.875
+El tiempo transcurrido en segundos ha sido:  987.0144612789154
+La tasa de acierto para el conjunto de test ha sido:  64.9484536082
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Enfriamiento Simulado
+Características seleccionadas
+[ True  True  True  True  True  True  True False False False False  True
+  True  True False False False False False False  True False False False
+ False False  True  True False False  True False False  True  True False
+  True  True  True  True  True False False  True  True  True False False
+ False False  True  True  True  True  True  True  True False False False
+  True False  True False  True  True  True  True  True False  True  True
+  True False  True  True False  True  True False False False False  True
+ False False False False  True False False  True False  True False False
+  True False False False  True  True False  True False  True  True False
+  True False False False  True  True  True False False False False False
+  True False  True False  True  True  True False  True False  True False
+ False False  True  True  True  True  True False  True  True False  True
+  True  True  True False False False False  True  True  True False  True
+ False  True False False False False False  True  True False False False
+ False  True  True False False  True False  True  True  True False False
+  True  True False  True False  True False  True  True False  True  True
+  True  True  True False  True  True False False  True False False False
+ False False False  True False False False False  True False  True  True
+  True False False False False False  True  True  True  True False False
+  True False  True False  True False False  True  True  True False  True
+ False  True False  True  True  True False False  True False  True  True
+ False  True False  True False  True False False False False False  True
+  True  True False  True  True False False  True False False  True False
+ False  True]
+Tasa de acierto para el conjunto de train:  65.4639175258
+El tiempo transcurrido en segundos ha sido: 969.0589957237244
+La tasa de acierto para el conjunto de test ha sido:  65.1041666667

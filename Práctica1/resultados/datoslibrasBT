@@ -1,0 +1,142 @@
+Búsqueda Tabú
+Características seleccionadas
+[False  True  True  True  True  True False False  True  True False  True
+ False  True False  True False False  True False False False False False
+ False False False  True False  True False False False False  True  True
+ False False False False False False False  True False False False  True
+  True  True False False False False False  True False False False False
+ False False  True False  True False  True False  True False  True False
+ False False  True False False False False False False False False  True
+ False  True False False  True False]
+Tasa de acierto para el conjunto de train:  71.1111111111
+El tiempo transcurrido en segundos ha sido:  2792.4891386032104
+La tasa de acierto para el conjunto de test ha sido:  67.7777777778
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Tabú
+Características seleccionadas
+[ True  True  True False  True False  True  True False  True  True  True
+  True False  True False  True False  True False  True False  True  True
+ False  True  True  True False False False  True  True  True  True False
+  True False False False False False False False False False  True False
+  True  True False  True  True False  True  True False False False False
+ False False  True False False  True False False False False False False
+  True False  True False  True False  True False  True  True  True False
+  True  True  True False  True  True]
+Tasa de acierto para el conjunto de train:  77.7777777778
+El tiempo transcurrido en segundos ha sido: 2811.5240049362183
+La tasa de acierto para el conjunto de test ha sido:  71.1111111111
+
+
+Búsqueda Tabú
+Características selesccionadas:
+[False  True  True False False False False  True False  True False  True
+  True False False  True False  True  True  True  True  True  True False
+  True False  True  True  True  True  True  True  True False False  True
+  True False False False False False False False  True  True  True False
+ False  True  True False  True  True  True  True False False False False
+ False  True False  True  True False False False  True  True False  True
+  True False  True False  True False  True False  True False False False
+  True False False False False False]
+Tasa de acierto para el conjunto de train:  77.7777777778
+El tiempo transcurrido en segundos ha sido:  2816.002271413803
+La tasa de acierto para el conjunto de test ha sido:  75.5555555556
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Tabú
+Características seleccionadas
+[ True  True  True False  True False  True False  True False  True False
+  True False  True False  True False  True False False False False  True
+  True  True  True False  True  True False False False False  True False
+ False False  True False  True False False  True False  True False False
+ False  True False  True  True  True False  True False  True  True False
+  True False False  True False False False  True False False False  True
+ False False False  True False False  True False False False  True False
+ False False  True  True False False]
+Tasa de acierto para el conjunto de train:  72.7777777778
+El tiempo transcurrido en segundos ha sido: 2793.754906654358
+La tasa de acierto para el conjunto de test ha sido:  65.5555555556
+
+
+Búsqueda Tabú
+Características seleccionadas
+[ True False  True  True False  True  True  True  True  True False False
+ False  True False  True  True False False False False False False  True
+  True False False  True False  True False  True  True  True  True  True
+  True False False False False False False False False  True False False
+  True False  True  True False  True  True  True  True  True False False
+ False False False  True  True False  True False False False False False
+ False  True False False False  True False False False False False False
+ False False  True  True False False]
+Tasa de acierto para el conjunto de train:  75.5555555556
+El tiempo transcurrido en segundos ha sido:  2804.0871295928955
+La tasa de acierto para el conjunto de test ha sido:  72.7777777778
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Tabú
+[False False  True False  True False False  True  True False  True False
+ False False False False False False False False  True False False False
+ False False False  True  True  True False  True False False False  True
+  True False False False  True False  True  True  True  True False  True
+ False False False  True  True False  True False False  True False  True
+ False False False False False False False  True  True  True False False
+ False  True False  True False  True False False False False  True False
+  True False  True  True False False]
+Tasa de acierto para el conjunto de train:  76.6666666667
+El tiempo transcurrido en segundos ha sido: 2784.832240343094
+La tasa de acierto para el conjunto de test ha sido:  70.5555555556
+
+
+Búsqueda Tabú
+Características seleccionadas
+[False  True False False False False  True  True False False False  True
+  True False  True  True False False False  True False  True False  True
+ False  True False  True False False False False  True  True  True  True
+ False  True False False  True False  True False False False False  True
+ False  True False  True  True False False  True  True False  True  True
+  True False  True False False  True  True  True False False False  True
+  True  True  True False  True False False False False False  True False
+ False False  True False False False]
+Tasa de acierto para el conjunto de train:  72.2222222222
+El tiempo transcurrido en segundos ha sido:  2817.532650232315
+La tasa de acierto para el conjunto de test ha sido:  73.8888888889
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Tabú
+Características seleccionadas
+[ True False  True  True  True  True  True False False False  True False
+ False False False False  True  True False False False  True  True  True
+ False  True False  True False  True  True False  True False False  True
+ False  True False  True False  True False False False  True False False
+ False  True  True  True  True False False  True  True False False  True
+ False False False False False False False  True False False False False
+ False False False  True False  True False False False False False False
+  True False False False  True  True]
+Tasa de acierto para el conjunto de train:  81.1111111111
+El tiempo transcurrido en segundos ha sido: 2776.8963491916656
+La tasa de acierto para el conjunto de test ha sido:  62.2222222222
+
+
+Búsqueda Tabú
+Características seleccionadas
+[ True False  True False  True False  True  True False False  True False
+ False False False False False False False False False False False False
+  True False False  True  True  True False False  True False False False
+ False  True  True  True  True False False  True False  True False False
+  True  True False False  True  True  True  True False False False  True
+ False False False  True False  True False False  True  True False False
+ False False False False False False False False False False False  True
+  True  True  True  True  True False]
+Tasa de acierto para el conjunto de train:  79.4444444444
+El tiempo transcurrido en segundos ha sido:  2802.43834400177
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Tabú
+Características seleccionadas
+[False  True False False False  True  True False  True  True False  True
+ False  True False  True  True False  True  True False  True  True False
+ False False False False  True  True False  True False  True False  True
+ False  True False False False False False False  True False  True  True
+ False  True False  True  True False  True False False  True False  True
+  True False False False False False False False  True False  True False
+  True  True False False False False False False False False  True False
+ False False False False False False]
+Tasa de acierto para el conjunto de train:  80.0
+El tiempo transcurrido en segundos ha sido: 2812.494023323059
+La tasa de acierto para el conjunto de test ha sido:  68.3333333333
