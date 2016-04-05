@@ -32,11 +32,8 @@ def busquedaTabuExtendida(clases, conjunto):
 	no_mejora_global = 0
 
 	num_evaluaciones = 0
-	mejora = True
-	num_no_mejora = 0;
-	tasa_mejora = 0;
 
-	while(mejora and num_evaluaciones < 15000):
+	while(num_evaluaciones < 15000):
 		tasa_actual = 0
 		mejor_pos = -1
 		# Generamos los vecinos de forma aleatoria
@@ -73,7 +70,6 @@ def busquedaTabuExtendida(clases, conjunto):
 
 		# Comprobamos si el mejor vecino es mejor que la mejor solución hasta el momento
 		if (tasa_actual > mejor_tasa):
-			print("mejor tasa que la de la mejor solución")
 			mejor_tasa = tasa_actual
 			mejor_solucion = np.copy(caracteristicas)
 			no_mejora_global = 0
@@ -81,7 +77,6 @@ def busquedaTabuExtendida(clases, conjunto):
 			no_mejora_global += 1
 
 		if no_mejora_global == 10:
-			print("Cambiando longitud de la lista tabú y solución")
 			no_mejora_global = 0
 			prob = np.random.choice([0,1,2], p = [0.25, 0.25, 0.5])
 
@@ -114,15 +109,5 @@ def busquedaTabuExtendida(clases, conjunto):
 			# Inicilizamos de nuevo la lista tabú
 			lista_tabu = np.repeat(-1, tam)
 			plista = -1
-
-
-		if (abs(tasa_mejora - mejor_tasa) < 3):
-			num_no_mejora += 1
-			if (num_no_mejora > 30):
-				mejora = False
-				print("Salgo por no haber mejora")
-		else:
-			tasa_mejora = mejor_tasa
-			num_no_mejora = 0
 
 	return [mejor_solucion, mejor_tasa]
