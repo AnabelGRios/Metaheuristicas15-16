@@ -12,6 +12,7 @@
 \usepackage{anysize}
 \usepackage{listings}
 \usepackage{float}
+\usepackage{hyperref}
 
 \marginsize{2cm}{2cm}{2cm}{2cm}
 
@@ -47,6 +48,9 @@ Algoritmos considerados:
 \item Búsqueda Local.
 \item Enfriamiento Simulado.
 \item Búsqueda Tabú Básica.
+\begin{enumerate}
+\item Búsqueda Tabú Básica Modificada
+\end{enumerate}
 \item Búsqueda Tabú Extendida.
 \end{enumerate}
 
@@ -270,7 +274,42 @@ Fin
 
 \end{lstlisting}
 
+\subsubsection{Búsqueda Tabú Básica Modificada}
+Haciendo pruebas me di cuenta de que la búsqueda tabú avanza muy lentamente hacia la mejor solución, y como tarda tanto porque siempre llega las 15000 evaluaciones aunque no haya mejora en las soluciones aceptadas, he pensado en una modificación que podría bajar los tiempos sin bajar mucho la tasa de acierto. Consiste en si no hay una diferencia (en valor absoluto) entre dos tasas de 3 (es decir, del 3\%) en 30 iteraciones (que sería que no hubiera diferencia en 600 evaluaciones) entonces paro el algoritmo. Es decir, cogemos una tasa, y si la diferencia entre esa tasa y la tasa de los 30 siguientes mejores vecinos no supera 3, entonces paro, y si en algún momento sí se supera esa diferencia entonces actualizo la tasa con la que voy a hacer la comparación con las siguientes tasas.\\
+El pseudocódigo sería el siguiente (es todo igual excepto una comprobación al final del bucle):
+\begin{lstlisting}
+busquedaTabu(datos, clases) Empezar:
+   ... (igual que antes)
 
+   while num evaluaciones < 15000 y haya mejora:
+      ... (igual que antes)
+      
+      for j en posiciones:
+         ... (igual que antes)
+      Fin for
+ 
+      # Nos quedamos con el mejor vecino
+      caract = Flip(caract, mejor pos)
+      plista = (plista+1)mod(n/3)
+      lista tabu[plista] = mejor pos
+   
+      if tasa actual > mejor tasa:
+         Se actualiza la mejor tasa y la mejor soluci|ó|n.
+      
+      if valorAbs(tasa mejora - mejor tasa) < 3:
+         num no mejora++ #Aumentamos el n|ú|mero de iteraciones sin cambio
+         if num no mejora > 30):
+            mejora = False
+         else:
+            tasa mejora = mejor tasa
+            num no mejora = 0
+
+   Fin while
+   Devuelve mejor soluci|ó|n y mejor pos
+Fin
+\end{lstlisting}
+
+Este cambio está hecho en el mismo fichero que la búsqueda tabú simple sin modificar y se encuentra comentado por defecto: habría que descomentarlo para probarlo.
 
 \subsection{Búsqueda Tabú Extendida}
 La búsqueda tabú extendida utiliza el mismo mecanismo de memoria a corto plazo que la tabú sencilla, la lista tabú, aunque le iremos cambiando el tamaño. Incorpora además una memoria a largo plazo en la que se guarda el número de veces que se selecciona una característica para obtener la frecuencia de cada característica y si en algún momento se llega a 10 iteraciones sin mejora en la mejor solución, se reinicializa la búsqueda desde una nueva solución que tendrá probabilidad 0.25 de ser aleatoria, probabilidad 0.25 de ser la mejor solución y probabilidad 0.5 de ser generada de forma aleatoria utilizando el vector de frecuencias.\\
@@ -371,18 +410,24 @@ Fin
 \newpage
 
 \section{Procedimiento considerado para desarrollar la práctica}
-La práctica la he desarrollado en python junto con tres módulos de python: numpy, scikit y sklearn (todos disponibles en Linux pero hay que instalarlos previamente). Numpy permite manejar arrays de forma más rápida, scikit leer ficheros en formato arff y sklearn contiene el knn y cross-validation para hacer leave one out. El resto de la práctica lo he hecho yo. Para generar números aleatorios utilizo el \texttt{random} de numpy (al que le paso previamente la semilla) y para medir tiempos \texttt{time} de python.\\
+La práctica la he desarrollado en python junto con tres módulos de python: numpy, scipy y sklearn (de scikit) (todos disponibles en Linux pero hay que instalarlos previamente). Numpy permite manejar arrays de forma más rápida, scipy leer ficheros en formato arff y sklearn contiene el knn y cross-validation para hacer leave one out. El resto de la práctica lo he hecho yo. Para generar números aleatorios utilizo el \texttt{random} de numpy (al que le paso previamente la semilla) y para medir tiempos \texttt{time} de python.\\
 
 Para hacer las particiones igualadas lo que he hecho ha sido quedarme, para cada clase, con los índices de los datos pertenecientes a esa clase, hacerles una permutación aleatoria, partir por la mitad y quedarme con la primera mitad para entrenamiento y la segunda mitad para test.\\
 
-Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica1.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BL, 3 para ES, 4 para BT y 5 para BTE.
+Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica1.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BL, 3 para ES, 4 para BT, 5 para BTE y 6 para KNN.
 
 \newpage
 
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
 
+Los parámetros de los algoritmos, como los del enfriamiento simulado o el tope de evaluaciones a realizar, lo he dejado como se recomendaba en el guión de prácticas.\\
+Las particiones que se hacen dependen de la semilla que se le pase al generador de números aleatorios de numpy, así como las soluciones iniciales que se generan y todo lo relativo a probabilidades. La semilla, como ya he comentado, se le pasa al programa por línea de comandos y es el único parámetro que he cambiado de una base de datos a otra. Para todos los algoritmos, el primer par de particiones (que en realidad es la misma partición pero primero se utiliza una mitad para entrenamiento y la otra para test y después al revés) lo he generado con la semilla 567891234, el segundo par está generado con la semilla 123456789, el tercer par con 11235813, el cuarto par con 27182818 y el quinto par con 1414213, de forma que entre los distintos algoritmos las particiones utilizadas han sido las mismas para poder comparar resultados entre unos y otros.
+
 \subsection{Resultados}
+
+Para cada algoritmo se está midiendo el tiempo, en segundos, que tarda en encontrar el subconjunto de características óptimo. Para el caso del 3NN, como lo estamos lanzando con una máscara entera a True, este tiempo el 0, al igual que la tasa de reducción.
+
 \begin{table}[H]
 \centering
 \caption{Resultados SFS}
@@ -475,6 +520,29 @@ Media         & \multicolumn{1}{c|}{98,7698}                                    
 
 \begin{table}[H]
 \centering
+\caption{Resultados BT Modificada}
+\label{Resultados BT Modificada}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|ccc|ccc|ccc|}
+\hline
+              &                                                                                & Wdbc                                                                         &          &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &          &                                                                               & Arrhythmia                                                                   &          \\ \cline{2-10} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas \\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & T (s)    & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & T (s)    & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & T (s)    \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{99,2958}                                                   & \multicolumn{1}{c|}{94,3860}                                                 & 299,6978 & \multicolumn{1}{c|}{68,3333}                                                  & \multicolumn{1}{c|}{71,6667}                                                 & 365,3628 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & 477,8076 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{97,5439}                                                   & \multicolumn{1}{c|}{97,8873}                                                 & 297,9895 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{73,3333}                                                 & 245,4732 & \multicolumn{1}{c|}{70,1031}                                                  & \multicolumn{1}{c|}{62,5000}                                                 & 248,7286 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{97,5352}                                                   & \multicolumn{1}{c|}{97,1930}                                                 & 290,0433 & \multicolumn{1}{c|}{76,1111}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & 375,3009 & \multicolumn{1}{c|}{67,1875}                                                  & \multicolumn{1}{c|}{63,9175}                                                 & 239,4865 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{98,9474}                                                   & \multicolumn{1}{c|}{95,4225}                                                 & 287,7853 & \multicolumn{1}{c|}{68,8889}                                                  & \multicolumn{1}{c|}{66,6667}                                                 & 235,9328 & \multicolumn{1}{c|}{70,6186}                                                  & \multicolumn{1}{c|}{64,0625}                                                 & 304,3770 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{98,5915}                                                   & \multicolumn{1}{c|}{94,7368}                                                 & 291,0515 & \multicolumn{1}{c|}{71,6667}                                                  & \multicolumn{1}{c|}{69,4444}                                                 & 232,1882 & \multicolumn{1}{c|}{69,2708}                                                  & \multicolumn{1}{c|}{63,4021}                                                 & 343,2357 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{98,2456}                                                   & \multicolumn{1}{c|}{96,1268}                                                 & 288,4757 & \multicolumn{1}{c|}{72,2222}                                                  & \multicolumn{1}{c|}{73,8889}                                                 & 237,2195 & \multicolumn{1}{c|}{70,6186}                                                  & \multicolumn{1}{c|}{67,1875}                                                 & 274,5305 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{97,8873}                                                   & \multicolumn{1}{c|}{97,5439}                                                 & 306,1516 & \multicolumn{1}{c|}{67,7778}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & 303,4044 & \multicolumn{1}{c|}{72,3958}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & 315,8250 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{98,2456}                                                   & \multicolumn{1}{c|}{95,4225}                                                 & 331,3072 & \multicolumn{1}{c|}{78,3333}                                                  & \multicolumn{1}{c|}{63,3333}                                                 & 349,9913 & \multicolumn{1}{c|}{68,5567}                                                  & \multicolumn{1}{c|}{65,1042}                                                 & 361,7439 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{97,8873}                                                   & \multicolumn{1}{c|}{97,5439}                                                 & 337,8707 & \multicolumn{1}{c|}{75,5556}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & 358,2944 & \multicolumn{1}{c|}{70,8333}                                                  & \multicolumn{1}{c|}{64,4330}                                                 & 346,6857 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{97,8947}                                                   & \multicolumn{1}{c|}{96,4789}                                                 & 312,0586 & \multicolumn{1}{c|}{78,8889}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & 397,2670 & \multicolumn{1}{c|}{65,4639}                                                  & \multicolumn{1}{c|}{65,6250}                                                 & 251,6011 \\ \hline
+Media         & \multicolumn{1}{c|}{98,2074}                                                   & \multicolumn{1}{c|}{96,2742}                                                 & 304,2431 & \multicolumn{1}{c|}{73,2778}                                                  & \multicolumn{1}{c|}{70,5000}                                                 & 310,0434 & \multicolumn{1}{c|}{70,0048}                                                  & \multicolumn{1}{c|}{64,7160}                                                 & 316,4021 \\ \hline
+\end{tabular}}
+\end{table}
+
+
+\begin{table}[H]
+\centering
 \caption{Resultados BTE}
 \label{Resultados BTE}
 \resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
@@ -495,11 +563,69 @@ Media         & \multicolumn{1}{c|}{98,4183}                                    
 \end{tabular}}
 \end{table}
 
-
+\begin{table}[H]
+\centering
+\caption{Resultados 3NN}
+\label{Resultados 3NN}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &        &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &        &                                                                               & Arrhythmia                                                                   &                              &        \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)  \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{98,5915}                                                  & \multicolumn{1}{c|}{95,7895}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{60,0000}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,6250}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{95,4386}                                                  & \multicolumn{1}{c|}{97,8873}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{68,3333}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{62,8866}                                                  & \multicolumn{1}{c|}{60,9375}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{95,0704}                                                  & \multicolumn{1}{c|}{97,8947}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,1042}                                                  & \multicolumn{1}{c|}{62,3711}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{95,7895}                                                  & \multicolumn{1}{c|}{95,4225}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{62,2222}                                                  & \multicolumn{1}{c|}{65,0000}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,4330}                                                  & \multicolumn{1}{c|}{64,5833}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{96,1268}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,4444}                                                  & \multicolumn{1}{c|}{71,1111}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,1042}                                                  & \multicolumn{1}{c|}{63,4021}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{95,4386}                                                  & \multicolumn{1}{c|}{96,4789}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,0000}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,4639}                                                  & \multicolumn{1}{c|}{68,2292}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{95,7746}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{60,0000}                                                  & \multicolumn{1}{c|}{75,0000}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,5833}                                                  & \multicolumn{1}{c|}{64,4330}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{96,1404}                                                  & \multicolumn{1}{c|}{95,4225}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{71,6667}                                                  & \multicolumn{1}{c|}{64,4444}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{63,4021}                                                  & \multicolumn{1}{c|}{65,6250}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{94,7183}                                                  & \multicolumn{1}{c|}{97,1930}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{67,7778}                                                  & \multicolumn{1}{c|}{65,5556}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,5833}                                                  & \multicolumn{1}{c|}{67,0103}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{95,7895}                                                  & \multicolumn{1}{c|}{97,5352}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,4330}                                                  & \multicolumn{1}{c|}{66,1458}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+Media         & \multicolumn{1}{c|}{95,8878}                                                  & \multicolumn{1}{c|}{96,7308}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{65,2778}                                                  & \multicolumn{1}{c|}{70,9444}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 & \multicolumn{1}{c|}{64,5619}                                                  & \multicolumn{1}{c|}{64,8201}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000 \\ \hline
+\end{tabular}}
+\end{table}
 
 \subsection{Análisis de los resultados}
 
-\section{Bibliografía}
+A continuación vemos la tabla comparativa, que tiene la última fila (las medias) de todas las tablas anteriores:
 
+\begin{table}[H]
+\centering
+\caption{Comparativa}
+\label{Comparativa}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+             &                                                                               & Wdbc                                                                         &                              &           &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &           &                                                                               & Arrhythmia                                                                   &                              &           \\ \cline{2-13} 
+             & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T         & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T         & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T         \\ \hline
+3-NN         & \multicolumn{1}{c|}{95,8878}                                                  & \multicolumn{1}{c|}{96,7308}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000    & \multicolumn{1}{c|}{65,2778}                                                  & \multicolumn{1}{c|}{70,9444}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000    & \multicolumn{1}{c|}{64,5619}                                                  & \multicolumn{1}{c|}{64,8201}                                                 & \multicolumn{1}{c|}{0,0000}  & 0,0000    \\ \hline
+SFS          & \multicolumn{1}{c|}{97,1181}                                                  & \multicolumn{1}{c|}{94,9025}                                                 & \multicolumn{1}{c|}{85,3333} & 43,0372   & \multicolumn{1}{c|}{71,8333}                                                  & \multicolumn{1}{c|}{67,5000}                                                 & \multicolumn{1}{c|}{90,8889} & 145,8296  & \multicolumn{1}{c|}{80,9284}                                                  & \multicolumn{1}{c|}{71,7698}                                                 & \multicolumn{1}{c|}{97,2302} & 459,4296  \\ \hline
+BL           & \multicolumn{1}{c|}{96,2392}                                                  & \multicolumn{1}{c|}{95,4652}                                                 & \multicolumn{1}{c|}{48,0000} & 7,2665    & \multicolumn{1}{c|}{67,3333}                                                  & \multicolumn{1}{c|}{69,3889}                                                 & \multicolumn{1}{c|}{52,2222} & 9,5104    & \multicolumn{1}{c|}{66,5287}                                                  & \multicolumn{1}{c|}{63,9417}                                                 & \multicolumn{1}{c|}{48,8849} & 29,7173   \\ \hline
+ES           & \multicolumn{1}{c|}{97,3992}                                                  & \multicolumn{1}{c|}{95,5001}                                                 & \multicolumn{1}{c|}{49,3333} & 191,8507  & \multicolumn{1}{c|}{68,3333}                                                  & \multicolumn{1}{c|}{69,7778}                                                 & \multicolumn{1}{c|}{52,0000} & 384,0480  & \multicolumn{1}{c|}{70,0537}                                                  & \multicolumn{1}{c|}{64,7192}                                                 & \multicolumn{1}{c|}{49,7122} & 1585,7971 \\ \hline
+BT basica    & \multicolumn{1}{c|}{98,7698}                                                  & \multicolumn{1}{c|}{95,8529}                                                 & \multicolumn{1}{c|}{51,0000} & 4426,0345 & \multicolumn{1}{c|}{76,4444}                                                  & \multicolumn{1}{c|}{69,6667}                                                 & \multicolumn{1}{c|}{59,1111} & 2801,2051 & \multicolumn{1}{c|}{74,6633}                                                  & \multicolumn{1}{c|}{65,3904}                                                 & \multicolumn{1}{c|}{54,4604} & 3544,2698 \\ \hline
+BT extendida & \multicolumn{1}{c|}{98,4183}                                                  & \multicolumn{1}{c|}{96,0638}                                                 & \multicolumn{1}{c|}{41,3333} & 4728,4435 & \multicolumn{1}{c|}{74,6667}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{52,8889} & 3175,9390 & \multicolumn{1}{c|}{72,4898}                                                  & \multicolumn{1}{c|}{65,1342}                                                 & \multicolumn{1}{c|}{49,8201} & 4328,8571 \\ \hline
+\end{tabular}}
+\end{table}
+
+Como vemos, el algoritmo que más tarda es la búsqueda tabú extendida, puesto que es el que más carga computacional tiene. Entre ambas búsquedas tabú se diferencian relativamente poco en tiempo (teniendo en cuenta que tardan mucho, sin embargo entre una y otra hay en arritmia por ejemplo 800 segundos de diferencia, que sí es una diferencia considerable) porque en lo que se diferencian es en que la simple sólo maneja la lista tabú y la extendida además de manejarla y cambiarla bastantes veces maneja también la memoria a largo plazo (la lista de frecuencias). Sin embargo si miramos las tasas esta diferencia en tiempo podría no ser asumible ya que prácticamente no hay diferencia considerable entre las tasas (aunque también es cierto que habrá problemas en los que esta diferencia, por poca que sea, sí será considerable y será mejor esperar más tiempo). De hecho para el conjunto de entrenamiento sólo hay mejora en la base de datos Wdbc, mientras que en las demás hay incluso una peora y en los conjuntos de test sólo hay como mucho un punto de mejora.\\
+
+El problema de las dos búsquedas tabú es que se van acercando a los óptimos muy lentamente, que es algo fácil de ver al ir mostrando las tasas que va obteniendo en todas las iteraciones, y además no tienen condición de parada adicional, de forma que sólo paran cuando se llega exactamente a 15000 evaluaciones, no como por ejemplo el enfriamiento simulado, que tiene como condición de parada adicional no haber obtenidos éxitos en un enfriamiento completo, lo que hace que la mayoría de las veces no se completen las 15000 evaluaciones, pare antes y por lo tanto tarde bastante menos (alrededor de 3 minutos frente a 74 en wdbc y alrededor de 26 minutos frente a 59 en arritmia) dando unas tasas de acierto bastante buenas si comparamos con la búsqueda tabú simple, por ejemplo: la búsqueda tabú mejora como mucho 1 punto en el conjunto de test y 6 en el de entrenamiento si miramos todas las bases de datos. Es decir, a mi parecer merece más la pena utilizar un buen enfriamiento simulado quizás ya entrando también en modificarle lo parámetros para intentar obtener mejores tasas que utilizar la búsqueda tabú, ya que tarda bastante menos y los resultados son casi igual de buenos que en la búsqueda tabú.\\
+
+Para intentar arreglar que no llegue al número de evaluaciones la búsqueda tabú básica si no hay suficiente cambio (en concreto un cambio del 3\% en 600 evaluaciones) es para lo que he hecho la modificación de la búsqueda tabú básica. Como vemos en la tabla en el apartado anterior conseguimos tiempos que se acercan al enfriamiento simulado (aunque siguen siendo un poco mayores) y por tanto son mucho menores que los de las tabú. Aunque en la tasa de entrenamiento se queda por debajo esta modificación (lo que significa que la búsqueda tabú tiene cambios muy lentos) en las dos primeras bases de datos la tasa en el conjunto de test es ligeramente mayor.\\
+
+Si entramos ahora en comparar tanto las búsquedas tabú como los enfriamientos simulados con el algoritmo greedy SFS, en las bases de datos wdbc y movement libras SFS se queda un poco peor (aunque no mucho, en torno a un 1-3\%) mientras que en la base de datos de arritmia el algoritmo SFS es el mejor de todos con más de un 5\% de diferencia. En cuanto a tasas de reducción es normal que todos sean peores con respecto al greedy SFS puesto que los demás empiezan todos con soluciones iniciales aleatorias y si una característica no aporta nada y no da peor resultado tenerla escogida frente a no tenerla el resto de algoritmos no la eliminan, mientras que el SFS va escogiendo en orden aquellas características que más tasa de acierto aportan, con lo que no escoge ninguna de sobra. Es por esto que también podemos pensar que si en wdbc y en movement libras las tasas son mejores con tabú y enfriamiento que con SFS es porque importa en qué orden se elijan las características en el greedy.\\
+
+Queda sólo por comentar la búsqueda local. Es el más rápido de todos pero a costa de quedarse en el primer óptimo local que encuentra y por tanto tiene menos tasa de acierto que el enfriamiento y la búsqueda tabú, y peor tasa en entrenamiento pero algo mejor en test si comparamos con el SFS (excepto en arritmia). Éste es el algoritmo que escogeríamos si necesitáramos soluciones rápidas y buenas, pero no necesitáramos las óptimas.\\
+
+Con respecto al 3NN al principio parece raro que tenga menos tasa de acierto que los demás puesto que está considerando todas las características. Sin embargo, no todas las características tienen que ser buenas definiendo una clase, además de que puede haber ruidos que hayan afectado más a unas que a otras. Es por esto que es normal que tenga un poco menos de acierto y que no haya mucha diferencia entre las tasas de acierto para entrenamiento y para test y la de entrenamiento no sea mejor que la de test, como suele ocurrir (ya que lo que optimizamos es la tasa de acierto justo en el entrenamiento), puesto que en este algoritmo en realidad las dos serían de test ya que no estamos utilizando ninguna de las dos para aprender.\\
+
+
+
+\section{Bibliografía}
+\begin{enumerate}
+\item Sklearn (scikit) para 3NN \href{http://scikit-learn.org/stable/modules/neighbors.html}{aquí}
+\item Sklearn (scikit) para leave one out \href{http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.LeaveOneOut.html}{aquí}
+\item Scipy para leer ficheros \href{arff http://docs.scipy.org/doc/scipy/reference/generated/scipy.io.arff.loadarff.html}{aquí}
+\item Documentación de numpy \href{http://docs.scipy.org/doc/numpy/user/index.html}{aquí}
+\end{enumerate}
 
 \end{document}

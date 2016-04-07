@@ -89,7 +89,13 @@ elif args.algoritmo == 5:
 	com = time.time()
 	car = busquedaTabuExtendida(clases_train, datos_train)
 	fin = time.time()
-
+else:
+	print("KNN")
+	com = time.time()
+	caract = np.repeat(True, len(datos_train[0]))
+	tasa = calcularTasaKNNTrain(datos_train, clases_train)
+	car = [caract, tasa]
+	fin = time.time()
 
 
 
@@ -138,7 +144,7 @@ elif args.algoritmo == 5:
 else:
 	print("KNN")
 	com = time.time()
-	caract = np.repeat(True, len(clases_test))
+	caract = np.repeat(True, len(datos_test[0]))
 	tasa = calcularTasaKNNTrain(datos_test, clases_test)
 	car = [caract, tasa]
 	fin = time.time()
