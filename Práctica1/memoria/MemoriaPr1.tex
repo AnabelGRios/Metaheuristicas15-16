@@ -105,7 +105,7 @@ Se considerarán como vecinas todas aquellas soluciones que difieran en la perte
 \newpage
 
 \section{Descripción de los algoritmos}
-(estructura del método de búsqueda y operaciones relevantes). Pseudocódigo.
+
 \subsection{Búsqueda Local}
 El algoritmo de búsqueda local implementado ha sido el del primer mejor, es decir, exploramos los vecinos de la solución que tenemos en cada momento y en cuanto obtenemos una mejor nos quedamos con ella y empezamos a generar sus vecinos. Los vecinos se empiezan a generar por una característica aleatoria y a partir de esa característica se van cambiando las demás hasta el final y de nuevo por el principio hasta llegar a la primera que habíamos cambiado. Si no nos quedamos con la solución tenemos que dejar la característica que habíamos cambiado como estaba y si nos la quedamos dejamos de generar vecinos de la solución que teníamos y pasamos a generar vecinos de la nueva solución. El algoritmo para cuando da una pasada entera a los vecinos y no ha encontrado una mejor solución que la que tenía.\\
 
@@ -114,7 +114,7 @@ Veamos el pseudocódigo.\\
 Al algoritmo le pasamos como parámetros los datos de entrenamiento y las clases de los datos.
 \begin{lstlisting}
 Empezar
-   caract = solucion aleatoria inicial
+   caract = soluci|ó|n aleatoria inicial
    tasa actual = calcularTasa(datos, caract)
    
    while haya mejora en el vecindario y haya menos de 15000 evaluaciones
@@ -129,9 +129,9 @@ Empezar
             vuelta_completa = False # hemos encontrado mejora antes de
              # generar todos los vecinos)
             break, salimos del bucle de dentro y empezamos a 
-             generar vecinos de la nueva solucion
+             generar vecinos de la nueva soluci|ó|n
          
-         else, volvemos a la antigua solucion:
+         else, volvemos a la antigua soluci|ó|n:
             Flip(caract, j)
             
          if vuelta_completa:
@@ -142,7 +142,7 @@ Empezar
          if hemos superado el numero de evaluaciones
             break y salimos del bucle de dentro
    
-   Devuelve caract, tasa actual
+   Devuelve caract y tasa actual
 Fin
    
 \end{lstlisting}
@@ -152,8 +152,8 @@ El esquema de enfriamiento que he utilizado ha sido el esquema de Cauchy modific
 \begin{lstlisting}
 Tf = 0.001, fi = 0.3, mu = 0.3
 Tini = (mu*tasa_inicial)/(-np.log(fi))
-beta = (Tini - Tf)/(M*Tini*Tf) #M depende del numero de vecinos a generar 
-   			       #y del numero de evaluaciones
+beta = (Tini - Tf)/(M*Tini*Tf) #M depende del n|ú|mero de vecinos a generar 
+   			       #y del n|ú|mero de evaluaciones
 Tk = Tk/(1+beta*Tk) 	#Al final del bucle de enfriamiento
 \end{lstlisting}
 
@@ -163,13 +163,13 @@ En cada enfriamiento generamos vecinos hasta un máximo de forma aleatoria y nos
 Con esto, el pseudocódigo es el siguiente:
 \begin{lstlisting}
 Empezar
-caract = solucion aleatoria inicial
+caract = soluci|ó|n aleatoria inicial
 mejor solucion = caract
 mejor tasa = calcularTasa(datos, caract)
-Se calculan los parametros para la temperatura y los vecinos totales
-while haya exitos en el enfriamiento actual y Tk>Tf y haya menos de 15000 evals:
-   while no se haya generado el maximo de vecinos ni se sobrepasen los exitos:
-      pos = num aleatorio entre 0 y n #n num de caracteristicas
+Se calculan los par|á|metros para la temperatura y los vecinos totales
+while haya |é|xitos en el enfriamiento actual y Tk>Tf y haya menos de 15000 evals:
+   while no se haya generado el m|á|ximo de vecinos ni se sobrepasen los |é|xitos:
+      pos = num aleatorio entre 0 y n #n num de caracter|í|sticas
       caract = Flip(caract, pos)
       nueva tasa = calcularTasa(datos, caract)
       Se aumenta num vecinos y num evaluaciones
@@ -177,25 +177,25 @@ while haya exitos en el enfriamiento actual y Tk>Tf y haya menos de 15000 evals:
       if delta!=0 y (delta>0 o U(0,1)<=exp(delta/Tk)):
          #Se ha aceptado el vecino
          Se actualiza la tasa actual
-         Se aumenta el numero de exitos
+         Se aumenta el n|ú|mero de |é|xitos
          if tasa actual > mejor tasa:
-            Se actualizan la mejor solucion y la mejor tasa
+            Se actualizan la mejor soluci|ó|n y la mejor tasa
       
       else:
-         #No se ha aceptado el vecino, volvemos a la solucion anterior
+         #No se ha aceptado el vecino, volvemos a la soluci|ó|n anterior
          Flip(caract, pos)
          
-      Comprobamos si hemos pasado el numero de evaluaciones
+      Comprobamos si hemos pasado el n|ú|mero de evaluaciones
    Fin del while interior
    
-   Comprobamos si ha habido exitos en este enfriamiento
-   Ponemos el numero de exitos a 0
-   Ponemos el numero de vecinos a 0
+   Comprobamos si ha habido |é|xitos en este enfriamiento
+   Ponemos el n|ú|mero de |é|xitos a 0
+   Ponemos el n|ú|mero de vecinos a 0
       
    Tk = Tk/(1+beta*Tk) #Actualizamos temperatura
    Fin del while exterior
       
-Devolvemos mejor solucion, mejor tasa
+Devolvemos mejor soluci|ó|n y mejor tasa
 Fin
 \end{lstlisting}
 
@@ -204,18 +204,270 @@ $U(0,1)$ es un número aleatorio extraído de la distribución uniforme en el in
 He tenido que poner como condición adicional en el \texttt{if} para aceptar una solución que \texttt{delta!=0} porque si las tasas son iguales y la diferencia es cero entonces la exponencial de $delta/Tk$ es siempre 1 al ser delta 0 y un número entre 0 y 1 es siempre menor o igual que 1, con lo que siempre cogía como éxito una solución con la misma tasa, haciendo que el algoritmo tardara mucho más al haber siempre éxitos en el enfriamiento actual, cuando en realidad no se estaba moviendo ni hacia arriba ni hacia abajo.
 
 \subsection{Búsqueda Tabú Básica}
-En la búsqueda tabú también buscamos salir de óptimos locales con unos mecanismos distintos a los del enfriamiento simulado. En este caso vamos a tener almacenada una lista tabú que nos qu
+En la búsqueda tabú también buscamos salir de óptimos locales con unos mecanismos distintos a los del enfriamiento simulado. En este caso vamos a tener almacenada una lista tabú que nos guarda las posiciones de las características que hemos cambiado en los $n/3$ movimientos anteriores, donde $n$ es el número de características.  La lista tiene por tanto $n/3$ posiciones y está implementada como una lista circular, de forma que tenemos un índice marcando la última posición añadida y el siguiente a ese índice módulo $n/3$ es el próximo que tenemos que modificar. Se guardan estas posiciones para que no se pueda volver a cambiar una característica en esas posiciones para no volver hacia soluciones que habíamos considerado peores, a no ser que modificar una característica en la lista tabú mejore a la mejor solución que tenemos en ese momento. El método de búsqueda en este caso es la generación de 30 vecinos aleatorios de la solución actual y quedarnos con el mejor de ellos, sea mejor o no que el que teníamos. Guardamos siempre la mejor solución, que será la que se devolverá.\\
+Con esto, el pseudocódigo es el siguiente:
+
+\begin{lstlisting}
+Empezar
+caract = soluci|ó|n aleatoria inicial
+mejor tasa = calcularTasa(datos, caract)
+mejor soluci|ó|n = caract
+lista tab|ú| = vector de longitud n/3 inicializado a -1
+plista = -1		#indica la |ú|ltima posici|ó|n modificada en la lista
+
+while num evaluaciones < 15000:
+   tasa actual = 0
+   mejor pos = -1
+   posiciones = 30 vecinos generados aleatoriamente
+   for j en posiciones:
+      caract = Flip(caract, j) 	#Generamos vecino
+      nueva tasa = calcularTasa(datos, caract)
+      Se aumenta el n|ú|mero de evaluaciones
+      if j esta en la lista tab|ú|:
+         if nueva tasa > mejor tasa y nueva tasa > tasa actual:
+            Se actualiza la tasa actual con la nueva
+            Se cambia j como mejor posici|ó|n
+      elif nueva tasa > tasa actual:
+         Se actualiza la tasa actual con la nueva
+         Se cambia j como mejor posici|ó|n
+      # Volvemos a la soluci|ó|n que ten|í|amos para seguir generando vecinos
+      caract = Flip(datos, caract)
+   
+   Fin for
+   # Nos quedamos con el mejor vecino
+   caract = Flip(caract, mejor pos)
+   plista = (plista+1)mod(n/3)
+   lista tabu[plista] = mejor pos
+   
+   if tasa actual > mejor tasa:
+      Se actualiza la mejor tasa y la mejor soluci|ó|n.
+
+   Fin while
+   
+   Devuelve mejor soluci|ó|n y mejor pos
+Fin
+
+\end{lstlisting}
 
 \subsection{Búsqueda Tabú Extendida}
+La búsqueda tabú extendida utiliza el mismo mecanismo de memoria a corto plazo que la tabú sencilla, la lista tabú, aunque le iremos cambiando el tamaño. Incorpora además una memoria a largo plazo en la que se guarda el número de veces que se selecciona una característica para obtener la frecuencia de cada característica y si en algún momento se llega a 10 iteraciones sin mejora en la mejor solución, se reinicializa la búsqueda desde una nueva solución que tendrá probabilidad 0.25 de ser aleatoria, probabilidad 0.25 de ser la mejor solución y probabilidad 0.5 de ser generada de forma aleatoria utilizando el vector de frecuencias.\\
+
+El pseudocódigo es el mismo que el de la búsqueda tabú sencilla con una modificación al final:
+
+\begin{lstlisting}
+Empezar
+... (igual que antes)
+frec = vector de frecuencias de longitud n (num caracter|í|sticas)
+ inicializado a cero
+
+while num evaluaciones < 15000:
+   ... (igual que antes)
+   for j en posiciones:
+      ... (igual que antes)
+   Fin for
+   
+   # Nos quedamos con el mejor vecino
+   caract = Flip(caract, mejor pos)
+   plista = (plista+1)mod(n/3)
+   lista tabu[plista] = mejor pos
+   Se aumenta frec[mejor pos] en 1   
+   
+   if tasa actual > mejor tasa:
+      Se actualiza la mejor tasa y la mejor soluci|ó|n.
+      no_mejora = 0
+   else:
+      no_mejora += 1
+   
+   if no_mejora llega a 10:
+      no_mejora = 0
+      Se elige un numero entre 3 en el que los dos primeros tienen
+       probabilidad 0.25 de aparecer y el tercero tiene 0.5
+          if sale el primero:
+             caract = soluci|ó|n aleatoria
+          elif sale el segundo:
+             caract = mejor soluci|ó|n
+          else:
+             u = n|ú|mero uniforme entre 0 y 1
+             for i de 0 hasta n:  # n num caracter|í|sticas
+                 if u < 1 - frec[i]:
+                    se pone la caracter|í|stica i a True
+                 else
+                    se pone a False
+      u = n|ú|mero uniforme entre 0 y 1
+      if u < 0.5
+         Se aumenta al doble la lista tab|ú|
+      else:
+         Se disminuye a la mitad la lista tab|ú|
+
+   Fin while
+   
+   Devuelve mejor soluci|ó|n y mejor pos
+Fin
+
+\end{lstlisting}
+
+\newpage
 
 \section{Breve descripción del algoritmo de comparación}
+El algoritmo de comparación seleccionado ha sido el greedy Sequential Forward Selection (SFS), que parte de una solución inicial en la que no hay ninguna característica seleccionada y se va quedando en cada iteración con la característica con la que se obtiene la mejor tasa. El algoritmo no para mientras se encuentre mejora añadiendo alguna característica.\\
+He implementado una función que me devuelve, para una máscara determinada, la característica más prometedora que se puede obtener, cuyo pseudocódigo es el siguiente:
+\begin{lstlisting}
+Empezar caractMasPrometedora(mascara):
+   posiciones = posiciones que no est|é|n seleccionadas de la mascara
+   for i en posiciones:
+      mascara[i] = True
+      Se calcula la tasa con la nueva caracter|í|stica a|ñ|adida
+      if nueva tasa > mejor tasa:
+         Se actualiza la mejor tasa
+         Se actualiza la mejor posici|ó|n
+      Fin for
+   Devuelve mejor tasa y mejor pos
+Fin
+\end{lstlisting}
+
+Con esto, el pseudocódigo del algoritmo SFS es:
+\begin{lstlisting}
+Empezar
+caract = soluci|ó|n inicial inicializada a False
+tasa actual = 0
+mejora = True
+while haya mejora:
+   Se calcula la tasa y la mejor posici|ó|n con caractMasPrometedora
+   if nueva tasa > tasa actual:
+      Se actualiza la tasa actual
+      Se pone a True la caracter|í|stica en mejor posici|ó|n
+   else:
+      mejora = False	#No ha habido mejora: paramos
+      
+   Fin while
+   
+   Devuelve caract y tasa
+Fin
+
+\end{lstlisting}
+
+\newpage
 
 \section{Procedimiento considerado para desarrollar la práctica}
+
 
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
 
 \subsection{Resultados}
+\begin{table}[H]
+\centering
+\caption{Resultados SFS}
+\label{Resultados SFS}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &         &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &          &                                                                               & Arrhythmia                                                                   &                              &          \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)   & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)    & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)    \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{98,9437}                                                  & \multicolumn{1}{c|}{93,3333}                                                 & \multicolumn{1}{c|}{83,3333} & 47,7583 & \multicolumn{1}{c|}{65,5556}                                                  & \multicolumn{1}{c|}{64,4444}                                                 & \multicolumn{1}{c|}{92,2222} & 128,1156 & \multicolumn{1}{c|}{81,7708}                                                  & \multicolumn{1}{c|}{70,1031}                                                 & \multicolumn{1}{c|}{97,1223} & 474,7185 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{95,7895}                                                  & \multicolumn{1}{c|}{94,0141}                                                 & \multicolumn{1}{c|}{83,3333} & 47,5713 & \multicolumn{1}{c|}{73,8889}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{91,1111} & 141,5071 & \multicolumn{1}{c|}{80,9278}                                                  & \multicolumn{1}{c|}{78,6458}                                                 & \multicolumn{1}{c|}{97,1223} & 474,0171 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{95,4225}                                                  & \multicolumn{1}{c|}{93,3333}                                                 & \multicolumn{1}{c|}{90,0000} & 32,6485 & \multicolumn{1}{c|}{70,0000}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{91,1111} & 141,5607 & \multicolumn{1}{c|}{78,6458}                                                  & \multicolumn{1}{c|}{70,1031}                                                 & \multicolumn{1}{c|}{97,4820} & 417,5319 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{94,3662}                                                 & \multicolumn{1}{c|}{90,0000} & 32,8499 & \multicolumn{1}{c|}{67,2222}                                                  & \multicolumn{1}{c|}{66,1111}                                                 & \multicolumn{1}{c|}{93,3333} & 110,7466 & \multicolumn{1}{c|}{85,0515}                                                  & \multicolumn{1}{c|}{70,8333}                                                 & \multicolumn{1}{c|}{96,4029} & 582,5531 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{97,8873}                                                  & \multicolumn{1}{c|}{96,4912}                                                 & \multicolumn{1}{c|}{76,6667} & 61,5079 & \multicolumn{1}{c|}{71,1111}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{90,0000} & 159,5794 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{69,0722}                                                 & \multicolumn{1}{c|}{98,9209} & 209,9304 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{93,6620}                                                 & \multicolumn{1}{c|}{86,6667} & 40,9398 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{92,2222} & 127,1383 & \multicolumn{1}{c|}{78,8660}                                                  & \multicolumn{1}{c|}{71,3542}                                                 & \multicolumn{1}{c|}{97,8417} & 365,9823 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{96,8310}                                                  & \multicolumn{1}{c|}{97,8947}                                                 & \multicolumn{1}{c|}{86,6667} & 39,8884 & \multicolumn{1}{c|}{67,7778}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{92,2222} & 128,9092 & \multicolumn{1}{c|}{82,8125}                                                  & \multicolumn{1}{c|}{73,7113}                                                 & \multicolumn{1}{c|}{96,7626} & 526,7995 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{95,4225}                                                 & \multicolumn{1}{c|}{83,3333} & 46,9100 & \multicolumn{1}{c|}{78,3333}                                                  & \multicolumn{1}{c|}{62,2222}                                                 & \multicolumn{1}{c|}{90,0000} & 157,2638 & \multicolumn{1}{c|}{85,0515}                                                  & \multicolumn{1}{c|}{73,4375}                                                 & \multicolumn{1}{c|}{96,0432} & 632,3626 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{97,5352}                                                  & \multicolumn{1}{c|}{95,7895}                                                 & \multicolumn{1}{c|}{90,0000} & 32,3780 & \multicolumn{1}{c|}{80,0000}                                                  & \multicolumn{1}{c|}{62,2222}                                                 & \multicolumn{1}{c|}{86,6667} & 204,0013 & \multicolumn{1}{c|}{82,2917}                                                  & \multicolumn{1}{c|}{68,0412}                                                 & \multicolumn{1}{c|}{97,4820} & 424,4544 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{96,1404}                                                  & \multicolumn{1}{c|}{94,7183}                                                 & \multicolumn{1}{c|}{83,3333} & 47,9195 & \multicolumn{1}{c|}{77,7778}                                                  & \multicolumn{1}{c|}{68,8889}                                                 & \multicolumn{1}{c|}{90,0000} & 159,4742 & \multicolumn{1}{c|}{78,8660}                                                  & \multicolumn{1}{c|}{72,3958}                                                 & \multicolumn{1}{c|}{97,1223} & 485,9460 \\ \hline
+Media         & \multicolumn{1}{c|}{97,1181}                                                  & \multicolumn{1}{c|}{94,9025}                                                 & \multicolumn{1}{c|}{85,3333} & 43,0372 & \multicolumn{1}{c|}{71,8333}                                                  & \multicolumn{1}{c|}{67,5000}                                                 & \multicolumn{1}{c|}{90,8889} & 145,8296 & \multicolumn{1}{c|}{80,9284}                                                  & \multicolumn{1}{c|}{71,7698}                                                 & \multicolumn{1}{c|}{97,2302} & 459,4296 \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Resultados BL}
+\label{Resultados BL}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &         &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &         &                                                                               & Arrhythmia                                                                   &                              &         \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)   & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)   & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)   \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{97,5352}                                                  & \multicolumn{1}{c|}{93,6842}                                                 & \multicolumn{1}{c|}{46,6667} & 3,7190  & \multicolumn{1}{c|}{62,2222}                                                  & \multicolumn{1}{c|}{69,4444}                                                 & \multicolumn{1}{c|}{52,2222} & 8,8476  & \multicolumn{1}{c|}{68,2292}                                                  & \multicolumn{1}{c|}{63,4021}                                                 & \multicolumn{1}{c|}{50,3597} & 9,8135  \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{94,3860}                                                  & \multicolumn{1}{c|}{95,4225}                                                 & \multicolumn{1}{c|}{46,6667} & 1,2674  & \multicolumn{1}{c|}{69,4444}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & \multicolumn{1}{c|}{46,6667} & 12,3067 & \multicolumn{1}{c|}{67,0103}                                                  & \multicolumn{1}{c|}{63,5417}                                                 & \multicolumn{1}{c|}{45,3237} & 32,3330 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{95,7746}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{63,3333} & 3,3681  & \multicolumn{1}{c|}{67,7778}                                                  & \multicolumn{1}{c|}{74,4444}                                                 & \multicolumn{1}{c|}{57,7778} & 1,5256  & \multicolumn{1}{c|}{65,6250}                                                  & \multicolumn{1}{c|}{61,3402}                                                 & \multicolumn{1}{c|}{56,1151} & 65,7732 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{96,4912}                                                  & \multicolumn{1}{c|}{92,9577}                                                 & \multicolumn{1}{c|}{46,6667} & 7,1604  & \multicolumn{1}{c|}{65,5556}                                                  & \multicolumn{1}{c|}{65,0000}                                                 & \multicolumn{1}{c|}{56,6667} & 17,8602 & \multicolumn{1}{c|}{68,0412}                                                  & \multicolumn{1}{c|}{64,5833}                                                 & \multicolumn{1}{c|}{46,4029} & 51,7505 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{96,1268}                                                  & \multicolumn{1}{c|}{96,1404}                                                 & \multicolumn{1}{c|}{33,3333} & 11,9843 & \multicolumn{1}{c|}{67,7778}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{56,6667} & 10,5577 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{63,9175}                                                 & \multicolumn{1}{c|}{46,4029} & 32,6144 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{96,4912}                                                  & \multicolumn{1}{c|}{97,1831}                                                 & \multicolumn{1}{c|}{43,3333} & 11,0846 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{50,0000} & 7,8249  & \multicolumn{1}{c|}{67,5258}                                                  & \multicolumn{1}{c|}{65,6250}                                                 & \multicolumn{1}{c|}{52,5180} & 36,3594 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{96,1268}                                                  & \multicolumn{1}{c|}{95,4386}                                                 & \multicolumn{1}{c|}{40,0000} & 5,8840  & \multicolumn{1}{c|}{59,4444}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{53,3333} & 7,8953  & \multicolumn{1}{c|}{67,1875}                                                  & \multicolumn{1}{c|}{62,3711}                                                 & \multicolumn{1}{c|}{43,8849} & 16,5154 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{95,7895}                                                  & \multicolumn{1}{c|}{94,3662}                                                 & \multicolumn{1}{c|}{63,3333} & 10,4619 & \multicolumn{1}{c|}{72,2222}                                                  & \multicolumn{1}{c|}{61,6667}                                                 & \multicolumn{1}{c|}{44,4444} & 7,9087  & \multicolumn{1}{c|}{65,9794}                                                  & \multicolumn{1}{c|}{66,6667}                                                 & \multicolumn{1}{c|}{52,8777} & 4,9554  \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{96,1268}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{46,6667} & 9,4036  & \multicolumn{1}{c|}{71,1111}                                                  & \multicolumn{1}{c|}{67,7778}                                                 & \multicolumn{1}{c|}{53,3333} & 8,5307  & \multicolumn{1}{c|}{65,1042}                                                  & \multicolumn{1}{c|}{64,9485}                                                 & \multicolumn{1}{c|}{48,9209} & 4,5913  \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{95,7746}                                                 & \multicolumn{1}{c|}{50,0000} & 8,3311  & \multicolumn{1}{c|}{71,1111}                                                  & \multicolumn{1}{c|}{68,3333}                                                 & \multicolumn{1}{c|}{51,1111} & 11,8468 & \multicolumn{1}{c|}{63,9175}                                                  & \multicolumn{1}{c|}{63,0208}                                                 & \multicolumn{1}{c|}{46,0432} & 42,4668 \\ \hline
+Media         & \multicolumn{1}{c|}{96,2392}                                                  & \multicolumn{1}{c|}{95,4652}                                                 & \multicolumn{1}{c|}{48,0000} & 7,2665  & \multicolumn{1}{c|}{67,3333}                                                  & \multicolumn{1}{c|}{69,3889}                                                 & \multicolumn{1}{c|}{52,2222} & 9,5104  & \multicolumn{1}{c|}{66,5287}                                                  & \multicolumn{1}{c|}{63,9417}                                                 & \multicolumn{1}{c|}{48,8849} & 29,7173 \\ \hline
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Resultados ES}
+\label{Resultados ES}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &          &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &          &                                                                               & Arrhythmia                                                                   &                              &           \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)    & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)    & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{98,9437}                                                  & \multicolumn{1}{c|}{95,0877}                                                 & \multicolumn{1}{c|}{43,3333} & 190,6666 & \multicolumn{1}{c|}{61,1111}                                                  & \multicolumn{1}{c|}{68,3333}                                                 & \multicolumn{1}{c|}{51,1111} & 383,7357 & \multicolumn{1}{c|}{73,9583}                                                  & \multicolumn{1}{c|}{62,3711}                                                 & \multicolumn{1}{c|}{49,6403} & 1641,5006 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{95,7895}                                                  & \multicolumn{1}{c|}{96,1268}                                                 & \multicolumn{1}{c|}{46,6667} & 186,5556 & \multicolumn{1}{c|}{70,0000}                                                  & \multicolumn{1}{c|}{73,3333}                                                 & \multicolumn{1}{c|}{55,5556} & 381,7689 & \multicolumn{1}{c|}{70,1031}                                                  & \multicolumn{1}{c|}{62,5000}                                                 & \multicolumn{1}{c|}{50,0000} & 1663,5517 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{97,5352}                                                  & \multicolumn{1}{c|}{95,7895}                                                 & \multicolumn{1}{c|}{50,0000} & 185,7704 & \multicolumn{1}{c|}{70,5556}                                                  & \multicolumn{1}{c|}{75,5556}                                                 & \multicolumn{1}{c|}{62,2222} & 383,1403 & \multicolumn{1}{c|}{66,1458}                                                  & \multicolumn{1}{c|}{61,8557}                                                 & \multicolumn{1}{c|}{49,2806} & 1571,5591 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{98,2456}                                                  & \multicolumn{1}{c|}{94,0141}                                                 & \multicolumn{1}{c|}{53,3333} & 188,5999 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{62,7778}                                                 & \multicolumn{1}{c|}{44,4444} & 390,1831 & \multicolumn{1}{c|}{70,1031}                                                  & \multicolumn{1}{c|}{63,5417}                                                 & \multicolumn{1}{c|}{51,0791} & 1562,8782 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{97,1831}                                                  & \multicolumn{1}{c|}{95,0877}                                                 & \multicolumn{1}{c|}{60,0000} & 185,9046 & \multicolumn{1}{c|}{66,6667}                                                  & \multicolumn{1}{c|}{72,2222}                                                 & \multicolumn{1}{c|}{55,5556} & 384,5502 & \multicolumn{1}{c|}{69,2708}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & \multicolumn{1}{c|}{47,4820} & 1593,5539 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{97,8947}                                                  & \multicolumn{1}{c|}{94,7183}                                                 & \multicolumn{1}{c|}{46,6667} & 188,8094 & \multicolumn{1}{c|}{68,8889}                                                  & \multicolumn{1}{c|}{73,3333}                                                 & \multicolumn{1}{c|}{53,3333} & 374,4300 & \multicolumn{1}{c|}{70,6186}                                                  & \multicolumn{1}{c|}{66,6667}                                                 & \multicolumn{1}{c|}{53,5971} & 1536,6501 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{97,1831}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{53,3333} & 197,0699 & \multicolumn{1}{c|}{62,7778}                                                  & \multicolumn{1}{c|}{76,1111}                                                 & \multicolumn{1}{c|}{52,2222} & 379,0105 & \multicolumn{1}{c|}{70,8333}                                                  & \multicolumn{1}{c|}{64,9485}                                                 & \multicolumn{1}{c|}{50,0000} & 1532,1212 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{96,8421}                                                  & \multicolumn{1}{c|}{94,0141}                                                 & \multicolumn{1}{c|}{36,6667} & 210,1286 & \multicolumn{1}{c|}{73,3333}                                                  & \multicolumn{1}{c|}{59,4444}                                                 & \multicolumn{1}{c|}{55,5556} & 384,5273 & \multicolumn{1}{c|}{69,5876}                                                  & \multicolumn{1}{c|}{66,1458}                                                 & \multicolumn{1}{c|}{47,1223} & 1599,9626 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{96,8310}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{50,0000} & 195,4052 & \multicolumn{1}{c|}{71,1111}                                                  & \multicolumn{1}{c|}{66,6667}                                                 & \multicolumn{1}{c|}{41,1111} & 391,5431 & \multicolumn{1}{c|}{71,8750}                                                  & \multicolumn{1}{c|}{64,9485}                                                 & \multicolumn{1}{c|}{48,5612} & 1600,2462 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{96,4789}                                                 & \multicolumn{1}{c|}{53,3333} & 189,5962 & \multicolumn{1}{c|}{72,2222}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{48,8889} & 387,5911 & \multicolumn{1}{c|}{68,0412}                                                  & \multicolumn{1}{c|}{68,7500}                                                 & \multicolumn{1}{c|}{50,3597} & 1555,9471 \\ \hline
+Media         & \multicolumn{1}{c|}{97,3992}                                                  & \multicolumn{1}{c|}{95,5001}                                                 & \multicolumn{1}{c|}{49,3333} & 191,8507 & \multicolumn{1}{c|}{68,3333}                                                  & \multicolumn{1}{c|}{69,7778}                                                 & \multicolumn{1}{c|}{52,0000} & 384,0480 & \multicolumn{1}{c|}{70,0537}                                                  & \multicolumn{1}{c|}{64,7192}                                                 & \multicolumn{1}{c|}{49,7122} & 1585,7971 \\ \hline
+\end{tabular}}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Resultados BT}
+\label{Resultados BT}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &           &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &           &                                                                               & Arrhythmia                                                                   &                              &           \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{99,6479}                                                  & \multicolumn{1}{c|}{94,0351}                                                 & \multicolumn{1}{c|}{53,3333} & 4482,1553 & \multicolumn{1}{c|}{71,1111}                                                  & \multicolumn{1}{c|}{67,7778}                                                 & \multicolumn{1}{c|}{67,7778} & 2792,4891 & \multicolumn{1}{c|}{77,6042}                                                  & \multicolumn{1}{c|}{64,9485}                                                 & \multicolumn{1}{c|}{50,3597} & 3547,2839 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{97,8947}                                                  & \multicolumn{1}{c|}{96,4789}                                                 & \multicolumn{1}{c|}{40,0000} & 4525,3261 & \multicolumn{1}{c|}{77,7778}                                                  & \multicolumn{1}{c|}{71,1111}                                                 & \multicolumn{1}{c|}{50,0000} & 2811,5240 & \multicolumn{1}{c|}{72,1649}                                                  & \multicolumn{1}{c|}{61,4583}                                                 & \multicolumn{1}{c|}{54,3165} & 3689,6839 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{98,2394}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{40,0000} & 4414,8685 & \multicolumn{1}{c|}{77,7778}                                                  & \multicolumn{1}{c|}{75,5556}                                                 & \multicolumn{1}{c|}{51,1111} & 2816,0023 & \multicolumn{1}{c|}{69,7917}                                                  & \multicolumn{1}{c|}{62,8866}                                                 & \multicolumn{1}{c|}{56,8345} & 3547,7961 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{99,6491}                                                  & \multicolumn{1}{c|}{94,3662}                                                 & \multicolumn{1}{c|}{50,0000} & 4387,6807 & \multicolumn{1}{c|}{72,7778}                                                  & \multicolumn{1}{c|}{65,5556}                                                 & \multicolumn{1}{c|}{57,7778} & 2793,7549 & \multicolumn{1}{c|}{78,8660}                                                  & \multicolumn{1}{c|}{65,1042}                                                 & \multicolumn{1}{c|}{56,4748} & 3540,1120 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{98,9437}                                                  & \multicolumn{1}{c|}{94,3860}                                                 & \multicolumn{1}{c|}{56,6667} & 4435,5301 & \multicolumn{1}{c|}{75,5556}                                                  & \multicolumn{1}{c|}{72,7778}                                                 & \multicolumn{1}{c|}{58,8889} & 2804,0871 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{65,9794}                                                 & \multicolumn{1}{c|}{60,0719} & 3567,9060 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{98,5965}                                                  & \multicolumn{1}{c|}{95,7746}                                                 & \multicolumn{1}{c|}{63,3333} & 4402,7661 & \multicolumn{1}{c|}{76,6667}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{63,3333} & 2784,8322 & \multicolumn{1}{c|}{75,7732}                                                  & \multicolumn{1}{c|}{67,7083}                                                 & \multicolumn{1}{c|}{56,4748} & 3516,0451 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{98,2394}                                                  & \multicolumn{1}{c|}{96,1404}                                                 & \multicolumn{1}{c|}{50,0000} & 4398,5370 & \multicolumn{1}{c|}{72,2222}                                                  & \multicolumn{1}{c|}{73,8889}                                                 & \multicolumn{1}{c|}{56,6667} & 2817,5327 & \multicolumn{1}{c|}{76,5625}                                                  & \multicolumn{1}{c|}{65,9794}                                                 & \multicolumn{1}{c|}{53,2374} & 3498,7134 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{98,5965}                                                  & \multicolumn{1}{c|}{96,4789}                                                 & \multicolumn{1}{c|}{63,3333} & 4400,6981 & \multicolumn{1}{c|}{81,1111}                                                  & \multicolumn{1}{c|}{62,2222}                                                 & \multicolumn{1}{c|}{61,1111} & 2776,8963 & \multicolumn{1}{c|}{72,1649}                                                  & \multicolumn{1}{c|}{67,1875}                                                 & \multicolumn{1}{c|}{51,0791} & 3538,5967 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{98,9437}                                                  & \multicolumn{1}{c|}{96,4912}                                                 & \multicolumn{1}{c|}{50,0000} & 4389,9218 & \multicolumn{1}{c|}{79,4444}                                                  & \multicolumn{1}{c|}{68,8889}                                                 & \multicolumn{1}{c|}{62,2222} & 2802,4383 & \multicolumn{1}{c|}{74,4792}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & \multicolumn{1}{c|}{48,9209} & 3524,8939 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{98,9474}                                                  & \multicolumn{1}{c|}{97,5352}                                                 & \multicolumn{1}{c|}{43,3333} & 4422,8620 & \multicolumn{1}{c|}{80,0000}                                                  & \multicolumn{1}{c|}{68,3333}                                                 & \multicolumn{1}{c|}{62,2222} & 2812,4940 & \multicolumn{1}{c|}{74,2268}                                                  & \multicolumn{1}{c|}{67,1875}                                                 & \multicolumn{1}{c|}{56,8345} & 3471,6671 \\ \hline
+Media         & \multicolumn{1}{c|}{98,7698}                                                  & \multicolumn{1}{c|}{95,8529}                                                 & \multicolumn{1}{c|}{51,0000} & 4426,0345 & \multicolumn{1}{c|}{76,4444}                                                  & \multicolumn{1}{c|}{69,6667}                                                 & \multicolumn{1}{c|}{59,1111} & 2801,2051 & \multicolumn{1}{c|}{74,6633}                                                  & \multicolumn{1}{c|}{65,3904}                                                 & \multicolumn{1}{c|}{54,4604} & 3544,2698 \\ \hline
+\end{tabular}}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Resultados BTE}
+\label{Resultados BTE}
+\resizebox{\textwidth}{!}{\begin{tabular}{|c|cccc|cccc|cccc|}
+\hline
+              &                                                                               & Wdbc                                                                         &                              &           &                                                                               & \begin{tabular}[c]{@{}c@{}}Movement\\ Libras\end{tabular}                    &                              &           &                                                                               & Arrhythmia                                                                   &                              &           \\ \cline{2-13} 
+              & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ train\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\%\_clas\\ test\end{tabular}} & \multicolumn{1}{c|}{\%\_red} & T (s)     \\ \hline
+Partición 1-1 & \multicolumn{1}{c|}{99,2958}                                                  & \multicolumn{1}{c|}{94,3860}                                                 & \multicolumn{1}{c|}{53,3333} & 4891,4500 & \multicolumn{1}{c|}{68,8889}                                                  & \multicolumn{1}{c|}{67,2222}                                                 & \multicolumn{1}{c|}{58,8888} & 3159,3639 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & \multicolumn{1}{c|}{52,1583} & 4398,2495 \\ \hline
+Partición 1-2 & \multicolumn{1}{c|}{97,5439}                                                  & \multicolumn{1}{c|}{96,8310}                                                 & \multicolumn{1}{c|}{20,0000} & 4855,4829 & \multicolumn{1}{c|}{75,5556}                                                  & \multicolumn{1}{c|}{72,2222}                                                 & \multicolumn{1}{c|}{46,6666} & 3183,8460 & \multicolumn{1}{c|}{69,0722}                                                  & \multicolumn{1}{c|}{63,0208}                                                 & \multicolumn{1}{c|}{51,7986} & 4597,1095 \\ \hline
+Partición 2-1 & \multicolumn{1}{c|}{97,8873}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{30,0000} & 4932,8456 & \multicolumn{1}{c|}{76,6667}                                                  & \multicolumn{1}{c|}{76,6667}                                                 & \multicolumn{1}{c|}{46,6666} & 3251,4145 & \multicolumn{1}{c|}{70,8333}                                                  & \multicolumn{1}{c|}{60,8247}                                                 & \multicolumn{1}{c|}{44,2446} & 4412,4157 \\ \hline
+Partición 2-2 & \multicolumn{1}{c|}{99,2982}                                                  & \multicolumn{1}{c|}{93,6620}                                                 & \multicolumn{1}{c|}{40,0000} & 4889,1054 & \multicolumn{1}{c|}{70,0000}                                                  & \multicolumn{1}{c|}{67,2222}                                                 & \multicolumn{1}{c|}{50,0000} & 3174,5812 & \multicolumn{1}{c|}{74,2268}                                                  & \multicolumn{1}{c|}{67,7083}                                                 & \multicolumn{1}{c|}{48,9209} & 4466,9630 \\ \hline
+Partición 3-1 & \multicolumn{1}{c|}{98,9437}                                                  & \multicolumn{1}{c|}{96,1404}                                                 & \multicolumn{1}{c|}{33,3333} & 4874,8818 & \multicolumn{1}{c|}{72,7778}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{50,0000} & 3163,0693 & \multicolumn{1}{c|}{75,0000}                                                  & \multicolumn{1}{c|}{65,4639}                                                 & \multicolumn{1}{c|}{52,5180} & 4320,1314 \\ \hline
+Partición 3-2 & \multicolumn{1}{c|}{98,2456}                                                  & \multicolumn{1}{c|}{96,1268}                                                 & \multicolumn{1}{c|}{43,3333} & 4837,6802 & \multicolumn{1}{c|}{73,3333}                                                  & \multicolumn{1}{c|}{73,3333}                                                 & \multicolumn{1}{c|}{45,5555} & 3183,1151 & \multicolumn{1}{c|}{74,7423}                                                  & \multicolumn{1}{c|}{67,7083}                                                 & \multicolumn{1}{c|}{55,3957} & 4414,9784 \\ \hline
+Partición 4-1 & \multicolumn{1}{c|}{97,8873}                                                  & \multicolumn{1}{c|}{96,8421}                                                 & \multicolumn{1}{c|}{40,0000} & 4682,4851 & \multicolumn{1}{c|}{71,6667}                                                  & \multicolumn{1}{c|}{77,7778}                                                 & \multicolumn{1}{c|}{60,0000} & 3161,6695 & \multicolumn{1}{c|}{73,4375}                                                  & \multicolumn{1}{c|}{64,9485}                                                 & \multicolumn{1}{c|}{44,2446} & 4255,8287 \\ \hline
+Partición 4-2 & \multicolumn{1}{c|}{98,2456}                                                  & \multicolumn{1}{c|}{97,8873}                                                 & \multicolumn{1}{c|}{56,6667} & 4468,9579 & \multicolumn{1}{c|}{81,1111}                                                  & \multicolumn{1}{c|}{62,7778}                                                 & \multicolumn{1}{c|}{62,2222} & 3134,6418 & \multicolumn{1}{c|}{72,6804}                                                  & \multicolumn{1}{c|}{66,6667}                                                 & \multicolumn{1}{c|}{51,0791} & 4119,7669 \\ \hline
+Partición 5-1 & \multicolumn{1}{c|}{98,2394}                                                  & \multicolumn{1}{c|}{94,7368}                                                 & \multicolumn{1}{c|}{53,3333} & 4478,3304 & \multicolumn{1}{c|}{76,6667}                                                  & \multicolumn{1}{c|}{67,7778}                                                 & \multicolumn{1}{c|}{50,0000} & 3182,7247 & \multicolumn{1}{c|}{70,8333}                                                  & \multicolumn{1}{c|}{64,4330}                                                 & \multicolumn{1}{c|}{48,5612} & 4185,7275 \\ \hline
+Partición 5-2 & \multicolumn{1}{c|}{98,5965}                                                  & \multicolumn{1}{c|}{97,1831}                                                 & \multicolumn{1}{c|}{43,3333} & 4373,2153 & \multicolumn{1}{c|}{80,0000}                                                  & \multicolumn{1}{c|}{70,0000}                                                 & \multicolumn{1}{c|}{58,8889} & 3164,9642 & \multicolumn{1}{c|}{69,0722}                                                  & \multicolumn{1}{c|}{65,1042}                                                 & \multicolumn{1}{c|}{49,2806} & 4117,4000 \\ \hline
+Media         & \multicolumn{1}{c|}{98,4183}                                                  & \multicolumn{1}{c|}{96,0638}                                                 & \multicolumn{1}{c|}{41,3333} & 4728,4435 & \multicolumn{1}{c|}{74,6667}                                                  & \multicolumn{1}{c|}{70,5556}                                                 & \multicolumn{1}{c|}{52,8889} & 3175,9390 & \multicolumn{1}{c|}{72,4898}                                                  & \multicolumn{1}{c|}{65,1342}                                                 & \multicolumn{1}{c|}{49,8201} & 4328,8571 \\ \hline
+\end{tabular}}
+\end{table}
+
+
 
 \subsection{Análisis de los resultados}
 
