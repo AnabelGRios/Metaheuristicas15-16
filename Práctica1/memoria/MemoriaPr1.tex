@@ -349,7 +349,13 @@ Fin
 \newpage
 
 \section{Procedimiento considerado para desarrollar la práctica}
+La práctica la he desarrollado en python junto con tres módulos de python: numpy, scikit y sklearn (todos disponibles en Linux pero hay que instalarlos previamente). Numpy permite manejar arrays de forma más rápida, scikit leer ficheros en formato arff y sklearn contiene el knn y cross-validation para hacer leave one out. El resto de la práctica lo he hecho yo. Para generar números aleatorios utilizo el \texttt{random} de numpy (al que le paso previamente la semilla) y para medir tiempos \texttt{time} de python.\\
 
+Para hacer las particiones igualadas lo que he hecho ha sido quedarme, para cada clase, con los índices de los datos pertenecientes a esa clase, hacerles una permutación aleatoria, partir por la mitad y quedarme con la primera mitad para entrenamiento y la segunda mitad para test.\\
+
+Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica1.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BL, 3 para ES, 4 para BT y 5 para BTE.
+
+\newpage
 
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
