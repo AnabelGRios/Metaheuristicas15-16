@@ -14,7 +14,7 @@ from BTE import *
 parser = argparse.ArgumentParser()
 parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
 parser.add_argument("base", help="base de datos a utilizar. Escribir 1 para WDBC, 2 para movement libras y 3 para arritmia", type=int)
-parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para BL, 3 para ES, 4 para BT y 5 para BTE", type=int)
+parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para BL, 3 para ES, 4 para BT, 5 para BTE y 6 para 3NN", type=int)
 args = parser.parse_args()
 
 np.random.seed(args.semilla)
@@ -84,17 +84,22 @@ elif args.algoritmo == 4:
 	com = time.time()
 	car = busquedaTabu(clases_train, datos_train)
 	fin = time.time()
-else:
+elif args.algoritmo == 5:
 	print("Búsqueda Tabú Extendida")
 	com = time.time()
 	car = busquedaTabuExtendida(clases_train, datos_train)
 	fin = time.time()
 
 
+
+
 mejores_car = car[0]
 tasa = car[1]
 print("Características seleccionadas")
 print(mejores_car)
+red = (len(mejores_car)-len(mejores_car[mejores_car==True]))/len(mejores_car)
+print("Tasa de reduccion")
+print(red)
 print("Tasa de acierto para el conjunto de train: ", tasa)
 print("El tiempo transcurrido en segundos ha sido: ", fin-com)
 
@@ -125,16 +130,26 @@ elif args.algoritmo == 4:
 	com = time.time()
 	car = busquedaTabu(clases_test, datos_test)
 	fin = time.time()
-else:
+elif args.algoritmo == 5:
 	print("Búsqueda Tabú Extendida")
 	com = time.time()
 	car = busquedaTabuExtendida(clases_test, datos_test)
+	fin = time.time()
+else:
+	print("KNN")
+	com = time.time()
+	caract = np.repeat(True, len(clases_test))
+	tasa = calcularTasaKNNTrain(datos_test, clases_test)
+	car = [caract, tasa]
 	fin = time.time()
 
 mejores_car = car[0]
 tasa = car[1]
 print("Características seleccionadas")
 print(mejores_car)
+red = (len(mejores_car)-len(mejores_car[mejores_car==True]))/len(mejores_car)
+print("Tasa de reduccion")
+print(red)
 print("Tasa de acierto para el conjunto de train: ", tasa)
 print("El tiempo transcurrido en segundos ha sido:", fin-com)
 
