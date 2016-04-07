@@ -59,61 +59,73 @@ Algoritmos considerados:
 \section{Descripción del problema}
 Queremos obtener un sistema que permita clasificar un conjunto de objetos en unas determinadas clases que conocemos previamente. Para ello disponemos de una muestra de dichos objetos ya clasificados y una serie de características para cada objeto.\\
 
-El problema es, por tanto, construir un clasificador que se comporte lo suficientemente bien fuera de la muestra de la que disponemos, es decir, que clasifique bien nuevos datos. Para hacer esto, lo que hacemos es particionar la muestra en dos subconjuntos, uno que utilizaremos de entrenamiento para que el clasificador aprenda y otro que utilizaremos para test, es decir, para ver cómo de bien se comporta el clasificador que hemos obtenido con el primer subconjunto fuera de los datos de entrenamiento. Además haremos distintas particiones, en concreto 5 para mayor seguridad y construiremos un clasificador para cada una de ellas. Podemos comprobar cómo de bien se comporta cada clasificador porque sabemos en todo momento las clases de los objetos que tenemos en la muestra y podemos comparar las verdaderas clases con las que el clasificador obtiene.\\
+El problema es, por tanto, construir un clasificador que se comporte lo suficientemente bien fuera de la muestra de la que disponemos, es decir, que clasifique bien nuevos datos. Para hacer esto, lo que hacemos es particionar la muestra en dos subconjuntos, uno que utilizaremos de entrenamiento para que el clasificador aprenda y otro que utilizaremos para test, es decir, para ver cómo de bien se comporta el clasificador que hemos obtenido con el primer subconjunto fuera de los datos de entrenamiento. Además haremos distintas particiones, en concreto 5, y construiremos un clasificador para cada una de ellas. Podemos comprobar cómo de bien se comporta cada clasificador porque sabemos en realidad las clases de los objetos que tenemos en la muestra y podemos comparar las verdaderas clases con las que el clasificador obtiene suponiendo que no dispusiéramos de ellas.\\
 Buscamos pues en todo momento optimizar la tasa de acierto del clasificador.\\
-Vamos a utilizar además validación cruzada: es decir, para cada partición en dos subconjuntos primero uno será el de entrenamiento y el otro el de test y después les daremos la vuelta y volveremos a construir un clasificador. La calidad por tanto de cada método será la media de los porcentajes de clasificación (la tasa de acierto) para estas 10 particiones.\\
+Vamos a utilizar además validación cruzada: es decir, para cada partición en dos subconjuntos primero uno será el de entrenamiento y el otro el de test y después les daremos la vuelta y volveremos a construir un clasificador. La calidad por tanto de cada algoritmo será la media de los porcentajes de clasificación (la tasa de acierto) para estas 10 particiones.\\
 
-Nos queda describir cómo aprende el clasificador con los datos de entrenamiento. Ya que podemos llegar a tener muchas características de las cuales podríamos tener algunas poco o nada significantes, lo que hacemos es elegir un subconjunto de características que describan bien los datos de entrenamiento, de forma que en los datos de test sólo tenemos en cuenta este subconjunto de características a la hora de deducir cuál es la clase de cada nuevo dato. Para esta "deducción" vamos a utilizar la técnica de los 3 vecinos más cercanos: buscamos para cada dato los tres vecinos más cercanos teniendo en cuenta las características seleccionadas hasta el momento y nos quedamos con la clase que más veces aparezca. El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características óptimo) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
+Nos queda describir cómo aprende el clasificador con los datos de entrenamiento. Ya que podemos llegar a tener muchas características de las cuales algunas podrían ser poco o nada significantes, lo que hacemos es elegir un subconjunto de características que describan bien los datos de entrenamiento, de forma que en los datos de test sólo tenemos en cuenta este subconjunto de características a la hora de deducir cuál es la clase de cada nuevo dato. Para esta "deducción" vamos a utilizar la técnica de los 3 vecinos más cercanos (3-NN): buscamos para cada dato los tres vecinos más cercanos en el conjunto de entrenamiento (si el mismo dato al que le vamos a calcular la clase pertenece al conjunto de entrenamiento tenemos que sacarlo previamente del conjunto de entrenamiento. Esto es lo que se llama \textit{leave one out}) teniendo en cuenta las características seleccionadas hasta el momento, consultamos las clases de estos tres vecinos, nos quedamos con la clase que más veces aparezca (o, en caso de empate, con la clase del vecino más cercano)y ésta será la clase del dato. Para obtener la tasa de acierto lo que hacemos es repetir esto para todos los datos, comparar estas clases con las reales y contar el número de veces que acierta.\\
+
+El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características óptimo, aquel que da mayor tasa de acierto) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
 
 \newpage
 
 \section{Descripción de la aplicación de los algoritmos empleados al problema}
 El primer paso común a todos los algoritmos es normalizar los datos de los que disponemos por columnas (es decir, por características) de forma que todas se queden entre 0 y 1 y no haya así preferencias de unas sobre otras.\\
 
-A continuación se genera una solución inicial, que estará en todos los casos (menos en el algoritmo greedy, que se empieza desde cero) generada aleatoriamente y se irán generando vecinos de esta solución (o se darán saltos, como ya veremos) y nos quedaremos con la mejor solución obtenida.\\
+A continuación se genera una solución inicial, que estará en todos los casos (menos en el algoritmo greedy, que se empieza desde cero) generada aleatoriamente y se irán generando vecinos de esta solución (o se darán saltos, como ya veremos) y nos quedaremos con la mejor solución obtenida en todos los casos.\\
 
-Todos los algoritmos tienen una condición de parada común, que es llegar a un número máximo de evaluaciones o soluciones generadas: 15000.
+Todos los algoritmos tienen una condición de parada común, que es llegar a un número máximo de evaluaciones: 15000.
 
 \subsection{Representación de soluciones}
-La representación elegida para las soluciones ha sido binaria: un vector de $N$ posiciones, donde $N$ es el número de características, en el que aparece \textit{True} o \textit{False} en la posición $i$ según si la característica $i$-ésima ha sido seleccionada o no, respectivamente.
+La representación elegida para las soluciones ha sido la binaria: un vector de $N$ posiciones, donde $N$ es el número de características, en el que aparece \textit{True} o \textit{False} en la posición $i$ según si la característica $i$-ésima ha sido seleccionada o no, respectivamente. Esta representación es la más sencilla y cómoda cuando no hay restricciones sobre el número de características a elegir, es decir, el número de características que se han de elegir lo aprende cada algoritmo, como es el caso de los algoritmos que vamos a utilzar.
 
-\subsection{3NN}
-Como hemos comentado, la técnica para clasificar que vamos a utilizar en todos los algoritmos será el 3NN. Consiste en considerar, para cada dato, la distancia euclídea entre el dato y todos los demás (excluyéndose él mismo en caso de que estuviéramos preguntando por algún dato dentro del conjunto de entrenamiento (leave one out)) y quedarnos con las clases de los 3 con la distancia más pequeña. La clase del dato en cuestión será de estas tres la que más se repita o, en caso de empate, la clase que corresponda al vecino más cercano.\\
+\subsection{3-NN}
+Como hemos comentado, la técnica para clasificar que vamos a utilizar en todos los algoritmos será el 3NN. Consiste en considerar, para cada dato, la distancia euclídea entre el dato y todos los demás (excluyéndose él mismo en caso de que estuviéramos preguntando por algún dato dentro del conjunto de entrenamiento) y quedarnos con las clases de los 3 con la distancia más pequeña. La clase del dato en cuestión será de estas tres la que más se repita o, en caso de empate, la clase que corresponda al vecino más cercano.\\
 En cada momento la distancia euclídea se calcula teniendo en cuenta las características que están seleccionadas en el momento, por lo que no podemos tener una matriz fija de distancias, hay que ir calculándolas sobre la marcha.
 
 \subsection{Función de evaluación}
-La función de evaluación será el rendimiento promedio de un clasificador 3NN en el conjunto de entrenamiento: calcularemos la tasa para cada dato dentro del conjunto de entrenamiento haciendo el leave one out descrito anteriormente y nos quedaremos con la media de las tasas obtenidas. El objetivo será por tanto maximizar esta función.
+La función de evaluación será el rendimiento promedio de un clasificador 3-NN en el conjunto de entrenamiento: calcularemos la tasa para cada dato dentro del conjunto de entrenamiento haciendo el leave one out descrito anteriormente y nos quedaremos con la media de las tasas obtenidas. El objetivo será por tanto maximizar esta función.
 La tasa se calcula como 100*(nº instancias bien clasificadas / nº total de instancias).\\
 
 El pseudo-código es el siguiente:\\
 \begin{lstlisting}
-Se obtiene el subconjunto de entrenamiento que se va a tener en cuenta seg|ú|n 
+Obtener el subconjunto de entrenamiento que se va a tener en cuenta seg|ú|n 
 las caracter|í|sticas que se est|é|n considerando.
 Para cada dato:
    Se saca del conjunto de entrenamiento (leave one out)
+   Se obtiene el clasificador 3NN
    Se calcula la tasa para este dato
    Se acumula la tasa al resto de tasas
-Se divide la acumulaci|ó|n de tasas entre el cardinal del conjunto y 
-lo se devuelve.
+Se divide la acumulaci|ó|n de tasas entre el cardinal del conjunto y se devuelve
 \end{lstlisting}
-La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas)} donde caracteristicas es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True).
+La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas)} donde caracteristicas es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True).\\
+
+En mi caso el clasificador 3-NN lo he utilizado de un módulo de python, como está descrito en la sección 7, porque el que había hecho yo era mucho menos eficiente (tardaba 6-7 minutos para una partición con el algoritmo greedy para la base de datos wdbc).
 
 \subsection{Operadores comunes: Generación de vecinos}
 Se considerarán como vecinas todas aquellas soluciones que difieran en la pertenencia o no de una única característica (si se diferencian en más de una entonces no es vecina de la considerada). Por ejemplo, las soluciones (True, True, False) y (True, False, False) son vecinas porque se diferencian en una sola característica, la segunda.\\
-\texttt{Flip} será el operador de vecino: recibe un vector de máscaras y una posición y cambia esa posición en el vector de máscaras.\\
+\texttt{Flip} será el operador de vecino: recibe un vector que será la máscara y una posición y cambia esa posición en la máscara. El que he hecho yo además lo hace por referencia para evitar las copias e intentar mejorar en eficiencia.\\
+
+\begin{lstlisting}
+Flip(mascara, pos) Empezar:
+   # Cambiar la posici|ó|n pos de la m|á|scara por su negado 
+   mascara[pos] = not mascara[pos]
+   Devolver mascara
+Fin
+\end{lstlisting}
 
 \newpage
 
 \section{Descripción de los algoritmos}
 
 \subsection{Búsqueda Local}
-El algoritmo de búsqueda local implementado ha sido el del primer mejor, es decir, exploramos los vecinos de la solución que tenemos en cada momento y en cuanto obtenemos una mejor nos quedamos con ella y empezamos a generar sus vecinos. Los vecinos se empiezan a generar por una característica aleatoria y a partir de esa característica se van cambiando las demás hasta el final y de nuevo por el principio hasta llegar a la primera que habíamos cambiado. Si no nos quedamos con la solución tenemos que dejar la característica que habíamos cambiado como estaba y si nos la quedamos dejamos de generar vecinos de la solución que teníamos y pasamos a generar vecinos de la nueva solución. El algoritmo para cuando da una pasada entera a los vecinos y no ha encontrado una mejor solución que la que tenía.\\
+El algoritmo de búsqueda local implementado ha sido el del primer mejor, es decir, exploramos los vecinos de la solución que tenemos en cada momento y en cuanto obtenemos una mejor nos quedamos con ella y empezamos a generar sus vecinos. Los vecinos se empiezan a generar por una característica aleatoria y a partir de esa característica se van cambiando las demás de forma cíclica en orden: desde la que hemos empezado hasta el final y de nuevo por el principio hasta llegar a la anterior de la primera que habíamos cambiado. Si no nos quedamos con la solución tenemos que dejar la característica que habíamos cambiado como estaba y si nos la quedamos porque tiene una mejor tasa dejamos de generar vecinos de la solución que teníamos, la cambiamos por este mejor vecino y pasamos a generar vecinos de la nueva solución. El algoritmo para cuando da una pasada entera a los vecinos y no ha encontrado una mejor solución que la que tenía.\\
 
 Veamos el pseudocódigo.\\
-\texttt{generarSecuencia(tamaño)} será la función que empieza desde un número aleatorio (menor que el número de características) y de ahí en orden hasta el total de características y empieza de nuevo hasta el número que se ha generado al principio. Esta función nos dará el orden el que recorreremos los vecinos y la llamaremos cada vez que actualicemos la solución.\\
+\texttt{generarSecuencia(tamaño)} será la función que devuelve el orden en el que se recorrerá el vecindario: empieza desde un número aleatorio (menor que el número de características) y de ahí en orden hasta el total de características y empieza de nuevo hasta el número que se ha generado al principio. Esta función se llamará cada vez que actualicemos la solución y haya que explorar un vecindario nuevo.\\
 Al algoritmo le pasamos como parámetros los datos de entrenamiento y las clases de los datos.
 \begin{lstlisting}
-Empezar
+busquedaLocal(datos, clases) Empezar:
    caract = soluci|ó|n aleatoria inicial
    tasa actual = calcularTasa(datos, caract)
    
@@ -127,8 +139,8 @@ Empezar
          if la tasa del vecino es mejor que la actual:
             actualizamos la tasa actual
             vuelta_completa = False # hemos encontrado mejora antes de
-             # generar todos los vecinos)
-            break, salimos del bucle de dentro y empezamos a 
+             # generar todos los vecinos
+            break, salimos del bucle interior y empezamos a 
              generar vecinos de la nueva soluci|ó|n
          
          else, volvemos a la antigua soluci|ó|n:
@@ -140,7 +152,10 @@ Empezar
             vuelta_completa = True
          
          if hemos superado el numero de evaluaciones
-            break y salimos del bucle de dentro
+            break y salimos del bucle interior
+      Fin for
+   
+   Fin while
    
    Devuelve caract y tasa actual
 Fin
@@ -155,6 +170,9 @@ Tini = (mu*tasa_inicial)/(-np.log(fi))
 beta = (Tini - Tf)/(M*Tini*Tf) #M depende del n|ú|mero de vecinos a generar 
    			       #y del n|ú|mero de evaluaciones
 Tk = Tk/(1+beta*Tk) 	#Al final del bucle de enfriamiento
+max vecinos = 10n (n num caracter|í|sticas
+max exitos = n
+M = 15000/max vecinos
 \end{lstlisting}
 
 El algoritmo de enfriamiento simulado intenta mejorar el problema de la búsqueda local de quedarse en el primer óptimo local que encuentra, aceptando para ello soluciones que pueden ser peores que la actual bajo algunas circunstancias, en concreto, la temperatura. Al iniciar el algoritmo la temperatura es más alta y se va reduciendo con las iteraciones: la idea es aceptar más soluciones peores que la actual cuanto mayor es la temperatura, es decir, al inicio del algoritmo, e ir aceptando menos progresivamente según la temperatura va bajando. Devolvemos la mejor solución encontrada en general a lo largo del algoritmo. Necesitamos para ello guardar la mejor solución junto con su tasa y la solución actual junto con su tasa.\\
@@ -162,40 +180,41 @@ En cada enfriamiento generamos vecinos hasta un máximo de forma aleatoria y nos
 
 Con esto, el pseudocódigo es el siguiente:
 \begin{lstlisting}
-Empezar
-caract = soluci|ó|n aleatoria inicial
-mejor solucion = caract
-mejor tasa = calcularTasa(datos, caract)
-Se calculan los par|á|metros para la temperatura y los vecinos totales
-while haya |é|xitos en el enfriamiento actual y Tk>Tf y haya menos de 15000 evals:
-   while no se haya generado el m|á|ximo de vecinos ni se sobrepasen los |é|xitos:
-      pos = num aleatorio entre 0 y n #n num de caracter|í|sticas
-      caract = Flip(caract, pos)
-      nueva tasa = calcularTasa(datos, caract)
-      Se aumenta num vecinos y num evaluaciones
-      delta = nueva tasa - tasa actual
-      if delta!=0 y (delta>0 o U(0,1)<=exp(delta/Tk)):
-         #Se ha aceptado el vecino
-         Se actualiza la tasa actual
-         Se aumenta el n|ú|mero de |é|xitos
-         if tasa actual > mejor tasa:
-            Se actualizan la mejor soluci|ó|n y la mejor tasa
+enfriamientoSimulado(datos, clases) Empezar:
+   caract = soluci|ó|n aleatoria inicial
+   mejor solucion = caract
+   mejor tasa = calcularTasa(datos, caract)
+   Se calculan los par|á|metros para la temperatura y los vecinos totales
+
+   while haya |é|xitos en el enfriamiento actual y Tk>Tf y haya menos de 15000 evals:
+      while no se haya generado el m|á|ximo de vecinos ni se sobrepasen los |é|xitos:
+         pos = num aleatorio entre 0 y n #n num de caracter|í|sticas
+         caract = Flip(caract, pos)
+         nueva tasa = calcularTasa(datos, caract)
+         Se aumenta num vecinos y num evaluaciones
+         delta = nueva tasa - tasa actual
+         if delta!=0 y (delta>0 o U(0,1)<=exp(delta/Tk)):
+            #Se ha aceptado el vecino
+            Se actualiza la tasa actual
+            Se aumenta el n|ú|mero de |é|xitos
+            if tasa actual > mejor tasa:
+               Se actualizan la mejor soluci|ó|n y la mejor tasa
       
-      else:
-         #No se ha aceptado el vecino, volvemos a la soluci|ó|n anterior
-         Flip(caract, pos)
+         else:
+            #No se ha aceptado el vecino, volvemos a la soluci|ó|n anterior
+            Flip(caract, pos)
          
-      Comprobamos si hemos pasado el n|ú|mero de evaluaciones
-   Fin del while interior
+         Se comprueba si hemos pasado el n|ú|mero de evaluaciones
+      Fin while
    
-   Comprobamos si ha habido |é|xitos en este enfriamiento
-   Ponemos el n|ú|mero de |é|xitos a 0
-   Ponemos el n|ú|mero de vecinos a 0
+      Se comprueba si ha habido |é|xitos en este enfriamiento
+      Ponemos el n|ú|mero de |é|xitos a 0
+      Ponemos el n|ú|mero de vecinos a 0
       
-   Tk = Tk/(1+beta*Tk) #Actualizamos temperatura
-   Fin del while exterior
+      Tk = Tk/(1+beta*Tk) #Actualizamos temperatura
+   Fin while
       
-Devolvemos mejor soluci|ó|n y mejor tasa
+   Devolvemos mejor soluci|ó|n y mejor tasa
 Fin
 \end{lstlisting}
 
@@ -204,50 +223,54 @@ $U(0,1)$ es un número aleatorio extraído de la distribución uniforme en el in
 He tenido que poner como condición adicional en el \texttt{if} para aceptar una solución que \texttt{delta!=0} porque si las tasas son iguales y la diferencia es cero entonces la exponencial de $delta/Tk$ es siempre 1 al ser delta 0 y un número entre 0 y 1 es siempre menor o igual que 1, con lo que siempre cogía como éxito una solución con la misma tasa, haciendo que el algoritmo tardara mucho más al haber siempre éxitos en el enfriamiento actual, cuando en realidad no se estaba moviendo ni hacia arriba ni hacia abajo.
 
 \subsection{Búsqueda Tabú Básica}
-En la búsqueda tabú también buscamos salir de óptimos locales con unos mecanismos distintos a los del enfriamiento simulado. En este caso vamos a tener almacenada una lista tabú que nos guarda las posiciones de las características que hemos cambiado en los $n/3$ movimientos anteriores, donde $n$ es el número de características.  La lista tiene por tanto $n/3$ posiciones y está implementada como una lista circular, de forma que tenemos un índice marcando la última posición añadida y el siguiente a ese índice módulo $n/3$ es el próximo que tenemos que modificar. Se guardan estas posiciones para que no se pueda volver a cambiar una característica en esas posiciones para no volver hacia soluciones que habíamos considerado peores, a no ser que modificar una característica en la lista tabú mejore a la mejor solución que tenemos en ese momento. El método de búsqueda en este caso es la generación de 30 vecinos aleatorios de la solución actual y quedarnos con el mejor de ellos, sea mejor o no que el que teníamos. Guardamos siempre la mejor solución, que será la que se devolverá.\\
+En la búsqueda tabú también buscamos salir de óptimos locales con unos mecanismos distintos a los del enfriamiento simulado. En este caso vamos a tener almacenada una lista tabú que nos guarda las posiciones de las características que hemos cambiado en los $n/3$ movimientos anteriores, donde $n$ es el número de características.  La lista tiene por tanto $n/3$ posiciones y está implementada como una lista circular, de forma que tenemos un índice marcando la última posición modificada y el siguiente a ese índice módulo $n/3$ es el próximo que tenemos que modificar. Se guardan estas posiciones para que no se pueda volver a cambiar una característica en esas posiciones durante el tiempo que permanecen en la lista tabú para no volver hacia soluciones que habíamos considerado peores, a no ser que modificar una característica en la lista tabú mejore a la mejor solución que tenemos en ese momento (criterio de aspiración). El método de búsqueda en este caso es la generación de 30 vecinos aleatorios de la solución actual (sin repetición) y quedarnos con el mejor de ellos, sea mejor o no que el que teníamos actualmente. Guardamos siempre la mejor solución por la que hemos pasado, que será la que se devolverá.\\
 Con esto, el pseudocódigo es el siguiente:
 
 \begin{lstlisting}
-Empezar
-caract = soluci|ó|n aleatoria inicial
-mejor tasa = calcularTasa(datos, caract)
-mejor soluci|ó|n = caract
-lista tab|ú| = vector de longitud n/3 inicializado a -1
-plista = -1		#indica la |ú|ltima posici|ó|n modificada en la lista
+busquedaTabu(datos, clases) Empezar:
+   caract = soluci|ó|n aleatoria inicial
+   mejor tasa = calcularTasa(datos, caract)
+   mejor soluci|ó|n = copiar(caract)
+   lista tab|ú| = vector de longitud n/3 inicializado a -1
+   plista = -1		#indica la |ú|ltima posici|ó|n modificada en la lista
 
-while num evaluaciones < 15000:
-   tasa actual = 0
-   mejor pos = -1
-   posiciones = 30 vecinos generados aleatoriamente
-   for j en posiciones:
-      caract = Flip(caract, j) 	#Generamos vecino
-      nueva tasa = calcularTasa(datos, caract)
-      Se aumenta el n|ú|mero de evaluaciones
-      if j esta en la lista tab|ú|:
-         if nueva tasa > mejor tasa y nueva tasa > tasa actual:
+   while num evaluaciones < 15000:
+      tasa actual = 0
+      mejor pos = -1
+      posiciones = 30 vecinos generados aleatoriamente sin repetici|ó|n
+      
+      for j en posiciones:
+         caract = Flip(caract, j) 	#Generamos vecino
+         nueva tasa = calcularTasa(datos, caract)
+         Se aumenta el n|ú|mero de evaluaciones
+         
+         if j esta en la lista tab|ú|:
+            if nueva tasa > mejor tasa y nueva tasa > tasa actual:
+               Se actualiza la tasa actual con la nueva
+               Se cambia j como mejor posici|ó|n
+         elif nueva tasa > tasa actual:
             Se actualiza la tasa actual con la nueva
             Se cambia j como mejor posici|ó|n
-      elif nueva tasa > tasa actual:
-         Se actualiza la tasa actual con la nueva
-         Se cambia j como mejor posici|ó|n
-      # Volvemos a la soluci|ó|n que ten|í|amos para seguir generando vecinos
-      caract = Flip(datos, caract)
+            
+         # Volvemos a la soluci|ó|n que ten|í|amos para seguir generando vecinos
+         caract = Flip(datos, caract)
+      Fin for
+      
+      # Nos quedamos con el mejor vecino
+      caract = Flip(caract, mejor pos)
+      plista = (plista+1)mod(n/3)
+      lista tabu[plista] = mejor pos
    
-   Fin for
-   # Nos quedamos con el mejor vecino
-   caract = Flip(caract, mejor pos)
-   plista = (plista+1)mod(n/3)
-   lista tabu[plista] = mejor pos
-   
-   if tasa actual > mejor tasa:
-      Se actualiza la mejor tasa y la mejor soluci|ó|n.
+      if tasa actual > mejor tasa:
+         Se actualiza la mejor tasa y la mejor soluci|ó|n.
 
    Fin while
-   
    Devuelve mejor soluci|ó|n y mejor pos
 Fin
 
 \end{lstlisting}
+
+
 
 \subsection{Búsqueda Tabú Extendida}
 La búsqueda tabú extendida utiliza el mismo mecanismo de memoria a corto plazo que la tabú sencilla, la lista tabú, aunque le iremos cambiando el tamaño. Incorpora además una memoria a largo plazo en la que se guarda el número de veces que se selecciona una característica para obtener la frecuencia de cada característica y si en algún momento se llega a 10 iteraciones sin mejora en la mejor solución, se reinicializa la búsqueda desde una nueva solución que tendrá probabilidad 0.25 de ser aleatoria, probabilidad 0.25 de ser la mejor solución y probabilidad 0.5 de ser generada de forma aleatoria utilizando el vector de frecuencias.\\
@@ -255,49 +278,49 @@ La búsqueda tabú extendida utiliza el mismo mecanismo de memoria a corto plazo
 El pseudocódigo es el mismo que el de la búsqueda tabú sencilla con una modificación al final:
 
 \begin{lstlisting}
-Empezar
-... (igual que antes)
-frec = vector de frecuencias de longitud n (num caracter|í|sticas)
- inicializado a cero
-
-while num evaluaciones < 15000:
+busquedaTabuExtendida(datos, clases) Empezar:
    ... (igual que antes)
-   for j en posiciones:
+   frec = vector de frecuencias de longitud n (num caracter|í|sticas)
+    inicializado a cero
+
+   while num evaluaciones < 15000:
       ... (igual que antes)
-   Fin for
+      for j en posiciones:
+         ... (igual que antes)
+      Fin for
    
-   # Nos quedamos con el mejor vecino
-   caract = Flip(caract, mejor pos)
-   plista = (plista+1)mod(n/3)
-   lista tabu[plista] = mejor pos
-   Se aumenta frec[mejor pos] en 1   
+      # Nos quedamos con el mejor vecino
+      caract = Flip(caract, mejor pos)
+      plista = (plista+1)mod(n/3)
+      lista tabu[plista] = mejor pos
+      Se aumenta frec[mejor pos] en 1   
    
-   if tasa actual > mejor tasa:
-      Se actualiza la mejor tasa y la mejor soluci|ó|n.
-      no_mejora = 0
-   else:
-      no_mejora += 1
-   
-   if no_mejora llega a 10:
-      no_mejora = 0
-      Se elige un numero entre 3 en el que los dos primeros tienen
-       probabilidad 0.25 de aparecer y el tercero tiene 0.5
-          if sale el primero:
-             caract = soluci|ó|n aleatoria
-          elif sale el segundo:
-             caract = mejor soluci|ó|n
-          else:
-             u = n|ú|mero uniforme entre 0 y 1
-             for i de 0 hasta n:  # n num caracter|í|sticas
-                 if u < 1 - frec[i]:
-                    se pone la caracter|í|stica i a True
-                 else
-                    se pone a False
-      u = n|ú|mero uniforme entre 0 y 1
-      if u < 0.5
-         Se aumenta al doble la lista tab|ú|
+      if tasa actual > mejor tasa:
+         Se actualiza la mejor tasa y la mejor soluci|ó|n.
+         no_mejora = 0
       else:
-         Se disminuye a la mitad la lista tab|ú|
+         no_mejora += 1
+   
+      if no_mejora llega a 10:
+         no_mejora = 0
+         Se elige un numero entre 3 en el que los dos primeros tienen
+          probabilidad 0.25 de aparecer y el tercero tiene 0.5
+             if sale el primero:
+                caract = soluci|ó|n aleatoria
+             elif sale el segundo:
+                caract = mejor soluci|ó|n
+             else:
+                u = n|ú|mero uniforme entre 0 y 1
+                for i de 0 hasta n:
+                    if u < 1 - frec[i]:
+                       se pone la caracter|í|stica i a True
+                    else
+                       se pone a False
+         u = n|ú|mero uniforme entre 0 y 1
+         if u < 0.5
+            Se aumenta al doble la lista tab|ú|
+         else:
+            Se disminuye a la mitad la lista tab|ú|
 
    Fin while
    
@@ -312,7 +335,7 @@ Fin
 El algoritmo de comparación seleccionado ha sido el greedy Sequential Forward Selection (SFS), que parte de una solución inicial en la que no hay ninguna característica seleccionada y se va quedando en cada iteración con la característica con la que se obtiene la mejor tasa. El algoritmo no para mientras se encuentre mejora añadiendo alguna característica.\\
 He implementado una función que me devuelve, para una máscara determinada, la característica más prometedora que se puede obtener, cuyo pseudocódigo es el siguiente:
 \begin{lstlisting}
-Empezar caractMasPrometedora(mascara):
+caractMasPrometedora(mascara) Empezar:
    posiciones = posiciones que no est|é|n seleccionadas de la mascara
    for i en posiciones:
       mascara[i] = True
@@ -327,20 +350,19 @@ Fin
 
 Con esto, el pseudocódigo del algoritmo SFS es:
 \begin{lstlisting}
-Empezar
-caract = soluci|ó|n inicial inicializada a False
-tasa actual = 0
-mejora = True
-while haya mejora:
-   Se calcula la tasa y la mejor posici|ó|n con caractMasPrometedora
-   if nueva tasa > tasa actual:
-      Se actualiza la tasa actual
-      Se pone a True la caracter|í|stica en mejor posici|ó|n
-   else:
-      mejora = False	#No ha habido mejora: paramos
+algoritmoSFS(datos, clases) Empezar:
+   caract = soluci|ó|n inicial inicializada a False
+   tasa actual = 0
+   mejora = True
+   while haya mejora:
+      Se calcula la tasa y la mejor posici|ó|n con caractMasPrometedora
+      if nueva tasa > tasa actual:
+         Se actualiza la tasa actual
+         Se pone a True la caracter|í|stica en mejor posici|ó|n
+      else:
+         mejora = False		#No ha habido mejora: paramos
       
    Fin while
-   
    Devuelve caract y tasa
 Fin
 
