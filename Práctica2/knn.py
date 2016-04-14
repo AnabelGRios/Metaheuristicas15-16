@@ -7,7 +7,7 @@ from sklearn import cross_validation
 def getSubconjunto(conjunto, mascara):
 	posiciones = np.arange(0,len(mascara))
 	posiciones = posiciones[mascara]
-	subconjunto = np.empty([len(conjunto), len(posiciones)])
+	subconjunto = np.empty([len(conjunto), len(posiciones)], dtype=np.float32)
 	i = 0
 	for j in posiciones:
 		subconjunto[:,i] = conjunto[:,j]
