@@ -24,6 +24,7 @@ def busquedaLocal(clases, conjunto, solucion_inicial):
 	vuelta_completa = True
 	tasa_actual = 0
 	i = 0
+	knnGPU = knnLooGPU(len(conjunto), len(conjunto[0]), 3)
 	while(mejora and i < 15000):
 		# Hacemos que el inicio de la vuelta sea aleatorio
 		posiciones = generarSecuencia(len(conjunto[0]))
@@ -32,9 +33,6 @@ def busquedaLocal(clases, conjunto, solucion_inicial):
 			# Contamos que hemos generado una nueva solución
 			i += 1
 			subconjunto = getSubconjunto(conjunto, caracteristicas)
-			print(len(subconjunto))
-			print(len(conjunto[0]))
-			knnGPU = knnLooGPU(len(subconjunto), len(conjunto[0]), 3)
 			nueva_tasa = knnGPU.scoreSolution(subconjunto, clases)
 			#nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
 			# Si mejora la tasa nos quedamos con esa característica cambiada
