@@ -1,12 +1,5 @@
 import numpy as np
-from knn import *
-from knnLooGPU import *
-
-# Función para cambiar una posición de la máscara que se pasa por argumento
-def Flip(mascara, posicion):
-	mascara[posicion] = not mascara[posicion]
-	return mascara
-
+from utils import *
 
 # Función para generar una secuencia que empieza por un número aleatorio y da una vuelta completa,
 # acabando donde empezó.
@@ -18,13 +11,12 @@ def generarSecuencia(longitud):
 
 
 # Algoritmo de Búsqueda Local modificado para partir de una solución inicial dada
-def busquedaLocal(clases, conjunto, solucion_inicial):
+def busquedaLocal(clases, conjunto, solucion_inicial, knn):
 	caracteristicas = solucion_inicial
 	mejora = True
 	vuelta_completa = True
 	tasa_actual = 0
 	i = 0
-	knnGPU = knnLooGPU(len(conjunto), len(conjunto[0]), 3)
 	while(mejora and i < 15000):
 		# Hacemos que el inicio de la vuelta sea aleatorio
 		posiciones = generarSecuencia(len(conjunto[0]))
@@ -33,7 +25,7 @@ def busquedaLocal(clases, conjunto, solucion_inicial):
 			# Contamos que hemos generado una nueva solución
 			i += 1
 			subconjunto = getSubconjunto(conjunto, caracteristicas)
-			nueva_tasa = knnGPU.scoreSolution(subconjunto, clases)
+			nueva_tasa = knn.scoreSolution(subconjunto, clases)
 			#nueva_tasa = calcularTasaKNNTrain(subconjunto, clases)
 			# Si mejora la tasa nos quedamos con esa característica cambiada
 			if nueva_tasa > tasa_actual:

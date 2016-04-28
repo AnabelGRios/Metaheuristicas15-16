@@ -4,14 +4,16 @@ import argparse
 import time
 from sklearn.preprocessing import MinMaxScaler
 
-from knn import *
+from knnLooGPU import *
 from SFS import *
 from BMB import *
+from GRASP import *
+from ILS import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
 parser.add_argument("base", help="base de datos a utilizar. Escribir 1 para WDBC, 2 para movement libras y 3 para arritmia", type=int)
-parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para BMB", type=int)
+parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para BMB, 3 para GRASP, 4 para ILS y 5 para KNN", type=int)
 args = parser.parse_args()
 
 np.random.seed(args.semilla)
@@ -66,23 +68,35 @@ clases_train = np.array([clases[i] for i in posiciones_train])
 datos_test = np.array([datos[i] for i in posiciones_test])
 clases_test = np.array([clases[i] for i in posiciones_test])
 
+# Creamos el knn
+knnGPU = knnLooGPU(len(datos_train), len(datos_test), len(datos_train[0]), 3)
+
 if args.algoritmo == 1:
 	print("Greedy")
 	com = time.time()
-	mejores_car, tasa = algoritmoSFS(clases_train, datos_train)
+	mejores_car, tasa = algoritmoSFSAleatorio(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
 	print("Búsqueda Multiarranque Básica")
 	com = time.time()
-	mejores_car, tasa = busquedaMultiBasica(clases_train, datos_train)
+	mejores_car, tasa = busquedaMultiBasica(clases_train, datos_train, knnGPU)
+	fin = time.time()
+elif args.algoritmo == 3:
+	print("GRASP")
+	com = time.time()
+	mejores_car, tasa = GRASP(clases_train, datos_train, knnGPU)
+	fin = time.time()
+elif args.algoritmo == 4:
+	print("ILS")
+	com = time.time()
+	mejores_car, tasa = ILS(clases_train, datos_train, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")
 	com = time.time()
 	mejores_car = np.repeat(True, len(datos_train[0]))
-	tasa = calcularTasaKNNTrain(datos_train, clases_train)
+	tasa = knn.scoreSolution(datos_train, clases_train)
 	fin = time.time()
-
 
 
 print("Características seleccionadas")
@@ -95,27 +109,39 @@ print("El tiempo transcurrido en segundos ha sido: ", fin-com)
 
 # Vamos ahora a calcular la tasa para los nuevos datos
 subcjto = getSubconjunto(datos_test, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_test, datos_train, clases_train, mejores_car)
+subcjto_train = getSubconjunto(datos_train, mejores_car)
+tasa_test = knnGPU.scoreOut(subcjto_train, subcjto, clases_train, clases_test)
 print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
 
 print("Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo")
 
+# Volvemos a crear el knn, ahora con los datos cambiados
+knnGPU = knnLooGPU(len(datos_test), len(datos_train), len(datos_test[0]), 3)
+
 if args.algoritmo == 1:
 	print("Greedy")
 	com = time.time()
-	mejores_car, tasa = algoritmoSFS(clases_test, datos_test)
+	mejores_car, tasa = algoritmoSFS(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
 	print("Búsqueda Multiarranque Básica")
 	com = time.time()
-	mejores_car, tasa = busquedaMultiBasica(clases_test, datos_test)
+	mejores_car, tasa = busquedaMultiBasica(clases_test, datos_test, knnGPU)
+	fin = time.time()
+elif args.algoritmo == 3:
+	print("GRASP")
+	com = time.time()
+	mejores_car, tasa = GRASP(clases_test, datos_test, knnGPU)
+	fin = time.time()
+elif args.algoritmo == 4:
+	print("ILS")
+	mejores_car, tasa = ILS(clases_test, datos_test, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")
 	com = time.time()
-	caract = np.repeat(True, len(datos_test[0]))
-	mejores_car, tasa = calcularTasaKNNTrain(datos_test, clases_test)
-	car = [caract, tasa]
+	mejores_car = np.repeat(True, len(datos_train[0]))
+	tasa = knn.scoreSolution(datos_train, clases_train)
 	fin = time.time()
 
 
@@ -129,5 +155,6 @@ print("El tiempo transcurrido en segundos ha sido:", fin-com)
 
 # Vamos ahora a calcular la tasa para los nuevos datos
 subcjto = getSubconjunto(datos_train, mejores_car)
-tasa_test = calcularTasaKNNTest(subcjto, clases_train, datos_test, clases_test, mejores_car)
+subcjto_train = getSubconjunto(datos_test, mejores_car)
+tasa_test = knnGPU.scoreOut(subcjto_train, subcjto, clases_test, clases_train)
 print("La tasa de acierto para el conjunto de test ha sido: ", tasa_test)
