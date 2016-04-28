@@ -74,7 +74,7 @@ knnGPU = knnLooGPU(len(datos_train), len(datos_test), len(datos_train[0]), 3)
 if args.algoritmo == 1:
 	print("Greedy")
 	com = time.time()
-	mejores_car, tasa = algoritmoSFSAleatorio(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = SFS(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
 	print("Búsqueda Multiarranque Básica")
@@ -95,7 +95,7 @@ else:
 	print("KNN")
 	com = time.time()
 	mejores_car = np.repeat(True, len(datos_train[0]))
-	tasa = knn.scoreSolution(datos_train, clases_train)
+	tasa = knnGPU.scoreSolution(datos_train, clases_train)
 	fin = time.time()
 
 
@@ -121,7 +121,7 @@ knnGPU = knnLooGPU(len(datos_test), len(datos_train), len(datos_test[0]), 3)
 if args.algoritmo == 1:
 	print("Greedy")
 	com = time.time()
-	mejores_car, tasa = algoritmoSFS(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = SFS(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
 	print("Búsqueda Multiarranque Básica")
@@ -141,7 +141,7 @@ else:
 	print("KNN")
 	com = time.time()
 	mejores_car = np.repeat(True, len(datos_train[0]))
-	tasa = knn.scoreSolution(datos_train, clases_train)
+	tasa = knnGPU.scoreSolution(datos_train, clases_train)
 	fin = time.time()
 
 

@@ -10,19 +10,19 @@ def siguienteCaracteristica(clases, mascara, conjunto, alpha, knn):
 	# el vector pos.
 	tasas = np.empty(len(pos))
 
-	for i in pos:
-		mascara[i] = True
+	for i in range(len(pos)):
+		mascara[pos[i]] = True
 		# Nos quedamos con aquellas columnas que vayamos a utilizar, es decir, aquellas cuya posición en la máscara esté a True
 		subconjunto = getSubconjunto(conjunto, mascara)
 		nueva_tasa = knn.scoreSolution(subconjunto, clases)
 		tasas[i] = nueva_tasa
 		# Volvemos a dejar la máscara como estaba
-		mascara[i] = False
+		mascara[pos[i]] = False
 
 	# Ahora  calculamos el umbral en el que vamos a elegir la características
 	maximo = np.max(tasas)
 	umbral = maximo-alpha*(maximo-np.min(tasas))
-	mejores = [[pos[i], tasas[i]] for i in range(pos) if tasas[i] > umbral]
+	mejores = [[pos[i], tasas[i]] for i in range(len(pos)) if tasas[i] > umbral]
 	elegida = np.random.randint(0,len(mejores))
 	nueva_tasa = mejores[elegida][1]
 	posicion = mejores[elegida][0]

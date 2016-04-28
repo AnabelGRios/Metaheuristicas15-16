@@ -216,7 +216,7 @@ class knnLooGPU:
 
         # Compute the score, dividing the number of success by the number of
         # samples
-        scoreGPU = result[0]/len(numTest)
+        scoreGPU = result[0]/numTest
 
         # Returns the score from 0 to 100
         return 100*scoreGPU

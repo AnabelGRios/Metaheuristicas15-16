@@ -15,7 +15,7 @@ def mutar(solucion, n, t):
 # Algoritmo ILS
 def ILS(clases, conjunto, knn):
 	n = len(conjunto[0])
-	t = math.ceil(0.1*n)
+	t = ceil(0.1*n)
 
 	# Generamos una solución aleatoria inicial
 	sol_aleatoria = np.random.choice(np.array([True, False]), n)
