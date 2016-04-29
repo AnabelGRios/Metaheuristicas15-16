@@ -69,6 +69,12 @@ datos_test = np.array([datos[i] for i in posiciones_test])
 clases_test = np.array([clases[i] for i in posiciones_test])
 
 # Creamos el knn
+print(len(datos_train))
+print(len(datos_test))
+print(len(datos_train[0]))
+print(datos_train.dtype)
+print(datos_test.dtype)
+print(datos_train[0].dtype)
 knnGPU = knnLooGPU(len(datos_train), len(datos_test), len(datos_train[0]), 3)
 
 if args.algoritmo == 1:

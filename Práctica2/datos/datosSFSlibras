@@ -1,0 +1,193 @@
+180
+180
+90
+float32
+float32
+float32
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False  True  True False False False False False False False False
+ False False False False False False  True False False False False False
+ False False False  True False False False False False  True False False
+ False  True False False False False]
+Tasa de reduccion
+0.9111111111111111
+Tasa de acierto para el conjunto de train:  67.7777777778
+El tiempo transcurrido en segundos ha sido:  1.734356164932251
+La tasa de acierto para el conjunto de test ha sido:  67.2222222222
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False  True False False False False False False False False False  True
+  True False False False False False False False False False False False
+ False False False False False  True False False False False  True False
+ False False False False False False False False False False False  True
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False]
+Tasa de reduccion
+0.9222222222222223
+Tasa de acierto para el conjunto de train:  77.2222222222
+El tiempo transcurrido en segundos ha sido: 1.5277299880981445
+La tasa de acierto para el conjunto de test ha sido:  70.5555555556
+
+
+180
+180
+90
+float32
+float32
+float32
+Greedy
+Características seleccionadas
+[ True  True False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False  True  True  True False False False  True False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False  True False]
+Tasa de reduccion
+0.8888888888888888
+Tasa de acierto para el conjunto de train:  81.6666666667
+El tiempo transcurrido en segundos ha sido:  2.2432546615600586
+La tasa de acierto para el conjunto de test ha sido:  72.7777777778
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False  True False False False  True False  True False False False False
+ False False False False False False False False False False False False
+ False  True False False False False False False False  True False False
+ False False False False False  True False False  True False False False
+ False False False False False False False False False False False False
+ False False False False False False  True False False False False False
+ False False False False False False False False False False False  True
+ False False False False False False]
+Tasa de reduccion
+0.9
+Tasa de acierto para el conjunto de train:  68.8888888889
+El tiempo transcurrido en segundos ha sido: 1.9665753841400146
+La tasa de acierto para el conjunto de test ha sido:  66.6666666667
+
+
+180
+180
+90
+float32
+float32
+float32
+Greedy
+Características seleccionadas
+[ True False False  True False False False False False False False False
+ False False False False False False False  True False False False False
+ False False False False False False False False False  True  True False
+ False False False False False False False False False False False False
+ False False False False  True False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False]
+Tasa de reduccion
+0.9111111111111111
+Tasa de acierto para el conjunto de train:  77.2222222222
+El tiempo transcurrido en segundos ha sido:  1.6780784130096436
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False  True  True False
+ False False False False False False False False False False False False
+ False  True  True False False False False False False False False False
+ False False False False False  True  True False False False False False
+ False False False False False False False False False False False False
+ False False  True  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False]
+Tasa de reduccion
+0.9
+Tasa de acierto para el conjunto de train:  77.7777777778
+El tiempo transcurrido en segundos ha sido: 1.9069273471832275
+La tasa de acierto para el conjunto de test ha sido:  75.0
+
+
+180
+180
+90
+float32
+float32
+float32
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False  True False False False False False False False  True
+ False False False  True False False False  True False False False False
+ False False False False False False False False False False  True False
+ False False False False False  True False False  True False False False
+ False False False False False False False False  True False False False
+ False False False False False False False False False False False False
+  True False False False False False]
+Tasa de reduccion
+0.9
+Tasa de acierto para el conjunto de train:  71.6666666667
+El tiempo transcurrido en segundos ha sido:  2.001290798187256
+La tasa de acierto para el conjunto de test ha sido:  76.1111111111
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False False False  True False  True  True False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+  True False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False]
+Tasa de reduccion
+0.9222222222222223
+Tasa de acierto para el conjunto de train:  77.2222222222
+El tiempo transcurrido en segundos ha sido: 1.4977385997772217
+La tasa de acierto para el conjunto de test ha sido:  62.2222222222
+
+
+180
+180
+90
+float32
+float32
+float32
+Greedy
+Características seleccionadas
+[False  True False False False  True False  True False False  True False
+ False  True False  True False False False False False False False False
+ False False False  True False False False  True  True False False False
+  True False False False False False False False False False False  True
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False]
+Tasa de reduccion
+0.8666666666666667
+Tasa de acierto para el conjunto de train:  81.6666666667
+El tiempo transcurrido en segundos ha sido:  2.839366912841797
+La tasa de acierto para el conjunto de test ha sido:  70.0
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Greedy
+Características seleccionadas
+[False False  True False False False False False False False False  True
+ False False False  True  True False False False False  True False False
+ False  True False False False  True False False  True False False False
+ False  True False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False  True  True False False False
+ False False False False False False False False False  True False False
+ False False False False False False]
+Tasa de reduccion
+0.8555555555555555
+Tasa de acierto para el conjunto de train:  77.7777777778
+El tiempo transcurrido en segundos ha sido: 3.161883592605591
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889

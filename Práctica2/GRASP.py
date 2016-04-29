@@ -1,5 +1,6 @@
 import numpy as np
 from utils import *
+from BL import *
 
 # Función para obtener la siguiente característica en el algoritmo greedy aleatorizado en función de un umbral
 def siguienteCaracteristica(clases, mascara, conjunto, alpha, knn):
@@ -34,22 +35,32 @@ def siguienteCaracteristica(clases, mascara, conjunto, alpha, knn):
 
 # Algoritmo greedy SFS aleatorizado
 def GRASP(clases, conjunto, knn):
-	# El siguiente vector serán las características que debemos tener en cuenta para hacer la selección
-	# y que iremos modificando a lo largo del algoritmo greedy. Al principio no hemos cogido ninguna característica,
-	# por lo que tenemos un vector de False.
-	caracteristicas = np.repeat(False, len(conjunto[0]))
-	mejora = True
-	tasa_actual = 0
+	mejor_tasa = 0
 
-	while(mejora):
-		# Obtenemos la siguiente característica más prometedora en un vector de características donde habrá una nueva puesta a True
-		nueva_tasa, mejor_pos = siguienteCaracteristica(clases, caracteristicas, conjunto, 0.3, knn)
+	for i in range(25):
 
-		# Si con la nueva característica sigue habiendo mejora seguimos, si no lo paramos y nos quedamos con el vector que teníamos.
-		if nueva_tasa > tasa_actual:
-			caracteristicas[mejor_pos] = True
-			tasa_actual = nueva_tasa
-		else:
-			mejora = False
+		# El siguiente vector serán las características que debemos tener en cuenta para hacer la selección
+		# y que iremos modificando a lo largo del algoritmo greedy. Al principio no hemos cogido ninguna característica,
+		# por lo que tenemos un vector de False.
+		caracteristicas = np.repeat(False, len(conjunto[0]))
+		mejora = True
+		tasa_actual = 0
 
-	return caracteristicas, tasa_actual
+		while(mejora):
+			# Obtenemos la siguiente característica más prometedora en un vector de características donde habrá una nueva puesta a True
+			nueva_tasa, mejor_pos = siguienteCaracteristica(clases, caracteristicas, conjunto, 0.3, knn)
+
+			# Si con la nueva característica sigue habiendo mejora seguimos, si no lo paramos y nos quedamos con el vector que teníamos.
+			if nueva_tasa > tasa_actual:
+				caracteristicas[mejor_pos] = True
+				tasa_actual = nueva_tasa
+			else:
+				mejora = False
+
+		# La optimizamos con el método de búsqueda Local
+		sol_optimizada, tasa_optimizada = busquedaLocal(clases, conjunto, caracteristicas, knn)
+		if (tasa_optimizada > mejor_tasa):
+			mejor_tasa = tasa_optimizada
+			mejor_solucion = sol_optimizada
+
+	return mejor_solucion, mejor_tasa

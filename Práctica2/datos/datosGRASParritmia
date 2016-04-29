@@ -1,0 +1,353 @@
+192
+194
+278
+float32
+float32
+float32
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False  True False False False False False False False False False  True
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False  True False  True False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True  True False False False False False False False False
+ False  True False False False False False False False False False False
+ False False]
+Tasa de reduccion
+0.960431654676259
+Tasa de acierto para el conjunto de train:  83.8541666667
+El tiempo transcurrido en segundos ha sido:  61.58736491203308
+La tasa de acierto para el conjunto de test ha sido:  70.1030927835
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False  True False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True  True  True  True False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False False False False  True False False False
+ False  True False False False  True False False False False False False
+ False False False False False False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False]
+Tasa de reduccion
+0.9460431654676259
+Tasa de acierto para el conjunto de train:  78.3505154639
+El tiempo transcurrido en segundos ha sido: 41.241215467453
+La tasa de acierto para el conjunto de test ha sido:  76.0416666667
+
+
+192
+194
+278
+float32
+float32
+float32
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False  True False False False  True False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+  True False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False  True
+ False False]
+Tasa de reduccion
+0.9568345323741008
+Tasa de acierto para el conjunto de train:  77.6041666667
+El tiempo transcurrido en segundos ha sido:  46.79875063896179
+La tasa de acierto para el conjunto de test ha sido:  65.4639175258
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+GRASP
+Características seleccionadas
+[False False False False False False False False False False  True False
+ False  True False False False False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False  True
+ False False False False False  True False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False  True False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False False False False False False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False  True False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False  True False False False
+ False False]
+Tasa de reduccion
+0.9496402877697842
+Tasa de acierto para el conjunto de train:  84.5360824742
+El tiempo transcurrido en segundos ha sido: 54.84082531929016
+La tasa de acierto para el conjunto de test ha sido:  65.625
+
+
+192
+194
+278
+float32
+float32
+float32
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False  True False  True
+ False False False False False  True False False False  True False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False  True False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False  True False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False  True False False False False False
+ False  True False False False False False False False False False False
+ False False]
+Tasa de reduccion
+0.9640287769784173
+Tasa de acierto para el conjunto de train:  78.6458333333
+El tiempo transcurrido en segundos ha sido:  42.75482630729675
+La tasa de acierto para el conjunto de test ha sido:  64.4329896907
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+GRASP
+Características seleccionadas
+[False False False False False False  True False False False False False
+ False False False False False False False False False False  True False
+ False False False  True  True False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False  True False  True False False False False False False False
+ False False False False False  True False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False False False False False False False
+ False False False  True  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False  True False False False False False
+ False False False False False False False False False False False  True
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False  True False False False False
+  True False False False False False False False False False False  True
+ False False]
+Tasa de reduccion
+0.9244604316546763
+Tasa de acierto para el conjunto de train:  77.8350515464
+El tiempo transcurrido en segundos ha sido: 48.6332848072052
+La tasa de acierto para el conjunto de test ha sido:  67.7083333333
+
+
+192
+194
+278
+float32
+float32
+float32
+GRASP
+Características seleccionadas
+[False False False False False False False  True False False False False
+ False  True False False False False False False False False False False
+ False False False False False False False False False  True False False
+ False False False False False False False False False False False  True
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False  True  True False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False  True
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False  True False
+ False False False False False False False False False False False False
+ False False False False  True False False False False False False False
+ False False False False False False False False False False False False
+ False False]
+Tasa de reduccion
+0.9532374100719424
+Tasa de acierto para el conjunto de train:  78.6458333333
+El tiempo transcurrido en segundos ha sido:  45.863956689834595
+La tasa de acierto para el conjunto de test ha sido:  70.618556701
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False False False  True  True False False False False False False False
+ False  True False False False  True False False False False False False
+ False False False False False  True False False False False False False
+  True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False  True False False False
+ False False False False False  True False  True False  True  True False
+ False  True False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True  True  True False False False False
+ False False False False False False False False False False False  True
+ False False]
+Tasa de reduccion
+0.935251798561151
+Tasa de acierto para el conjunto de train:  81.9587628866
+El tiempo transcurrido en segundos ha sido: 51.653247117996216
+La tasa de acierto para el conjunto de test ha sido:  66.6666666667
+
+
+192
+194
+278
+float32
+float32
+float32
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False False
+ False  True False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False  True False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False  True False False
+  True False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False False False False False False False
+ False  True False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False  True
+ False False False False False False  True False False False False False
+ False  True False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False  True False False False False False  True False False False False
+ False False]
+Tasa de reduccion
+0.9424460431654677
+Tasa de acierto para el conjunto de train:  83.8541666667
+El tiempo transcurrido en segundos ha sido:  65.82879948616028
+La tasa de acierto para el conjunto de test ha sido:  69.587628866
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+GRASP
+Características seleccionadas
+[False False False False False False False False False False False  True
+ False  True False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False  True False False False False False False False False
+ False False False  True False  True False  True False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+  True False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False  True False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False  True False
+ False False False False False False False False False False False False
+ False False False False False  True False False False False False False
+ False False False False False False  True False False False False False
+ False False False False False False False False False False False False
+ False False]
+Tasa de reduccion
+0.9568345323741008
+Tasa de acierto para el conjunto de train:  77.8350515464
+El tiempo transcurrido en segundos ha sido: 39.984713077545166
+La tasa de acierto para el conjunto de test ha sido:  68.75

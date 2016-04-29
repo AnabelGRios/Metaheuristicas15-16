@@ -1,0 +1,113 @@
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  98.5915492958
+El tiempo transcurrido en segundos ha sido:  0.013107061386108398
+La tasa de acierto para el conjunto de test ha sido:  95.7894736842
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  98.5915492958
+El tiempo transcurrido en segundos ha sido: 0.012257575988769531
+La tasa de acierto para el conjunto de test ha sido:  97.8873239437
+
+
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  95.0704225352
+El tiempo transcurrido en segundos ha sido:  0.013113737106323242
+La tasa de acierto para el conjunto de test ha sido:  97.8947368421
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  95.0704225352
+El tiempo transcurrido en segundos ha sido: 0.012259483337402344
+La tasa de acierto para el conjunto de test ha sido:  95.4225352113
+
+
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  96.1267605634
+El tiempo transcurrido en segundos ha sido:  0.013069868087768555
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  96.1267605634
+El tiempo transcurrido en segundos ha sido: 0.012239456176757812
+La tasa de acierto para el conjunto de test ha sido:  96.4788732394
+
+
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  95.7746478873
+El tiempo transcurrido en segundos ha sido:  0.01309514045715332
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  95.7746478873
+El tiempo transcurrido en segundos ha sido: 0.012216806411743164
+La tasa de acierto para el conjunto de test ha sido:  95.4225352113
+
+
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  94.7183098592
+El tiempo transcurrido en segundos ha sido:  0.016454458236694336
+La tasa de acierto para el conjunto de test ha sido:  97.1929824561
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  94.7183098592
+El tiempo transcurrido en segundos ha sido: 0.01339101791381836
+La tasa de acierto para el conjunto de test ha sido:  97.5352112676

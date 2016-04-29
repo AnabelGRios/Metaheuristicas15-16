@@ -1,0 +1,113 @@
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False False False False False False  True  True False  True False False
+  True  True  True  True  True  True  True  True False  True  True  True
+  True False False  True False False]
+Tasa de reduccion
+0.4666666666666667
+Tasa de acierto para el conjunto de train:  99.2957746479
+El tiempo transcurrido en segundos ha sido:  4.486542701721191
+La tasa de acierto para el conjunto de test ha sido:  95.7894736842
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False False False  True  True  True  True False  True False  True False
+ False  True False  True False  True  True False  True  True  True False
+  True  True False  True False False]
+Tasa de reduccion
+0.4666666666666667
+Tasa de acierto para el conjunto de train:  96.8421052632
+El tiempo transcurrido en segundos ha sido: 5.1122729778289795
+La tasa de acierto para el conjunto de test ha sido:  96.8309859155
+
+
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[ True  True False  True False False  True False  True False False  True
+  True  True  True False  True  True  True False False  True  True  True
+  True False  True  True  True False]
+Tasa de reduccion
+0.36666666666666664
+Tasa de acierto para el conjunto de train:  97.1830985915
+El tiempo transcurrido en segundos ha sido:  4.481917142868042
+La tasa de acierto para el conjunto de test ha sido:  97.1929824561
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False  True False False False False False  True False False  True False
+  True False False False False False False False  True False  True  True
+  True  True  True False  True  True]
+Tasa de reduccion
+0.6
+Tasa de acierto para el conjunto de train:  98.9473684211
+El tiempo transcurrido en segundos ha sido: 3.403493642807007
+La tasa de acierto para el conjunto de test ha sido:  95.4225352113
+
+
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False  True  True  True  True False  True  True  True  True  True False
+  True False False  True False False False  True  True False  True False
+  True False  True False  True  True]
+Tasa de reduccion
+0.4
+Tasa de acierto para el conjunto de train:  98.2394366197
+El tiempo transcurrido en segundos ha sido:  3.852565050125122
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[ True False False False  True False  True False False  True False  True
+  True  True  True False  True False False False  True False False False
+  True False  True False  True False]
+Tasa de reduccion
+0.5666666666666667
+Tasa de acierto para el conjunto de train:  97.8947368421
+El tiempo transcurrido en segundos ha sido: 3.8265938758850098
+La tasa de acierto para el conjunto de test ha sido:  94.014084507
+
+
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False  True  True  True False False False False False False  True False
+ False False False False  True False False  True  True  True False  True
+  True  True  True False  True False]
+Tasa de reduccion
+0.5666666666666667
+Tasa de acierto para el conjunto de train:  97.5352112676
+El tiempo transcurrido en segundos ha sido:  3.6765201091766357
+La tasa de acierto para el conjunto de test ha sido:  97.5438596491
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[ True  True False  True  True False  True  True False  True False  True
+  True  True  True  True False  True  True  True  True  True  True False
+  True False  True False False False]
+Tasa de reduccion
+0.3333333333333333
+Tasa de acierto para el conjunto de train:  97.8947368421
+El tiempo transcurrido en segundos ha sido: 4.22553825378418
+La tasa de acierto para el conjunto de test ha sido:  96.1267605634
+
+
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False  True  True False False False False False False  True  True  True
+ False  True False False  True  True  True False  True  True  True False
+  True  True False  True False  True]
+Tasa de reduccion
+0.4666666666666667
+Tasa de acierto para el conjunto de train:  98.2394366197
+El tiempo transcurrido en segundos ha sido:  5.035928964614868
+La tasa de acierto para el conjunto de test ha sido:  94.7368421053
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+Búsqueda Multiarranque Básica
+Características seleccionadas
+[False False  True  True False False  True False  True False  True False
+  True  True False  True False False  True False  True  True False False
+ False  True  True  True False  True]
+Tasa de reduccion
+0.5
+Tasa de acierto para el conjunto de train:  98.5964912281
+El tiempo transcurrido en segundos ha sido: 4.143327951431274
+La tasa de acierto para el conjunto de test ha sido:  96.8309859155

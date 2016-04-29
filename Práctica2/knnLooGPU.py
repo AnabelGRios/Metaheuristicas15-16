@@ -113,6 +113,10 @@ class knnLooGPU:
         Returns the mean ratio of success using K nearest neighbours as the
         target function and the leave-one-out technique.
         """
+
+        if len(samples[0]) == 0:
+            return 0
+        
         # CPU binary array. The i-th value is 1 if the predicted label is
         # equal to the actual class and 0 if different.
         results = np.zeros(len(target), dtype=np.int32)
@@ -125,19 +129,16 @@ class knnLooGPU:
         # device (GPU) memory
         samplesGPU = gpuarray.to_gpu(samples.flatten())
         targetGPU = gpuarray.to_gpu(target)
-
-        # This is just a scalar, but we need a Buffer interface object,
-        # so a numpy array will be
-        result = np.array([0], dtype=np.int32)
+        resultsGPU = gpuarray.to_gpu(results)
 
         # Call the kernel on the card
         self.GPUscoreSolution(
             # Kernel function arguments
             samplesGPU,
             targetGPU,
+            resultsGPU,
             np.int32(numFeatures),
             np.int32(numSamples),
-            driver.InOut(result),
 
             # CUDA memory configuration
             # Grid definition -> number of blocks x number of blocks.
@@ -146,9 +147,13 @@ class knnLooGPU:
             block=(int(self.NUM_THREADS_PER_BLOCK), 1, 1),
         )
 
-        # Compute the score, dividing the number of success by the number of
-        # samples
-        scoreGPU = result[0]/len(target)
+        # Copy the results back from the device (GPU) memory to the host
+        # (CPU) memory
+        results = resultsGPU.get()
+
+        # Compute the score, counting the number of success (1) and dividing
+        # by the number of samples
+        scoreGPU = sum(results)/len(results)
 
         # Returns the score from 0 to 100
         return 100*scoreGPU
@@ -159,8 +164,8 @@ class knnLooGPU:
         For every sample in the test numpy array:
             * Compute eucliden distance to all the samples.
             * Extract the K nearest neighbours.
-            * Label the test sample using the most repeated class in the K
-            nearest neighbours.
+            * Label the test sample using the most repeated class in the K nearest
+            neighbours.
             * Check wether the predicted label is the actual one passed in the
             target numpy array
 
@@ -184,16 +189,17 @@ class knnLooGPU:
         numTest = test.shape[0]
         numFeatures = samples.shape[1]
 
+        # CPU binary array. The i-th value is 1 if the predicted label is
+        # equal to the actual class and 0 if different.
+        results = np.zeros(numTest, dtype=np.int32)
+
         # Transfer host (CPU) training and test samples, target and results
         # array to device (GPU) memory
         samplesGPU = gpuarray.to_gpu(samples.flatten())
         testGPU = gpuarray.to_gpu(test.flatten())
         target_trainingGPU = gpuarray.to_gpu(target_training)
         target_testGPU = gpuarray.to_gpu(target_test)
-
-        # This is just a scalar, but we need a Buffer interface object,
-        # so a numpy array will be
-        result = np.array([0], dtype=np.int32)
+        resultsGPU = gpuarray.to_gpu(results)
 
         # Call the kernel on the card
         self.GPUscoreOut(
@@ -202,10 +208,10 @@ class knnLooGPU:
             testGPU,
             target_trainingGPU,
             target_testGPU,
+            resultsGPU,
             np.int32(numFeatures),
             np.int32(numSamples),
             np.int32(numTest),
-            driver.InOut(result),
 
             # CUDA memory configuration
             # Grid definition -> number of blocks x number of blocks.
@@ -214,9 +220,13 @@ class knnLooGPU:
             block=(int(self.NUM_THREADS_PER_BLOCK), 1, 1),
         )
 
-        # Compute the score, dividing the number of success by the number of
-        # samples
-        scoreGPU = result[0]/numTest
+        # Copy the results back from the device (GPU) memory to the host
+        # (CPU) memory
+        results = resultsGPU.get()
+
+        # Compute the score, counting the number of success (1) and dividing
+        # by the number of samples
+        scoreGPU = sum(results)/len(results)
 
         # Returns the score from 0 to 100
         return 100*scoreGPU

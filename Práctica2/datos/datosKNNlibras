@@ -1,0 +1,193 @@
+180
+180
+90
+float32
+float32
+float32
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  63.8888888889
+El tiempo transcurrido en segundos ha sido:  0.03389883041381836
+La tasa de acierto para el conjunto de test ha sido:  72.2222222222
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  63.8888888889
+El tiempo transcurrido en segundos ha sido: 0.03327345848083496
+La tasa de acierto para el conjunto de test ha sido:  75.5555555556
+
+
+180
+180
+90
+float32
+float32
+float32
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  69.4444444444
+El tiempo transcurrido en segundos ha sido:  0.03396463394165039
+La tasa de acierto para el conjunto de test ha sido:  79.4444444444
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  69.4444444444
+El tiempo transcurrido en segundos ha sido: 0.033289432525634766
+La tasa de acierto para el conjunto de test ha sido:  70.0
+
+
+180
+180
+90
+float32
+float32
+float32
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  67.2222222222
+El tiempo transcurrido en segundos ha sido:  0.03426647186279297
+La tasa de acierto para el conjunto de test ha sido:  76.6666666667
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  67.2222222222
+El tiempo transcurrido en segundos ha sido: 0.032985687255859375
+La tasa de acierto para el conjunto de test ha sido:  77.7777777778
+
+
+180
+180
+90
+float32
+float32
+float32
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  67.7777777778
+El tiempo transcurrido en segundos ha sido:  0.03386187553405762
+La tasa de acierto para el conjunto de test ha sido:  80.5555555556
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  67.7777777778
+El tiempo transcurrido en segundos ha sido: 0.03320050239562988
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889
+
+
+180
+180
+90
+float32
+float32
+float32
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  70.5555555556
+El tiempo transcurrido en segundos ha sido:  0.03392672538757324
+La tasa de acierto para el conjunto de test ha sido:  68.8888888889
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+KNN
+Características seleccionadas
+[ True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True  True]
+Tasa de reduccion
+0.0
+Tasa de acierto para el conjunto de train:  70.5555555556
+El tiempo transcurrido en segundos ha sido: 0.03323936462402344
+La tasa de acierto para el conjunto de test ha sido:  71.1111111111
