@@ -1,10 +1,11 @@
 import numpy as np
 from geneticos import *
+from utils import *
 
 # Selección para el genético generacional. Devuelve la población seleccionada
 # para hacer el cruce
 def seleccionGeneracional(poblacion):
-	dtype = [('cromosoma', str(len(poblacion[0]))+'bool'), ('tasa', np.float32)]
+	dtype = [('cromosoma', str(len(poblacion[0][0]))+'bool'), ('tasa', np.float32)]
 	seleccion = np.empty(30, dtype)
 	for i in range(30):
 		pos = torneo(poblacion)
@@ -16,7 +17,7 @@ def seleccionGeneracional(poblacion):
 def incluida(poblacion, mejor_sol):
 	for i in range(30):
 		sol = mejor_sol == poblacion[i][0]
-		if (sol[sol] == len(polacion[0])):
+		if (len(sol[sol]) == len(poblacion[0])):
 			return True
 
 	return False
@@ -25,7 +26,7 @@ def incluida(poblacion, mejor_sol):
 def AGG(clases, conjunto, knn):
 	# Generamos la población inicial, ya evaluada, con lo que tenemos que contar
 	# 30 evaluaciones
-	poblacion = generarPoblacionInicial(30, len(conjunto[0], conjunto, knn))
+	poblacion = generarPoblacionInicial(30, len(conjunto[0]), conjunto, clases, knn)
 	num_evaluaciones = 30
 
 	while(num_evaluaciones < 15000):
@@ -34,7 +35,7 @@ def AGG(clases, conjunto, knn):
 		# Seleccionamos la población que vamos a combinar
 		seleccion = seleccionGeneracional(poblacion)
 		# Decidimos cuántas parejas cruzan
-		tope = 0.7*np.ceil(len(conjunto[0])/2)
+		tope = np.round(0.7*len(conjunto[0])/2)
 		i = 0
 		while(i < 2*tope):
 			hijo1, hijo2 = cruce(seleccion[i], seleccion[i+1])
@@ -55,19 +56,24 @@ def AGG(clases, conjunto, knn):
 		# cruces y las demás como las tenía
 
 		# MUTAMOS
-		mutaciones = np.ceil(0.001*30*len(conjunto[0]))
+		mutaciones = int(np.ceil(0.001*30*len(conjunto[0])))
 		for k in range(mutaciones):
 			crom = np.random.choice(30)
 			gen = np.random.choice(len(conjunto[0]))
 			Flip(seleccion[crom][0], gen)
+			# Calculamos la nueva tasa después de la mutación
+			subconjunto = getSubconjunto(conjunto, seleccion[crom][0])
+			tasa = knn.scoreSolution(subconjunto, clases)
+			seleccion[crom][1] = tasa
+			num_evaluaciones += 1
 
 		# Comprobamos si la mejor solución continúa
 		estaIncluida = incluida(seleccion, poblacion[29][0])
-		if (!estaIncluida):
-			np.sort(seleccion, order = 'tasa')
-			seleccion[0] = poblacion[29]
-			#pos = np.argmin(seleccion["tasa"])
-			#seleccion[pos] = poblacion[29]
+		if (not estaIncluida):
+			#np.sort(seleccion, order = 'tasa')
+			#seleccion[0] = poblacion[29]
+			pos = np.argmin(seleccion["tasa"])
+			seleccion[pos] = poblacion[29]
 
 		# Actualizamos la población
 		poblacion = seleccion
