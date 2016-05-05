@@ -28,6 +28,8 @@ def AGG(clases, conjunto, knn):
 	# 30 evaluaciones
 	poblacion = generarPoblacionInicial(30, len(conjunto[0]), conjunto, clases, knn)
 	num_evaluaciones = 30
+	# Fijamos el número de mutaciones que habrá en cada etapa
+	mutaciones = int(np.ceil(0.001*30*len(conjunto[0])))
 
 	while(num_evaluaciones < 15000):
 		# Ordenamos la población según la tasa (de menor a mayor)
@@ -56,7 +58,6 @@ def AGG(clases, conjunto, knn):
 		# cruces y las demás como las tenía
 
 		# MUTAMOS
-		mutaciones = int(np.ceil(0.001*30*len(conjunto[0])))
 		for k in range(mutaciones):
 			crom = np.random.choice(30)
 			gen = np.random.choice(len(conjunto[0]))
@@ -78,7 +79,6 @@ def AGG(clases, conjunto, knn):
 		# Actualizamos la población
 		poblacion = seleccion
 
-	# Volvemos a ordenar para quedarnos con la mejor solución encontrada y la
-	# devolvemos junto con su tasa
-	poblacion = np.sort(poblacion, order = 'tasa')
-	return poblacion[29][0], poblacion[29][1]
+	# Buscamos la mejor solución encontrada y la devolvemos junto con su tasa
+	pos = np.argmax(poblacion["tasa"])
+	return poblacion[pos][0], poblacion[pos][1]
