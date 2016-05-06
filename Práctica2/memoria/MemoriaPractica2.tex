@@ -107,17 +107,20 @@ Se considerarán como vecinas todas aquellas soluciones que difieran en la perte
 \texttt{Flip} será el operador de vecino: recibe un vector que será la máscara y una posición y cambia esa posición en la máscara. El que he hecho yo además lo hace por referencia para evitar las copias e intentar mejorar en eficiencia.\\
 
 \begin{lstlisting}
-Flip(mascara, pos) Empezar:
+Flip(mascara, pos) |\textbf{Empezar}|:
    # Cambiar la posici|ó|n pos de la m|á|scara por su negado 
    mascara[pos] = not mascara[pos]
-   Devolver mascara
+   |\textbf{Devolver}| mascara
 Fin
 \end{lstlisting}
 
 \subsection{Proceso de generación de soluciones aleatorias}
 En mi caso para la generación aleatoria de soluciones en los algoritmos BMB e ILS he utilizado la función \texttt{choice()} del módulo \texttt{random} de \texttt{numpy} para python, a la que se le puede pasar el vector de donde obtener las muestras (en mi caso un array de \textit{True} y \textit{False}) y el número de muestras a obtener (suponemos \textit{n} ahora mismo, será en cada caso el número de características). El muestreo se hace con reemplazamiento:
 \begin{lstlisting}
-sol_aleatoria = np.random.choice(np.array([True, False]), n)
+generarSolAleatoria(n) |\textbf{Empezar}|:
+	sol_aleatoria = np.random.choice(np.array([True, False]), n)
+	|\textbf{Devolver}| sol_aleatoria
+Fin
 \end{lstlisting}
 
 \subsection{Búsqueda Local}
@@ -127,7 +130,7 @@ Veamos el pseudocódigo.\\
 \texttt{generarSecuencia(tamaño)} será la función que devuelve el orden en el que se recorrerá el vecindario: empieza desde un número aleatorio (menor que el número de características) y de ahí en orden hasta el total de características y empieza de nuevo hasta el número que se ha generado al principio. Esta función se llamará cada vez que actualicemos la solución y haya que explorar un vecindario nuevo.\\
 Al algoritmo le pasamos como parámetros los datos de entrenamiento, las clases de los datos y el objeto knn que habremos creado previamente entrenándolo con esos datos y clases.
 \begin{lstlisting}
-busquedaLocal(datos, clases, knn) Empezar:
+busquedaLocal(datos, clases, knn) |\textbf{Empezar}|:
    caract = soluci|ó|n aleatoria inicial
    tasa actual = calcularTasa(datos, caract, knn)
    
@@ -159,7 +162,7 @@ busquedaLocal(datos, clases, knn) Empezar:
    
    Fin while
    
-   Devuelve caract y tasa actual
+   |\textbf{Devolver}| caract y tasa actual
 Fin
    
 \end{lstlisting}
@@ -170,9 +173,119 @@ Fin
 
 \subsection{Búsqueda Multiarranque Básica (BMB)}
 
+Este algoritmo consiste en generar 25 soluciones aleatorias y optimizarlas con el algoritmo de Búsqueda Local que acabamos de comentar.\\
+El pseudocógido es el siguiente:
+\begin{lstlisting}
+busquedaMultiBasica(clases, conjunto, knn) |\textbf{Empezar}|:
+   for i entre 0 y 24:
+      sol_aleatoria = generarSolAleatoria(num_caracteristicas)
+      sol_actual, tasa_actual = busquedaLocal(clases, conjunto, knn)
+		
+      if tasa_actual > mejor_tasa:
+         # Actualizar la mejor tasa y la mejor soluci|ó|n
+         mejor_sol = sol_actual
+         mejor_tasa = tasa_actual
+      Fin
+   Fin
+   |\textbf{Devolver}| mejor_sol, mejor_tasa
+Fin
+\end{lstlisting}
+
 \subsection{GRASP}
 
+Este algoritmo es una modificación del greedy básico con el que vamos a hacer las comparaciones. Ahora, en cada paso, en lugar de elegir la mejor característica, se eligen aquellas que estén por encima de un umbral de calidad y dentro de éstas, se elige una aleatoriamente, hasta que no se obtenga mejora. Una vez tenemos construida la solución inicial greedy aleatorizada, la optimizamos con el algoritmo de Búsqueda Local. Este procedimiento lo vamos a hacer 25 veces y nos vamos a quedar con la mejor solución optimizada con Búsqueda Local de estas 25.\\
+
+Vamos primero a poner el pseudocódigo de la función que nos va a elegir la característica siguiente en la solución greedy aleatorizada inicial en base a un umbral $\alpha$:
+\begin{lstlisting}
+siguienteCaracterista(clases, mascara, conjunto, alpha, knn) |\textbf{Empezar}|:
+   pos = posiciones que no est|é|n ya seleccionadas en la m|á|scara
+   tasas = vector vac|í|o donde guardamos las tasas de los vecinos de "mascara"
+   for i en pos:
+      mascara[pos[i]] = True
+      Calculamos con knn la tasa de la m|á|scara con la nueva caracter|í|stica a|ñ|adida
+      tasa[i] = nueva tasa #Guardamos la tasa
+      mascara[pos[i]] = False #Volvemos a la m|\textit{á}|scara original.
+   Fin
+   
+   Calculamos el umbral como maximo-alpha*(maximo-minimo)
+    donde maximo y minimo son el m|á|ximo y el m|í|nimo del vector de tasas
+   
+   Seleccionamos los vecinos cuya tasa est|é| por encima de ese umbral
+   
+   Elegimos un vecino aleatorio de los seleccionados
+   
+   |\textbf{Devolver}| la tasa del vecino y la posici|ó|n de la m|á|scara original
+    que hay que modificar para llegar a |é|l.
+Fin
+\end{lstlisting}
+
+Vamos ahora con el pseudocódigo del algoritmo GRASP, en el que vamos a hacer uso de la función anterior:
+\begin{lstlisting}
+GRASP(clases, conjunto, knn) |\textbf{Empezar}|:
+   for i entre 0 y 24:
+      caract = vector de "False"
+      while haya mejora:
+         nueva_tasa, mejor_pos = siguienteCaracteristica(clases,
+          caracteristicas, conjunto, 0.3, knn)
+      
+         if nueva_tasa > tasa_actual:
+            Actualizamos tasa actual
+            caract[mejor_pos] = True
+         else:
+            mejora = False y paramos de a|ñ|adir caracter|í|sticas
+         Fin
+      Fin
+   
+      # Optimizamos con B|\textit{ú}|squeda Local
+      sol_opt, tasa_opt = busquedaLocal(clases, conjunto, knn)
+      if tasa_opt > mejor_tasa:
+         Actualizar mejor_tasa y mejor_solucion
+      Fin
+   Fin
+   
+   |\textbf{Devolver}| mejor_solucion, mejor_tasa
+Fin
+
+\end{lstlisting}
+
 \subsection{Búsqueda Local Reiterada (ILS)}
+
+Este algoritmo consisten en generar una solución aleatoria, optimizarla con el algoritmo de Búsqueda Local, y repetir lo siguiente 24 veces: mutar la mejor solución encontrada hasta el momento y optimizarla de nuevo con Búsqueda Local. Se devolverá la mejor solución encontrada en todo este proceso.\\
+
+Veamos primero el pseudocódigo para la función con la que vamos a mutar una solución, consistente en elegir $t$ características aleatorias de la solución y cambiarlas con el operador \texttt{Flip()}. En mi caso lo que he hecho ha sido hacer una permutación del 0 al $n$, donde $n$ es el número de características en cada caso, y cambiar las $t$ primeras posiciones del vector que he permutado en la solución.
+
+\begin{lstlisting}
+mutar(solucion, n, t) |\textbf{Empezar}|:
+   mutada = copia de solucion
+   pos = permutaci|ó|n del vector [0,...,n]
+   for i entre 0 y t:
+      Flip(mutada, pos[i])
+   Fin
+   |\textbf{Devolver}| mutada
+Fin
+
+\end{lstlisting}
+
+Veamos ahora el pseudocódigo para el algoritmo ILS. Para que se mute siempre al menos una característica cuando el número de características es bajo, utilizo la función \texttt{ceil(x)} para obtener el entero por encima del valor x.
+\begin{lstlisting}
+ILS(clases, conjunto, knn) |\textbf{Empezar}|:
+   n = n|ú|mero de caracter|í|sticas
+   t = ceil(0.1*n)
+   sol_aleatoria = generarSolAleatoria(n)
+   # Inicializamos la mejor soluci|ón| a la optimizaci|ó|n de la aleatoria 
+   mejor_sol, mejor_tasa = busquedaLocal(clases, conjunto, sol_aleatoria, knn)
+   for i entre 0 y 23:
+      mutada = mutar(mejor_sol, n, t)
+      # Optimizamos la mutada
+      sol_actual, tasa_actual = busquedaLocal(clases, conjunto, mutada, knn)
+      if tasa_actual > mejor_tasa:
+         Actualizamos mejor_tasa y mejor_sol
+      Fin
+   Fin
+   |\textbf{Devolver}| mejor_sol, mejor_tasa
+Fin
+
+\end{lstlisting}
 
 \newpage
 
