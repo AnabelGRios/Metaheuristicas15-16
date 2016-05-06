@@ -293,7 +293,7 @@ Fin
 El algoritmo de comparación seleccionado ha sido el greedy Sequential Forward Selection (SFS), que parte de una solución inicial en la que no hay ninguna característica seleccionada y se va quedando en cada iteración con la característica con la que se obtiene la mejor tasa. El algoritmo no para mientras se encuentre mejora añadiendo alguna característica.\\
 He implementado una función que me devuelve, para una máscara determinada, la característica más prometedora que se puede obtener, cuyo pseudocódigo es el siguiente:
 \begin{lstlisting}
-caractMasPrometedora(mascara) Empezar:
+caractMasPrometedora(mascara) |\textbf{Empezar}|:
    posiciones = posiciones que no est|é|n seleccionadas de la mascara
    for i en posiciones:
       mascara[i] = True
@@ -302,13 +302,13 @@ caractMasPrometedora(mascara) Empezar:
          Se actualiza la mejor tasa
          Se actualiza la mejor posici|ó|n
       Fin for
-   Devuelve mejor tasa y mejor pos
+   |\textbf{Devuelve}| mejor tasa y mejor pos
 Fin
 \end{lstlisting}
 
 Con esto, el pseudocódigo del algoritmo SFS es:
 \begin{lstlisting}
-algoritmoSFS(datos, clases) Empezar:
+algoritmoSFS(datos, clases) |\textbf{Empezar}|:
    caract = soluci|ó|n inicial inicializada a False
    tasa actual = 0
    mejora = True
@@ -321,7 +321,7 @@ algoritmoSFS(datos, clases) Empezar:
          mejora = False		#No ha habido mejora: paramos
       
    Fin while
-   Devuelve caract y tasa
+   |\textbf{Devuelve}| caract y tasa
 Fin
 
 \end{lstlisting}
@@ -329,23 +329,23 @@ Fin
 \newpage
 
 \section{Procedimiento considerado para desarrollar la práctica}
-La práctica la he desarrollado en python junto con tres módulos de python: numpy, scipy y sklearn (de scikit) (todos disponibles en Linux pero hay que instalarlos previamente). Numpy permite manejar arrays de forma más rápida, scipy leer ficheros en formato arff y sklearn contiene el knn y cross-validation para hacer leave one out. El resto de la práctica lo he hecho yo. Para generar números aleatorios utilizo el \texttt{random} de numpy (al que le paso previamente la semilla) y para medir tiempos \texttt{time} de python.\\
+La práctica la he desarrollado en python junto con dos módulos de python: numpy y scipy (todos disponibles en Linux pero hay que instalarlos previamente), y un módulo con el 3NN con leave one out desarrollado por mi compañero Alejandro García Montoro. Numpy permite manejar arrays de forma más rápida y scipy leer ficheros en formato arff. El resto de la práctica lo he hecho yo. Para generar números aleatorios utilizo el \texttt{random} de numpy (al que le paso previamente la semilla) y para medir tiempos \texttt{time} de python.\\
 
 Para hacer las particiones igualadas lo que he hecho ha sido quedarme, para cada clase, con los índices de los datos pertenecientes a esa clase, hacerles una permutación aleatoria, partir por la mitad y quedarme con la primera mitad para entrenamiento y la segunda mitad para test.\\
 
-Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica1.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BL, 3 para ES, 4 para BT, 5 para BTE y 6 para KNN.
+Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica2.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BMB, 3 para GRASP, 4 para ILS y 5 para KNN.
 
 \newpage
 
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
 
-Los parámetros de los algoritmos, como los del enfriamiento simulado o el tope de evaluaciones a realizar, lo he dejado como se recomendaba en el guión de prácticas.\\
+Los parámetros de los algoritmos, como el parámetro $\alpha$ para el umbral en GRASP, el parámetro $t$ en ILS para decidir cuántas características mutar o el tope de evaluaciones a realizar, lo he dejado como se recomendaba en el guión de prácticas.\\
 Las particiones que se hacen dependen de la semilla que se le pase al generador de números aleatorios de numpy, así como las soluciones iniciales que se generan y todo lo relativo a probabilidades. La semilla, como ya he comentado, se le pasa al programa por línea de comandos y es el único parámetro que he cambiado de una base de datos a otra. Para todos los algoritmos, el primer par de particiones (que en realidad es la misma partición pero primero se utiliza una mitad para entrenamiento y la otra para test y después al revés) lo he generado con la semilla 567891234, el segundo par está generado con la semilla 123456789, el tercer par con 11235813, el cuarto par con 27182818 y el quinto par con 1414213, de forma que entre los distintos algoritmos las particiones utilizadas han sido las mismas para poder comparar resultados entre unos y otros.
 
 \subsection{Resultados}
 
-Para cada algoritmo se está midiendo el tiempo, en segundos, que tarda en encontrar el subconjunto de características óptimo. Para el caso del 3NN, como lo estamos lanzando con una máscara entera a True, este tiempo el 0, al igual que la tasa de reducción.
+Para cada algoritmo se está midiendo el tiempo, en segundos, que tarda en encontrar el subconjunto de características óptimo más lo que tarda en evaluar esta solución. Para el caso del 3NN, como lo estamos lanzando con una máscara entera a True, el tiempo es únicamente el que tarda en hacer la evaluación, mientras que la tasa de reducción es cero por tener todas las características seleccionadas.
 
 \begin{table}[H]
 \centering
@@ -481,10 +481,9 @@ ILS   & \multicolumn{1}{c|}{98,0319}                                            
 
 \section{Bibliografía}
 \begin{enumerate}
-\item Sklearn (scikit) para 3NN \href{http://scikit-learn.org/stable/modules/neighbors.html}{aquí}
-\item Sklearn (scikit) para leave one out \href{http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.LeaveOneOut.html}{aquí}
 \item Scipy para leer ficheros \href{arff http://docs.scipy.org/doc/scipy/reference/generated/scipy.io.arff.loadarff.html}{aquí}
 \item Documentación de numpy \href{http://docs.scipy.org/doc/numpy/user/index.html}{aquí}
+\item Ficheros para el 3NN \href{https://github.com/agarciamontoro/metaheuristics/tree/master/src/knnGPU}{aquí} (aunque se encuentran también en los ficheros de mi práctica para poder utilizarlos)
 \end{enumerate}
 
 \end{document}
