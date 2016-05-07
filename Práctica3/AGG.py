@@ -12,16 +12,6 @@ def seleccionGeneracional(poblacion):
 		seleccion[i] = poblacion[pos]
 	return seleccion
 
-# Función para comprobar si la mejor solución que tenemos hasta el momento sigue
-# en la poblacionstaIncluida
-def incluida(poblacion, mejor_sol):
-	for i in range(30):
-		sol = mejor_sol == poblacion[i][0]
-		if (len(sol[sol]) == len(poblacion[0])):
-			return True
-
-	return False
-
 # Algoritmo genético generacional
 def AGG(clases, conjunto, knn):
 	# Generamos la población inicial, ya evaluada, con lo que tenemos que contar
@@ -68,9 +58,9 @@ def AGG(clases, conjunto, knn):
 			seleccion[crom][1] = tasa
 			num_evaluaciones += 1
 
-		# Comprobamos si la mejor solución continúa
-		estaIncluida = incluida(seleccion, poblacion[29][0])
-		if (not estaIncluida):
+		# Comprobamos si la mejor solución que teníamos sigue, para no perderla
+		max_tasa = np.max(seleccion["tasa"])
+		if poblacion[29][1] > max_tasa:
 			#np.sort(seleccion, order = 'tasa')
 			#seleccion[0] = poblacion[29]
 			pos = np.argmin(seleccion["tasa"])

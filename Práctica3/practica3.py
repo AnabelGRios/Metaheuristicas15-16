@@ -7,14 +7,13 @@ import random
 
 from knnLooGPU import *
 from SFS import *
-from BMB import *
-from GRASP import *
-from ILS import *
+from AGG import *
+from AGE import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
 parser.add_argument("base", help="base de datos a utilizar. Escribir 1 para WDBC, 2 para movement libras y 3 para arritmia", type=int)
-parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para BMB, 3 para GRASP, 4 para ILS y 5 para KNN", type=int)
+parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para AGG, 3 para AGE y 4 para KNN", type=int)
 args = parser.parse_args()
 
 np.random.seed(args.semilla)
@@ -71,12 +70,6 @@ datos_test = np.array([datos[i] for i in posiciones_test])
 clases_test = np.array([clases[i] for i in posiciones_test])
 
 # Creamos el knn
-print(len(datos_train))
-print(len(datos_test))
-print(len(datos_train[0]))
-print(datos_train.dtype)
-print(datos_test.dtype)
-print(datos_train[0].dtype)
 knnGPU = knnLooGPU(len(datos_train), len(datos_test), len(datos_train[0]), 3)
 
 if args.algoritmo == 1:
@@ -85,19 +78,14 @@ if args.algoritmo == 1:
 	mejores_car, tasa = SFS(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
-	print("Búsqueda Multiarranque Básica")
+	print("AGG")
 	com = time.time()
-	mejores_car, tasa = busquedaMultiBasica(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = AGG(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 3:
-	print("GRASP")
+	print("AGE")
 	com = time.time()
-	mejores_car, tasa = GRASP(clases_train, datos_train, knnGPU)
-	fin = time.time()
-elif args.algoritmo == 4:
-	print("ILS")
-	com = time.time()
-	mejores_car, tasa = ILS(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = AGE(clases_train, datos_train, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")
@@ -132,18 +120,14 @@ if args.algoritmo == 1:
 	mejores_car, tasa = SFS(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
-	print("Búsqueda Multiarranque Básica")
+	print("AGG")
 	com = time.time()
-	mejores_car, tasa = busquedaMultiBasica(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = AGG(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 3:
-	print("GRASP")
+	print("AGE")
 	com = time.time()
-	mejores_car, tasa = GRASP(clases_test, datos_test, knnGPU)
-	fin = time.time()
-elif args.algoritmo == 4:
-	print("ILS")
-	mejores_car, tasa = ILS(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = AGE(clases_test, datos_test, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")

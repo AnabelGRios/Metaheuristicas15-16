@@ -1,22 +1,24 @@
 import numpy as np
 import random
+from utils import *
 
 # Función para hacer el operador de cruce entre dos cromosomas (entre dos
-# soluciones distintas)
+# soluciones distintas). Devuelve los dos hijos.
 def cruce(sol1, sol2):
-	hijo1 = np.empty(len(sol1), bool)
-	hijo2 = np.empty(len(sol1), bool)
-	for i in range(len(sol1)):
-		if sol1[i] == sol2[i]:
-			hijo1[i] = sol1[i]
-			hijo2[i] = sol1[i]
+	tam = len(sol1[0])
+	hijo1 = np.empty(tam, bool)
+	hijo2 = np.empty(tam, bool)
+	for i in range(tam):
+		if sol1[0][i] == sol2[0][i]:
+			hijo1[i] = sol1[0][i]
+			hijo2[i] = sol1[0][i]
 		else:
-			if random.random() < 0.5:
-				hijo1[i] = sol1[i]
-				hijo2[i] = sol2[i]
+			if np.random.random_sample() < 0.5:
+				hijo1[i] = sol1[0][i]
+				hijo2[i] = sol2[0][i]
 			else:
-				hijo1[i] = sol2[i]
-				hijo2[i] = sol1[i]
+				hijo1[i] = sol2[0][i]
+				hijo2[i] = sol1[0][i]
 	return hijo1, hijo2
 
 # Función para evaluar la población inicial. El resto de individuos se irán
@@ -24,7 +26,7 @@ def cruce(sol1, sol2):
 # poblacion será un numpy array de dos dimensiones, que vamos a convertir en
 # un array estructurado en el que guardaremos cada cromosoma junto con su
 # tasa de acierto.
-def evaluarPoblacionInicial(conjunto, poblacion, knn):
+def evaluarPoblacionInicial(conjunto, clases, poblacion, knn):
 	tasas = np.empty(len(poblacion), np.float32)
 	for i in range(len(poblacion)):
 		# Nos quedamos con aquellas columnas que vayamos a utilizar.
@@ -39,14 +41,14 @@ def evaluarPoblacionInicial(conjunto, poblacion, knn):
 # en 30 soluciones aleatorias que devolveremos en un numpy array estructurado,
 # de forma que contenga todos los cromosomas de la población junto con su tasa
 # de acierto.
-def generarPoblacionInicial(numPob, numCar, conjunto, knn):
+def generarPoblacionInicial(numPob, numCar, conjunto, clases, knn):
 	poblacion = np.empty(numPob, np.object)
 	# Generamos numPob cromosomas de forma aleatoria
 	for i in range(numPob):
 		poblacion[i] = np.random.choice(np.array([True, False]), numCar)
 
 	# Evaluamos la población inicial
-	pobEval = evaluarPoblacionInicial(poblacion, knn)
+	pobEval = evaluarPoblacionInicial(conjunto, clases, poblacion, knn)
 	return pobEval
 
 # Función que implementa el operador de selección: el torneo binario. Elegimos
@@ -60,7 +62,7 @@ def torneo(poblacion):
 
 	if poblacion[crom1][1] > poblacion[crom2][1]:
 		elegido = crom1
-	else
+	else:
 		elegido = crom2
 
 	return elegido

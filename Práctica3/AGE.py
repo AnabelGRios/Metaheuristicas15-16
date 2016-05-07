@@ -21,8 +21,10 @@ def AGE(clases, conjunto, knn):
 	# 30 evaluaciones
 	poblacion = generarPoblacionInicial(30, len(conjunto[0]), conjunto, clases, knn)
 	num_evaluaciones = 30
-	# Fijamos el número de mutaciones que habrá en cada etapa
-	mutaciones = int(np.ceil(0.001*30*len(conjunto[0])))
+
+	# Fijamos la probabilidad de mutar un gen en cada etapa (teniendo en cuenta
+	# que sólo mutamos a los hijos de los que cruzamos, es decir, 2)
+	prob_mutacion = 0.001*2*len(conjunto[0])
 
 	while(num_evaluaciones < 15000):
 		# Ordenamos la población según la tasa (de menor a mayor)
@@ -33,9 +35,9 @@ def AGE(clases, conjunto, knn):
 		padre1 = poblacion[posicion_padre1]
 		padre2 = poblacion[posicion_padre2]
 
-		# Obtenemos los dos hijos y mutamos
+		# Obtenemos los dos hijos y mutamos si procede
 		hijo1, hijo2 = cruce(padre1, padre2)
-		for k in range(mutaciones):
+		if np.random.random_sample() > prob_mutacion:
 			crom = np.random.choice(2)
 			gen = np.random.choice(len(conjunto[0]))
 			if crom == 0:
