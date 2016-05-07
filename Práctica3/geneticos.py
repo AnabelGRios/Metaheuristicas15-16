@@ -3,7 +3,7 @@ import random
 from utils import *
 
 # Función para hacer el operador de cruce entre dos cromosomas (entre dos
-# soluciones distintas). Devuelve los dos hijos.
+# soluciones distintas). Devuelve los dos hijos sin las tasas.
 def cruce(sol1, sol2):
 	tam = len(sol1[0])
 	hijo1 = np.empty(tam, bool)
@@ -60,6 +60,7 @@ def torneo(poblacion):
 	crom1 = np.random.choice(len(poblacion))
 	crom2 = np.random.choice(len(poblacion))
 
+	# Nos quedamos con el mejor de los dos
 	if poblacion[crom1][1] > poblacion[crom2][1]:
 		elegido = crom1
 	else:

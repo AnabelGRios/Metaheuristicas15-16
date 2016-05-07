@@ -59,6 +59,6 @@ def AGE(clases, conjunto, knn):
 		else:
 			cambiarSiMejor(tasa2, tasa1, hijo2, hijo1, poblacion)
 
-	# Volvemos a ordenar la población para quedarnos con el mejor
+	# Nos quedamos con el que tenga la mayor tasa de la poblacion
 	pos = np.argmax(poblacion["tasa"])
 	return poblacion[pos][0], poblacion[pos][1]

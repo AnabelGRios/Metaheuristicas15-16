@@ -3,7 +3,7 @@ from geneticos import *
 from utils import *
 
 # Selección para el genético generacional. Devuelve la población seleccionada
-# para hacer el cruce
+# para hacer el cruce (de 30 cromosomas).
 def seleccionGeneracional(poblacion):
 	dtype = [('cromosoma', str(len(poblacion[0][0]))+'bool'), ('tasa', np.float32)]
 	seleccion = np.empty(30, dtype)
@@ -11,6 +11,7 @@ def seleccionGeneracional(poblacion):
 		pos = torneo(poblacion)
 		seleccion[i] = poblacion[pos]
 	return seleccion
+
 
 # Algoritmo genético generacional
 def AGG(clases, conjunto, knn):
