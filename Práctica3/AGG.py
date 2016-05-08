@@ -28,7 +28,7 @@ def AGG(clases, conjunto, knn):
 		# Seleccionamos la población que vamos a combinar
 		seleccion = seleccionGeneracional(poblacion)
 		# Decidimos cuántas parejas cruzan
-		tope = np.round(0.7*len(conjunto[0])/2)
+		tope = np.round(0.7*15)
 		i = 0
 		while(i < 2*tope):
 			hijo1, hijo2 = cruce(seleccion[i], seleccion[i+1])
