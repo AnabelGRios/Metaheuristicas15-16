@@ -1,0 +1,113 @@
+AGE
+Características seleccionadas
+[False  True False  True  True False  True False False  True  True False
+ False False  True  True False False False  True  True False  True  True
+  True False  True  True  True  True]
+Tasa de reduccion
+0.43333333333333335
+Tasa de acierto para el conjunto de train:  99.2958
+El tiempo transcurrido en segundos ha sido:  111.92769694328308
+La tasa de acierto para el conjunto de test ha sido:  95.0877192982
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[ True  True False  True  True  True  True  True False False  True False
+  True False  True  True False False False  True  True False  True  True
+  True False False  True False  True]
+Tasa de reduccion
+0.4
+Tasa de acierto para el conjunto de train:  97.5439
+El tiempo transcurrido en segundos ha sido: 110.664475440979
+La tasa de acierto para el conjunto de test ha sido:  97.5352112676
+
+
+AGE
+Características seleccionadas
+[ True False  True  True  True False  True  True  True  True  True  True
+  True False  True  True  True  True  True  True False  True  True  True
+  True False  True False False  True]
+Tasa de reduccion
+0.23333333333333334
+Tasa de acierto para el conjunto de train:  97.8873
+El tiempo transcurrido en segundos ha sido:  142.11920499801636
+La tasa de acierto para el conjunto de test ha sido:  96.1403508772
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[ True  True False False  True False False False  True False False False
+  True  True False False False False False False  True False  True  True
+  True False  True  True False  True]
+Tasa de reduccion
+0.5666666666666667
+Tasa de acierto para el conjunto de train:  99.2982
+El tiempo transcurrido en segundos ha sido: 101.80549597740173
+La tasa de acierto para el conjunto de test ha sido:  95.0704225352
+
+
+AGE
+Características seleccionadas
+[ True  True False  True  True False  True  True  True  True False False
+  True  True False  True  True False  True  True False  True  True False
+ False False  True False False False]
+Tasa de reduccion
+0.43333333333333335
+Tasa de acierto para el conjunto de train:  98.9437
+El tiempo transcurrido en segundos ha sido:  100.16774845123291
+La tasa de acierto para el conjunto de test ha sido:  97.1929824561
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[ True False  True  True False  True False  True  True  True  True  True
+  True  True  True False  True False False False  True  True  True False
+ False False  True  True  True  True]
+Tasa de reduccion
+0.3333333333333333
+Tasa de acierto para el conjunto de train:  98.2456
+El tiempo transcurrido en segundos ha sido: 111.68874144554138
+La tasa de acierto para el conjunto de test ha sido:  96.1267605634
+
+
+AGE
+Características seleccionadas
+[ True  True  True  True False False  True  True  True False  True  True
+  True  True  True  True  True False  True  True  True False  True False
+  True  True  True False  True  True]
+Tasa de reduccion
+0.23333333333333334
+Tasa de acierto para el conjunto de train:  97.8873
+El tiempo transcurrido en segundos ha sido:  133.04412460327148
+La tasa de acierto para el conjunto de test ha sido:  94.3859649123
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[ True  True  True False  True  True  True False  True False  True  True
+  True  True  True False False  True  True  True  True  True  True  True
+ False False  True  True False  True]
+Tasa de reduccion
+0.26666666666666666
+Tasa de acierto para el conjunto de train:  98.2456
+El tiempo transcurrido en segundos ha sido: 130.86448550224304
+La tasa de acierto para el conjunto de test ha sido:  95.7746478873
+
+
+AGE
+Características seleccionadas
+[ True  True  True False  True False False False  True  True  True  True
+  True  True False False  True False False  True  True False  True  True
+ False  True  True False  True  True]
+Tasa de reduccion
+0.36666666666666664
+Tasa de acierto para el conjunto de train:  97.8873
+El tiempo transcurrido en segundos ha sido:  116.66382575035095
+La tasa de acierto para el conjunto de test ha sido:  96.8421052632
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[False False  True  True False  True  True  True False False  True False
+  True  True False False  True  True False  True  True  True  True  True
+  True False  True  True  True False]
+Tasa de reduccion
+0.36666666666666664
+Tasa de acierto para el conjunto de train:  98.5965
+El tiempo transcurrido en segundos ha sido: 111.90225219726562
+La tasa de acierto para el conjunto de test ha sido:  97.8873239437
