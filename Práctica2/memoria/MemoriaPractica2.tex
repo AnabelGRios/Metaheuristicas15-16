@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 \marginsize{2cm}{2cm}{2cm}{2cm}
 
@@ -138,26 +139,21 @@ busquedaLocal(datos, clases, knn) |\textbf{Empezar}|:
     hacer:
       
       posiciones = generarSecuencia(tam(caract))
-      for j en posiciones:
+      for j en posiciones y mientras vuelta_completa = False y haya menos
+       de 15000 evaluaciones hacer:
          Flip(caract, j)  # Generamos vecino
          calcularTasa(datos, caract, knn)
          if la tasa del vecino es mejor que la actual:
             actualizamos la tasa actual
             vuelta_completa = False # hemos encontrado mejora antes de
-             # generar todos los vecinos
-            break, salimos del bucle interior y empezamos a 
-             generar vecinos de la nueva soluci|ó|n
+             # generar todos los vecinos, salimos del bucle y empezamos a 
+             # generar vecinos de la nueva soluci|ó|n
          
          else, volvemos a la antigua soluci|ó|n:
             Flip(caract, j)
             
-         if vuelta_completa:
-            no ha habido mejora en el vecindario, break
-         else:
+         if not vuelta_completa:
             vuelta_completa = True
-         
-         if hemos superado el numero de evaluaciones
-            break y salimos del bucle interior
       Fin for
    
    Fin while
@@ -340,7 +336,7 @@ Para ejecutar la práctica es necesario que los ficheros de datos estén en el m
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
 
-Los parámetros de los algoritmos, como el parámetro $\alpha$ para el umbral en GRASP, el parámetro $t$ en ILS para decidir cuántas características mutar o el tope de evaluaciones a realizar, lo he dejado como se recomendaba en el guión de prácticas.\\
+Los parámetros de los algoritmos, como el parámetro $\alpha$ para el umbral en GRASP, el parámetro $t$ en ILS para decidir cuántas características mutar o el tope de evaluaciones a realizar, los he dejado como se recomendaba en el guión de prácticas.\\
 Las particiones que se hacen dependen de la semilla que se le pase al generador de números aleatorios de numpy, así como las soluciones iniciales que se generan y todo lo relativo a probabilidades. La semilla, como ya he comentado, se le pasa al programa por línea de comandos y es el único parámetro que he cambiado de una base de datos a otra. Para todos los algoritmos, el primer par de particiones (que en realidad es la misma partición pero primero se utiliza una mitad para entrenamiento y la otra para test y después al revés) lo he generado con la semilla 567891234, el segundo par está generado con la semilla 123456789, el tercer par con 11235813, el cuarto par con 27182818 y el quinto par con 1414213, de forma que entre los distintos algoritmos las particiones utilizadas han sido las mismas para poder comparar resultados entre unos y otros.
 
 \subsection{Resultados}
@@ -460,7 +456,7 @@ Media         & \multicolumn{1}{c|}{96,0563}                                    
 
 \subsection{Análisis de los resultados}
 
-A continuación vemos la tabla comparativa, que tiene la última fila (las medias) de todas las tablas anteriores:
+A continuación vemos la tabla comparativa, que tiene la última fila (las medias) de todas las tablas anteriores, junto con gráficas para cada variable a medir y para cada algoritmo:
 
 \begin{table}[H]
 \centering
@@ -478,12 +474,52 @@ ILS   & \multicolumn{1}{c|}{98,0319}                                            
 \end{tabular}}
 \end{table}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{train}
+\caption{Tasa de acierto en el conjunto train} \label{fig:train}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{test}
+\caption{Tasa de acierto en el conjunto test} \label{fig:test}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{reduccion}
+\caption{Tasa de reducción} \label{fig:reduccion}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{tiempos}
+\caption{Tiempo en segundos} \label{fig:tiempos}
+\end{figure}
+
+En este caso la condición de parada es para todos los algoritmos la misma (excepto para \texttt{SFS}), repetir el bucle interno 25 veces, por lo que el tiempo variará según lo que cada algoritmo haga en ese bucle interno.\\
+En un principio podemos pensar que tiene sentido que el que menos tiempo tarde, entre \texttt{BMB}, \texttt{GRASP} e \texttt{ILS}, sea \texttt{BMB}, ya que lo único que repite 25 veces es la generación de una solución aleatoria inicial y la optimización de cada solución aleatoria con el método de \texttt{Búsqueda Local}, que de la práctica pasada, era el que menos tardaba. Después, \texttt{ILS} lo que hace es añadir a \texttt{BMB} una mutación de la mejor solución encontrada hasta el momento antes de optimizarla con \texttt{Búsqueda Local}, es decir, que cambia las últimas 24 generaciones aleatorias de \texttt{BMB} por mutaciones, por lo que los tiempos deberían ser un poco mayores pero parecidos (teniendo en cuenta que se tarda más en mutar que en generar aleatoriamente). Por último, el algoritmo \texttt{GRASP} es el más complicado en el sentido de que tiene más carga computacionalmente en principio, ya que lo que se repite 25 veces es una modificación del algoritmo \texttt{greedy} básico en el que en vez de coger la mejor característica en cada paso se elige una dentro de un cierto umbral de calidad y posteriormente se optimiza con \texttt{Búsqueda Local}, por lo que debería ser el que más tiempo tardara.\\
+Esto es así efectivamente en las bases de datos con pocas características, como en Wdbc con 30 características o en Libras con 91 características, donde los tiempos son parecidos unos a otros. Sin embargo, para arritmia, donde tenemos 271 características, \texttt{GRASP} tarda bastante menos que \texttt{BMB} e \texttt{ILS}: \texttt{GRASP} tarda 49 segundos de media, \texttt{BMB} alrededor de 4 minutos de media e \texttt{ILS} más de 6 minutos de media por partición. De hecho, además, \texttt{GRASP} tarda un poco menos en arritmia que en Libras, como podemos ver en la gráfica de tiempos, lo que no pasa para ningún otro algoritmo.\\
+Esto puede ser debido a que con la solución aleatoria con la que se empieza en \texttt{GRASP} ya no se encuentra mucha más mejora porque hay características que no influyen a la hora de elegir clase, de modo que la parte \texttt{greedy} modificada termina pronto dejando una solución bastante buena que la \texttt{Búsqueda Local} tampoco es capaz de mejorar mucho más (recordemos que la \texttt{Búsqueda Local} se queda en el primer óptimo local que encuentra, con lo que si ya estamos cerca de uno, no tardará en llegar a él), de forma que las \texttt{Búsquedas Locales} que hace \texttt{GRASP} duran menos que las que hacen \textit{BMB} e \texttt{ILS}, ya que en \texttt{BMB} hay que optimizar una solución aleatoria que no tiene por qué ser buena y en \textit{ILS} hay que optimizar una mutación, que ha podido quedar lejos de un óptimo local, y de hecho según los tiempos, vemos que en efecto queda lejos de un óptimo local.\\
+
+Obviamente, todos tardan más que el algoritmo de comparación \texttt{SFS} ya que este sólo se repite una vez y no tiene optimización posterior (tampoco tendría sentido ya que hemos ido eligiendo características hasta que dejamos de obtener mejora).\\
+
+Entrando ahora en comparar las tasas de acierto en el conjunto de train entre todos los algoritmos, \texttt{GRASP} es el que mejor tasa obtiene siempre, aunque con menos diferencia en Wdbc, hay más de un punto de diferencia en libras y casi dos en arritmia. Los demás algoritmos hay unos que funcionan mejor que otros según la base de datos, como \texttt{BMB}, que funciona mejor en Wdbc que \texttt{ILS}, aunque en realidad no hay mucha diferencia, mientras que \texttt{ILS} sí queda más de un punto por encima en Libras casi dos en Arritmia, aunque en Arritmia tanto \texttt{ILS} como \texttt{BMB} quedan por debajo más de 5 puntos del \texttt{SFS}.\\
+
+En cuanto a la tasa de acierto en test varía un poco con respecto a lo comentado para train, ya que ahora \texttt{GRASP} sólo tiene la mejor tasa en Arritmia, mientras que \texttt{BMB} es el que mejor tasa tiene para Wdbc y Libras, aunque las diferencias son menores que para los conjuntos de train. \texttt{SFS} es peor que \texttt{BMB}, \texttt{ILS} y \texttt{GRASP} excepto en Arritmia, donde sólo queda por debajo de \texttt{GRASP}, cuando en \texttt{SFS} estamos añadiendo características hasta que no hay mejora mientras que en \texttt{BMB} e \texttt{ILS} se comienza con soluciones aleatorias, lo que nos lleva a pensar que importa el orden en el que se elijan las características y en el \texttt{SFS} siempre se escoge primero la que más ganancia da, que es algo que no hace \texttt{GRASP} y de hecho este tiene tasas mejores.\\
+
+En cuanto a la tasa de reducción, es normal que todas se queden por debajo del \texttt{SFS} por lo que acabamos de comentar y que el siguiente con mayor tasa de reducción sea \texttt{GRASP} que va añadiendo también característica a característica, mientras que el resto de algoritmos si tienen una característica que no esté aportando nada (o incluso está perjudicando) no nos estamos preocupando en eliminarla y tendrán más características al partir de soluciones aleatorias.\\
+
+Con respecto al 3NN al principio parece raro que tenga menos tasa de acierto que los demás (en la mayoría de los casos) puesto que está considerando todas las características. Sin embargo como acabamos de comentar, no todas las características tienen que ser buenas definiendo una clase, además de que puede haber ruidos que hayan afectado más a unas que a otras. Es por esto que es normal que tenga un poco menos de acierto y que no haya mucha diferencia entre las tasas de acierto para entrenamiento y para test y además que la de entrenamiento no sea mejor que la de test, puesto que en este algoritmo en realidad las dos serían de test ya que no estamos utilizando ninguno de los dos conjuntos para aprender al estar utilizando todas las características.\\
+
+Con todo esto, si tuviéramos que elegir uno de estos algoritmos para este problema, sería \texttt{GRASP}, ya que es el que mejor relación tasa/tiempo tiene, sobre todo si tenemos bastantes características, que es donde más se nota, mientras que si hay pocas la diferencia es mucho mejor, pero éste algoritmo sigue siendo ligeramente mejor.
 
 \section{Bibliografía}
 \begin{enumerate}
-\item Scipy para leer ficheros \href{arff http://docs.scipy.org/doc/scipy/reference/generated/scipy.io.arff.loadarff.html}{aquí}
-\item Documentación de numpy \href{http://docs.scipy.org/doc/numpy/user/index.html}{aquí}
-\item Ficheros para el 3NN \href{https://github.com/agarciamontoro/metaheuristics/tree/master/src/knnGPU}{aquí} (aunque se encuentran también en los ficheros de mi práctica para poder utilizarlos)
+\item Scipy para leer ficheros arff \href{arff http://docs.scipy.org/doc/scipy/reference/generated/scipy.io.arff.loadarff.html}{aquí}.
+\item Documentación de numpy \href{http://docs.scipy.org/doc/numpy/user/index.html}{aquí}.
+\item Ficheros para el 3NN \href{https://github.com/agarciamontoro/metaheuristics/tree/master/src/knnGPU}{aquí} (aunque se encuentran también en los ficheros de mi práctica para poder utilizarlos).
 \end{enumerate}
 
 \end{document}
