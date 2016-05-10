@@ -1,323 +1,323 @@
 AGE
 Características seleccionadas
-[False False False False False  True False  True False  True False False
- False  True  True  True  True  True  True False  True False  True  True
- False  True  True False  True  True  True  True  True False False  True
-  True False False  True False  True  True False  True False False False
- False False  True  True  True  True False False False  True False False
-  True False  True False False  True  True False  True False  True  True
-  True  True  True False  True False  True  True False  True False  True
-  True False False  True  True  True  True  True  True  True False False
- False False False  True False False False False False  True False  True
-  True  True  True False False False False  True  True  True  True False
- False False  True False False False  True  True  True  True False  True
-  True  True False  True False  True  True  True  True  True  True  True
-  True  True  True False  True False  True False  True  True  True  True
-  True  True  True False False False False False  True False False False
-  True False  True  True  True  True False  True  True  True  True  True
- False False False  True  True False False False  True  True  True False
-  True  True  True  True  True False False  True False False  True  True
- False False False  True  True False  True  True False False  True False
-  True False  True False  True False False  True  True False  True False
- False  True  True False False False  True False  True  True  True False
- False False  True False  True False  True  True False False  True  True
-  True False False  True  True  True  True False  True  True  True False
- False False False False  True False  True False False  True  True  True
-  True False]
-Tasa de reduccion
-0.45323741007194246
-Tasa de acierto para el conjunto de train:  77.0833
-El tiempo transcurrido en segundos ha sido:  929.8706183433533
-La tasa de acierto para el conjunto de test ha sido:  67.5257731959
-Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
-AGE
-Características seleccionadas
-[ True  True  True False  True False False False False False False False
-  True  True False  True False False  True  True  True  True False  True
- False False False False False  True False False  True False False  True
-  True False  True  True False False  True False  True False  True  True
- False  True  True False  True False  True False False  True False False
- False  True False False  True False  True  True  True  True False  True
-  True  True False  True  True False  True  True False False  True  True
- False  True  True False  True False False  True False  True  True False
-  True  True  True  True  True  True False  True  True False  True  True
-  True False False False  True False False False  True  True False  True
- False  True  True False  True  True False False False False False  True
-  True False False False  True  True False  True False False False False
-  True  True  True  True  True False  True  True  True  True  True  True
-  True  True False False  True  True  True  True False  True False False
- False  True False False  True False  True False  True False False  True
-  True False  True False False  True  True False False False False  True
- False False  True  True False  True False  True False False  True  True
-  True  True False False  True False False  True False  True False  True
- False  True False False  True False  True False False  True  True False
-  True False False False  True False False  True False  True  True  True
- False  True False  True False False  True  True False False False  True
- False  True False  True  True  True False False False  True False  True
- False False False False False False  True False False False  True  True
-  True  True]
-Tasa de reduccion
-0.5
-Tasa de acierto para el conjunto de train:  70.1031
-El tiempo transcurrido en segundos ha sido: 737.2139930725098
-La tasa de acierto para el conjunto de test ha sido:  61.4583333333
-
-
-AGE
-Características seleccionadas
-[ True False False  True  True  True  True  True False False False  True
-  True  True  True False False  True  True  True  True  True  True False
-  True  True  True False False  True  True False  True  True  True  True
-  True  True  True  True  True  True  True False  True  True False False
-  True  True  True  True  True  True  True False  True  True  True  True
-  True  True  True  True False False  True  True  True False  True  True
-  True  True False False False  True  True  True  True  True  True  True
-  True  True  True  True False False  True  True  True False  True False
-  True  True  True  True False  True  True  True  True  True  True  True
-  True  True  True  True False  True  True  True  True  True  True  True
- False False False  True  True  True  True  True  True  True  True  True
-  True  True  True  True False  True  True False  True  True  True  True
-  True  True False False False  True  True  True  True  True  True  True
-  True  True False  True  True False  True  True  True  True False  True
-  True  True  True  True  True  True  True  True False False False  True
- False  True  True  True  True  True  True False  True  True False  True
-  True  True  True  True False False  True  True  True  True  True  True
- False  True  True  True False False  True  True  True  True False False
- False False False  True  True  True  True  True False  True  True False
-  True  True  True  True  True  True False  True  True  True False  True
-  True False  True  True  True False  True  True False False False False
-  True  True  True  True False  True  True  True False False  True  True
-  True False False  True  True False False  True  True  True  True  True
-  True  True]
-Tasa de reduccion
-0.25539568345323743
-Tasa de acierto para el conjunto de train:  72.9167
-El tiempo transcurrido en segundos ha sido:  1146.5426292419434
-La tasa de acierto para el conjunto de test ha sido:  63.4020618557
-Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
-AGE
-Características seleccionadas
-[False False  True  True  True  True False  True False  True False  True
-  True  True  True False False  True  True False  True  True  True  True
-  True  True  True  True  True  True  True  True  True  True  True False
-  True  True False  True False False  True  True  True False  True  True
-  True  True  True False  True  True  True  True False  True  True  True
-  True  True  True False False  True  True False  True False  True  True
-  True  True  True  True False  True  True  True  True False  True  True
-  True  True  True  True  True  True  True  True  True  True False  True
+[ True False False  True False False False  True  True False False  True
+ False  True False False False  True  True  True  True  True  True  True
+  True  True  True  True  True  True False  True  True  True  True False
+  True  True  True  True False  True  True False  True False  True False
+  True  True  True False  True  True  True  True  True  True  True  True
+  True  True False False False  True  True False  True False  True  True
+  True  True  True False  True  True  True False  True False  True  True
+  True  True False  True False  True  True  True  True False  True  True
+  True  True  True False False False  True False  True  True  True False
   True  True  True  True  True  True  True  True  True  True  True  True
-  True False  True  True  True  True  True False False  True  True  True
-  True  True  True  True  True  True  True False  True  True  True  True
-  True  True  True  True  True  True  True False  True  True  True  True
-  True  True  True  True False  True  True  True  True  True  True  True
-  True  True  True False False  True  True  True False  True False False
-  True False False  True  True False  True  True  True  True  True False
-  True  True False  True False  True False  True  True  True  True  True
- False  True False  True  True False  True  True False  True  True False
- False  True False False  True False False  True  True  True False False
- False False False  True  True False  True False  True  True  True False
- False  True  True  True  True  True False False  True False  True  True
-  True False  True  True False False  True  True  True  True False  True
- False  True  True False False  True  True  True  True  True  True  True
-  True False  True False  True  True  True  True  True  True  True  True
-  True  True]
+  True False  True False False  True  True  True  True  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True False  True False  True  True False  True  True  True  True
+  True False False  True  True  True  True  True False  True  True  True
+  True False False  True  True False False False  True False False False
+ False  True  True  True  True False False  True False  True False  True
+  True  True  True  True False  True  True False False  True  True False
+  True False False False  True  True  True  True  True  True False False
+  True False False  True False False  True False  True False  True  True
+ False  True  True  True  True False  True  True  True  True  True False
+  True False  True  True  True False  True False  True  True False  True
+  True  True  True  True  True  True False  True  True  True  True False
+  True False False False  True  True False  True False False False  True
+ False  True]
 Tasa de reduccion
-0.25539568345323743
-Tasa de acierto para el conjunto de train:  77.3196
-El tiempo transcurrido en segundos ha sido: 998.200986623764
-La tasa de acierto para el conjunto de test ha sido:  64.5833333333
-
-
-AGE
-Características seleccionadas
-[ True False  True  True False  True False  True  True  True False False
- False False  True False  True False  True  True False False  True  True
- False  True False  True  True  True  True False  True  True False False
-  True  True False False  True False False  True  True  True False  True
- False  True False  True False  True  True False  True False  True False
-  True  True False False False False  True  True  True  True  True  True
-  True  True  True  True  True  True False  True  True  True  True  True
-  True  True  True False  True  True False  True False False False  True
-  True  True  True  True False  True False False  True  True False False
-  True  True False  True  True  True  True  True  True  True  True False
-  True  True False False False  True False False False False False False
- False  True False False False  True  True False  True False  True  True
-  True  True False  True False False  True False  True False False False
-  True  True False  True  True  True  True False False  True  True False
-  True  True False False False False  True  True  True False  True False
- False  True  True  True  True  True  True False False False False False
- False  True False  True False  True False  True  True  True  True False
- False  True  True False False  True False False  True  True False False
-  True False False False False  True  True  True False False False False
-  True False False  True  True  True False False  True False False False
- False  True False False False False False False  True False  True  True
-  True  True False  True  True False  True  True  True False False  True
- False  True False  True False False  True False  True  True  True  True
-  True False]
-Tasa de reduccion
-0.4568345323741007
-Tasa de acierto para el conjunto de train:  73.9583
-El tiempo transcurrido en segundos ha sido:  919.9946932792664
+0.31654676258992803
+Tasa de acierto para el conjunto de train:  78.125
+El tiempo transcurrido en segundos ha sido:  1099.8843731880188
 La tasa de acierto para el conjunto de test ha sido:  65.9793814433
 Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
 AGE
 Características seleccionadas
-[False False  True  True False  True False  True False False False False
-  True  True  True  True  True False  True False  True  True  True  True
-  True  True False  True  True  True  True  True False  True  True  True
- False  True  True False False  True  True False  True  True  True False
-  True  True False  True False False  True False  True  True  True  True
-  True  True False False  True  True  True False  True  True  True  True
+[ True False  True False  True False  True  True False False  True  True
+  True  True  True False False False  True False  True False  True False
+ False False  True False False  True False False False False False False
+ False False  True False  True False  True False False False False False
+  True False False  True  True False False False  True  True False  True
+  True False False  True False  True False False False False False  True
+  True False False False  True False False False False False False False
+  True False False False  True  True False False False False  True False
+  True False  True  True  True  True False  True  True False  True  True
+ False False False  True  True False  True  True False False  True False
+  True False  True False  True False  True False False  True  True  True
+  True  True  True False  True  True False False  True False False False
+ False  True False False  True  True  True False  True False False  True
+ False  True  True  True  True  True  True  True  True False False  True
+  True  True False False  True  True  True  True  True False False  True
+  True False False  True  True False False False False False  True False
+  True  True False  True  True False  True  True False False  True False
+  True  True  True  True False  True False False  True  True  True False
+  True  True False  True  True False  True False False  True  True  True
+ False False False  True False False False  True  True  True  True  True
+  True  True False False False False  True False  True False False  True
   True  True  True False  True  True  True  True  True  True  True  True
-  True  True  True  True False  True  True  True  True  True  True  True
-  True False False  True  True False  True  True  True  True  True  True
-  True False  True  True False  True  True  True  True  True  True  True
- False False  True  True  True  True  True  True  True  True  True  True
-  True  True False False  True  True  True  True  True  True  True  True
-  True  True False False  True  True  True False  True  True  True  True
-  True  True  True  True  True False  True  True  True  True  True  True
-  True False  True  True  True  True False False  True  True False  True
-  True False False  True  True  True  True  True  True False  True  True
- False  True  True False  True  True False  True  True  True  True  True
-  True  True  True False  True False False False  True  True False  True
-  True  True  True False  True  True  True  True  True  True  True  True
- False  True  True  True  True  True False False False False  True  True
-  True  True  True  True  True False  True False  True  True  True False
-  True  True  True False  True  True  True  True  True  True  True  True
-  True  True  True  True  True False False  True  True  True False False
-  True  True]
+  True False False  True  True False False  True False False  True  True
+  True False]
 Tasa de reduccion
-0.2446043165467626
-Tasa de acierto para el conjunto de train:  73.7113
-El tiempo transcurrido en segundos ha sido: 1036.6570599079132
-La tasa de acierto para el conjunto de test ha sido:  65.625
+0.49640287769784175
+Tasa de acierto para el conjunto de train:  74.2268
+El tiempo transcurrido en segundos ha sido: 744.3958513736725
+La tasa de acierto para el conjunto de test ha sido:  60.4166666667
 
 
 AGE
 Características seleccionadas
-[ True False  True  True  True  True  True  True  True  True False  True
-  True  True  True  True False  True  True False  True  True  True  True
-  True  True False  True  True  True  True False  True  True  True  True
-  True False  True False  True  True  True False  True False  True  True
-  True False False False False False  True False  True  True  True  True
-  True  True False  True False  True  True  True  True False  True  True
-  True  True False False  True  True  True False  True  True  True  True
-  True  True False  True False  True  True  True  True  True  True  True
-  True  True  True  True False  True  True False  True  True  True  True
-  True  True  True  True  True  True  True  True  True  True  True  True
-  True False  True  True False  True  True  True  True  True  True  True
-  True  True  True  True False  True  True False  True  True  True  True
+[ True False False False  True  True  True False False  True False  True
+  True  True  True False False False  True  True  True  True  True  True
   True  True  True False False  True  True False  True  True  True  True
-  True  True  True  True  True  True  True  True  True  True False  True
-  True  True False  True  True  True  True  True  True False  True  True
-  True  True  True  True  True  True  True  True  True False  True False
-  True  True  True  True  True  True False  True False False  True  True
- False  True  True  True  True False False  True  True  True  True  True
-  True False False False  True  True  True  True  True  True  True  True
- False  True False  True  True  True False False  True False  True  True
-  True False  True  True  True  True False  True  True  True  True False
-  True  True  True  True  True  True  True  True False  True  True  True
- False  True  True False  True False  True  True  True  True False False
- False  True]
+  True  True False False  True  True  True False False  True False False
+  True  True False  True  True  True False False False False  True False
+  True  True  True  True False  True  True  True False False False False
+  True  True False False False  True  True  True  True  True  True  True
+ False False  True  True  True  True  True False  True False  True False
+  True  True  True  True False  True False  True  True  True  True False
+  True  True False False  True  True False False False  True  True  True
+ False False  True  True  True  True  True False False  True  True  True
+ False False False  True False  True False False  True  True False False
+  True  True False False False False False  True  True  True  True  True
+ False  True  True  True False  True  True False  True  True False  True
+ False False False  True  True  True  True False False False  True  True
+  True False  True False  True False False  True  True False False  True
+  True False  True  True  True  True False  True False False  True False
+ False  True False False False False False False  True False False False
+ False False  True  True  True  True  True  True False  True  True  True
+  True  True  True False False  True False False  True  True  True False
+ False False False  True  True False  True False False  True False False
+  True False False  True  True False  True False False  True  True False
+  True  True False  True False False False False  True False  True  True
+ False False]
 Tasa de reduccion
-0.22302158273381295
-Tasa de acierto para el conjunto de train:  77.6042
-El tiempo transcurrido en segundos ha sido:  1154.9914026260376
-La tasa de acierto para el conjunto de test ha sido:  62.3711340206
+0.44244604316546765
+Tasa de acierto para el conjunto de train:  72.3958
+El tiempo transcurrido en segundos ha sido:  940.2870931625366
+La tasa de acierto para el conjunto de test ha sido:  65.9793814433
 Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
 AGE
 Características seleccionadas
-[False False  True False False  True  True False False  True False  True
-  True  True False  True False False  True  True  True  True  True  True
-  True  True False False  True  True  True False  True False  True  True
-  True  True  True False False False  True False  True  True  True False
- False  True False False  True  True  True False  True  True  True False
-  True  True False False False  True  True  True  True False  True  True
-  True  True False  True False False  True False  True  True  True  True
-  True  True False  True  True  True  True  True  True False False  True
-  True False False  True False False  True False  True  True  True  True
-  True  True  True  True False  True  True False  True  True  True  True
-  True  True False False  True False  True False  True False  True  True
- False  True False  True  True  True  True  True  True  True  True  True
-  True  True  True  True False  True  True False  True  True  True  True
-  True  True False False False False  True  True  True False  True False
-  True  True False  True  True  True  True  True  True  True False False
-  True False False  True False  True False False False False False False
-  True  True  True  True False False  True False False  True  True  True
-  True False False  True False  True False  True  True  True False  True
-  True  True False False  True False  True  True False  True  True  True
-  True False False  True False  True  True  True  True  True  True  True
- False False  True  True  True False  True  True  True False  True  True
-  True  True False  True  True  True False  True  True  True  True  True
- False False False False False  True  True  True  True  True  True  True
- False  True]
+[False False  True  True  True  True False  True False  True False  True
+  True False False False False  True  True  True  True  True False  True
+  True  True False False False  True  True  True  True  True  True  True
+  True  True False False  True False  True  True  True False  True  True
+  True False False False  True False  True  True  True  True  True  True
+  True  True False False False  True  True False  True False  True  True
+  True  True False  True  True  True  True  True  True  True  True  True
+  True  True  True  True False  True  True  True  True  True False  True
+  True False False False False  True  True  True  True  True  True  True
+  True False  True  True  True  True  True False False False  True  True
+ False  True  True False  True False  True False  True  True  True False
+  True  True False False  True  True  True  True  True  True  True  True
+  True  True  True  True False False  True  True  True  True False  True
+  True  True False  True False  True  True False  True  True  True False
+  True False  True False  True  True  True False  True  True False False
+  True False  True  True False False  True  True False  True  True False
+  True  True False  True  True False  True  True False  True  True False
+  True False False False  True False  True  True False  True False  True
+  True False  True False False False  True  True False  True  True False
+ False  True False  True  True  True  True False  True False  True  True
+ False False  True  True False  True False False False  True False  True
+ False  True  True  True False False  True  True  True  True  True  True
+  True False  True False  True  True  True False  True False  True  True
+  True  True]
 Tasa de reduccion
-0.3489208633093525
-Tasa de acierto para el conjunto de train:  76.2887
-El tiempo transcurrido en segundos ha sido: 880.4353971481323
+0.34172661870503596
+Tasa de acierto para el conjunto de train:  77.3196
+El tiempo transcurrido en segundos ha sido: 936.4388911724091
+La tasa de acierto para el conjunto de test ha sido:  63.5416666667
+
+
+AGE
+Características seleccionadas
+[False False  True False False False  True  True False False  True  True
+  True  True False  True False  True  True False  True  True  True False
+  True  True  True False False False  True False False False False False
+  True  True False  True False False  True False  True False  True  True
+ False False  True False  True False False False False False False  True
+ False False  True False  True  True  True  True  True  True False  True
+ False  True False  True False  True False  True False False  True False
+ False False False  True False  True False  True  True False  True  True
+ False False  True  True  True  True False  True False False False  True
+  True False False False False False False  True  True False  True  True
+ False  True False  True False  True False False  True  True  True False
+ False False False False False  True False  True  True False False  True
+  True  True  True False  True False  True False False  True  True False
+  True False False  True  True  True False False False False False  True
+ False  True False False  True False  True False  True False  True False
+ False  True  True False False False False False False False False  True
+ False False  True  True False False False  True False False False  True
+  True False False False False  True False False  True False  True  True
+ False False  True  True False  True False  True  True  True  True  True
+  True  True  True False False  True False  True  True  True  True  True
+ False  True  True False False False  True False  True False False False
+  True  True False  True False  True  True  True  True  True  True  True
+ False  True False  True  True False  True False  True  True  True False
+ False False]
+Tasa de reduccion
+0.5179856115107914
+Tasa de acierto para el conjunto de train:  73.4375
+El tiempo transcurrido en segundos ha sido:  839.7318727970123
+La tasa de acierto para el conjunto de test ha sido:  65.9793814433
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[False False  True  True  True  True False  True  True  True False  True
+ False  True False  True  True  True  True  True  True  True False  True
+ False  True  True  True  True False False False False  True  True False
+  True False False  True False  True False False  True  True False  True
+  True False  True False  True False  True False  True  True  True  True
+ False False False  True False  True False False  True  True  True False
+ False False  True  True  True False False  True False False False False
+ False  True  True  True  True  True False False False  True  True False
+ False False  True  True False False False  True False  True  True False
+ False  True  True False  True  True  True False  True False  True False
+  True False False  True  True False False  True False False False  True
+ False False  True False False False  True False  True  True  True False
+  True  True False False  True  True False False  True  True  True  True
+ False  True False False  True False False  True False False  True False
+  True  True False False  True False  True  True False False False  True
+  True  True  True False False False  True False  True  True False  True
+  True False  True False False  True  True  True  True  True  True False
+  True False False  True  True False False  True False  True  True  True
+ False  True False False  True  True  True  True False  True  True False
+ False False False False  True False  True  True False False  True False
+ False False  True  True  True False False False  True False  True  True
+ False  True  True False  True False False  True False False False  True
+ False  True  True  True  True  True False False False False  True  True
+  True  True]
+Tasa de reduccion
+0.4748201438848921
+Tasa de acierto para el conjunto de train:  73.7113
+El tiempo transcurrido en segundos ha sido: 787.2249004840851
 La tasa de acierto para el conjunto de test ha sido:  67.1875
 
 
 AGE
 Características seleccionadas
-[False False False  True False  True False  True False  True False  True
-  True False  True  True False False  True False  True False  True False
-  True  True  True  True  True  True  True  True  True  True  True  True
-  True  True False False False False  True False False False  True  True
-  True  True False  True  True False  True False  True False  True False
-  True  True False False False  True  True False False False  True  True
-  True  True  True False  True  True  True False  True  True  True  True
- False False False False  True  True  True  True  True  True  True False
-  True  True  True  True  True  True  True  True  True  True  True  True
- False False False  True  True False False  True  True  True  True  True
-  True  True  True False False  True  True False  True  True  True  True
-  True False False False False  True  True  True  True False  True False
-  True  True False False  True False False False False False False  True
-  True  True  True  True False  True  True  True False  True False False
- False  True  True False False False  True False False  True False  True
-  True  True False False  True False  True False False  True  True False
- False  True False  True  True  True  True  True False False  True  True
- False False  True  True False  True  True  True False False False False
-  True False  True False  True False  True False  True  True False  True
-  True  True  True False False False False False False False  True  True
- False False False  True False False  True  True  True False False False
- False  True  True False  True  True False  True  True  True  True False
- False  True False  True  True False False False False  True False False
-  True False]
+[False False False  True False  True  True False False False False False
+ False  True  True False False False False False  True  True  True  True
+ False  True  True  True False False  True False  True  True False  True
+ False  True False  True  True False  True False False  True False False
+ False False  True False  True  True  True False  True False  True False
+  True False False False False  True False  True  True  True False  True
+ False  True False  True  True  True False False  True  True False  True
+ False False  True  True  True  True False  True  True  True False False
+  True  True  True False False  True False  True False  True False  True
+ False  True  True  True  True  True False  True False  True False False
+ False False  True  True False False False  True False False False False
+  True False  True False False  True False  True False  True False  True
+  True False False False False False  True  True  True  True  True False
+ False  True False False False  True False False False  True False  True
+ False False False False  True  True False  True False False  True  True
+  True  True False False  True  True  True  True  True  True  True False
+  True False  True  True  True False False  True False  True  True  True
+ False  True False False  True  True False False False  True False  True
+  True  True  True  True False  True False  True  True False  True False
+  True False False False False  True False  True  True False False  True
+  True  True False  True  True False False  True  True False  True False
+ False False  True  True False False  True False False  True False False
+ False False  True False False False False  True False  True False False
+ False False]
 Tasa de reduccion
-0.4352517985611511
-Tasa de acierto para el conjunto de train:  78.6458
-El tiempo transcurrido en segundos ha sido:  894.1407356262207
-La tasa de acierto para el conjunto de test ha sido:  64.4329896907
+0.5179856115107914
+Tasa de acierto para el conjunto de train:  73.9583
+El tiempo transcurrido en segundos ha sido:  838.1093366146088
+La tasa de acierto para el conjunto de test ha sido:  64.9484536082
 Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
 AGE
 Características seleccionadas
-[ True False  True  True  True  True  True  True  True  True  True  True
- False False  True  True False  True  True  True  True  True  True  True
-  True  True  True False False  True  True  True  True  True  True  True
-  True  True  True False False  True  True  True  True  True  True  True
-  True  True  True  True  True  True  True  True  True  True  True  True
-  True  True False False  True  True  True  True  True  True  True  True
-  True  True  True False False  True  True  True  True  True  True  True
-  True  True False  True  True  True  True  True  True  True  True  True
-  True False  True  True  True False  True False  True False  True  True
-  True  True  True  True  True  True  True False False  True  True  True
- False  True False False  True  True  True  True  True  True  True  True
-  True  True  True  True  True  True  True False  True  True  True  True
-  True  True False False False  True  True False  True  True  True  True
-  True  True  True  True  True  True  True  True False False False False
-  True  True False False  True  True  True False  True False  True  True
-  True False  True  True  True  True  True  True  True  True  True  True
+[False False False  True  True  True  True False  True  True False  True
+  True  True  True False  True  True  True  True  True  True  True  True
+  True  True False  True  True  True  True False False False  True  True
+  True  True False False False  True  True  True  True False  True  True
+  True  True False  True False  True  True  True  True  True  True False
+  True  True  True  True False  True  True False  True False  True  True
+  True  True False False False  True  True  True False  True  True  True
+  True  True False  True  True  True  True  True  True False False  True
   True  True  True  True False False  True  True  True  True  True  True
- False  True  True  True  True  True  True False  True  True  True  True
- False False False  True  True  True  True  True  True  True  True  True
- False  True False  True  True  True  True  True  True  True  True  True
-  True  True  True  True  True  True  True  True False  True  True  True
-  True  True  True  True  True False  True  True  True False  True  True
- False False  True False  True  True False  True  True  True  True False
+  True False  True  True False False  True  True False  True  True  True
+  True  True  True  True  True  True  True  True  True  True  True  True
+  True  True  True  True  True False  True  True  True  True  True  True
+  True  True  True False  True  True  True  True  True  True  True  True
+  True  True  True False False False  True  True False  True False False
+  True  True False  True  True  True  True False False  True  True False
+  True False False  True  True False False False False False  True  True
+ False  True  True  True False False  True  True False False  True  True
+ False  True False  True  True False  True False  True  True  True  True
+  True  True  True  True  True False  True  True  True  True  True  True
+ False  True False  True  True  True  True False  True False  True  True
+  True False False  True False  True  True  True False False  True False
+  True  True False  True  True  True  True  True False False  True  True
+  True  True  True  True False  True  True  True  True  True  True  True
   True False]
 Tasa de reduccion
-0.19424460431654678
-Tasa de acierto para el conjunto de train:  71.134
-El tiempo transcurrido en segundos ha sido: 933.6901469230652
-La tasa de acierto para el conjunto de test ha sido:  63.5416666667
+0.27697841726618705
+Tasa de acierto para el conjunto de train:  75.2577
+El tiempo transcurrido en segundos ha sido: 941.2742171287537
+La tasa de acierto para el conjunto de test ha sido:  67.7083333333
+
+
+AGE
+Características seleccionadas
+[ True False False  True False False  True  True  True  True False False
+  True False  True  True  True  True  True False  True False False False
+  True  True False False  True  True False False  True  True False  True
+ False False False False  True False  True  True  True False False  True
+ False  True False False False  True  True False False False  True False
+  True  True False False False  True  True False False False  True  True
+  True  True False False  True False  True False  True  True  True  True
+ False  True  True False  True  True  True  True False False  True  True
+ False  True False False False False False False  True  True  True  True
+ False False False  True  True False False False False False  True  True
+  True  True False False  True  True  True False False  True False  True
+ False False False  True False  True  True  True  True False  True  True
+ False False  True False  True False  True False False  True False False
+  True False  True False False  True  True  True False False False False
+ False False  True  True  True  True False False False  True  True  True
+  True False  True False  True False  True  True False  True False False
+ False  True False  True  True  True  True False False False  True  True
+ False False False False False  True  True  True False False  True False
+  True False False False  True  True False  True False  True  True False
+ False  True False False False False False False  True False False  True
+ False False  True False False  True False  True  True False False False
+ False False False  True  True False  True False  True  True  True False
+  True  True  True False  True False False False  True False False  True
+  True False]
+Tasa de reduccion
+0.5215827338129496
+Tasa de acierto para el conjunto de train:  79.6875
+El tiempo transcurrido en segundos ha sido:  821.0201146602631
+La tasa de acierto para el conjunto de test ha sido:  63.4020618557
+Le damos la vuelta a la partición y volvemos a ejecutar el algoritmo
+AGE
+Características seleccionadas
+[False False False  True False False  True  True False  True  True False
+  True  True  True  True False  True  True False False  True False False
+ False False False False  True False  True False False False  True False
+  True  True False False False  True False  True False False  True  True
+  True  True  True  True  True  True  True False  True False False False
+  True False False  True False False  True  True  True False  True  True
+ False  True  True  True False False False False False  True  True False
+ False  True False  True  True False False  True False  True False  True
+ False False  True False False False  True  True False  True  True  True
+ False False  True  True False False  True False False False False False
+ False  True False False  True  True False False  True False False  True
+ False False  True False False  True False  True  True False  True  True
+ False False  True False False  True  True False  True False False False
+ False  True  True False False False False False  True False False False
+  True False False False  True False  True  True False False False False
+ False False  True  True  True False  True  True  True  True False  True
+  True False  True  True  True False  True False  True  True False  True
+  True False  True  True  True False  True  True False False  True False
+  True False False False False False False False  True  True  True False
+  True False False False  True False  True  True False  True False False
+  True  True False  True False False  True False  True False False  True
+  True  True False  True  True False  True False  True  True  True  True
+ False False  True  True  True  True  True  True  True  True False False
+  True  True]
+Tasa de reduccion
+0.5143884892086331
+Tasa de acierto para el conjunto de train:  69.5876
+El tiempo transcurrido en segundos ha sido: 713.7477741241455
+La tasa de acierto para el conjunto de test ha sido:  61.4583333333
