@@ -23,7 +23,7 @@ language=python,
 basicstyle=\small}
 
 \title{Metaheur\'isticas:\\
- Pr\'actica 2.b: B\'usquedas Multiarranque para el Problema de Selección de Características}
+ Pr\'actica 3.b: Algoritmos Genéticos para el Problema de Selección de Características.}
 \author{Anabel G\'omez R\'ios.\\
  DNI: 75929914Z.\\
  E-mail: anabelgrios@correo.ugr.es}
@@ -45,7 +45,6 @@ Quinto curso del Doble Grado en Ingeniería Informática y Matemáticas.\\
 
 Algoritmos considerados:
 \begin{enumerate}
-\item Greedy Sequential Forward Selection.
 \item Algoritmo Genético Generacional.
 \item Algoritmo Genético Estacionario.
 \end{enumerate}
@@ -65,16 +64,16 @@ Vamos a utilizar además validación cruzada: es decir, para cada partición en 
 
 Nos queda describir cómo aprende el clasificador con los datos de entrenamiento. Ya que podemos llegar a tener muchas características de las cuales algunas podrían ser poco o nada significantes, lo que hacemos es elegir un subconjunto de características que describan bien los datos de entrenamiento, de forma que en los datos de test sólo tenemos en cuenta este subconjunto de características a la hora de deducir cuál es la clase de cada nuevo dato. Para esta "deducción" vamos a utilizar la técnica de los 3 vecinos más cercanos (3-NN): buscamos para cada dato los tres vecinos más cercanos en el conjunto de entrenamiento (si el mismo dato al que le vamos a calcular la clase pertenece al conjunto de entrenamiento tenemos que sacarlo previamente del conjunto de entrenamiento. Esto es lo que se llama \textit{leave one out}) teniendo en cuenta las características seleccionadas hasta el momento, consultamos las clases de estos tres vecinos, nos quedamos con la clase que más veces aparezca (o, en caso de empate, con la clase del vecino más cercano) y ésta será la clase del dato. Para obtener la tasa de acierto lo que hacemos es repetir esto para todos los datos, comparar estas clases con las reales y contar el número de veces que acierta.\\
 
-El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características óptimo, aquel que da mayor tasa de acierto) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
+El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características que da mayor tasa de acierto) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
 
 \newpage
 
 \section{Descripción de la aplicación de los algoritmos empleados al problema}
 El primer paso común a todos los algoritmos es normalizar los datos de los que disponemos por columnas (es decir, por características) de forma que todas se queden entre 0 y 1 y no haya así preferencias de unas sobre otras.\\
 
-A continuación se genera una solución inicial, que en el caso de los algoritmos SFS y GRASP serán todas las características a \textit{False} y se irán añadiendo en base a distintos criterios y en el caso de los algoritmos BMB e ILS serán aleatorias. Después, se irán generando vecinos de esta solución (veremos que algunos mutan, otros optimizan con búsqueda local, etc.) y nos quedaremos con la mejor solución obtenida en todos los casos.\\
+A continuación se genera una población inicial, consistente en 30 cromosomas generados de forma aleatoria. Después, en cada iteración de los algoritmos, se irá seleccionando una parte de la población se cruzarán parte o todos de esta selección según una cierta probabilidad que ya comentaremos en cada caso. Una vez tenemos la nueva población se realizarán mutaciones según otra probabilidad y una vez termine todo el algoritmo nos quedaremos con la mejor solución obtenida en todos los casos, que será aquel cromosoma con la mayor tasa.\\
 
-Todos los algoritmos tienen una condición de parada común (excepto SFS), que es repetir la generación de solución inicial y posterior optimización (el bucle interno) 25 veces.
+Los dos algoritmos tienen una condición de parada común, que es llamar a la función de evaluación 15000 veces.
 
 \subsection{Esquema de representación de soluciones}
 La representación elegida para las soluciones ha sido la binaria: un vector de $N$ posiciones, donde $N$ es el número de características, en el que aparece \textit{True} o \textit{False} en la posición $i$ según si la característica $i$-ésima ha sido seleccionada o no, respectivamente. Esta representación es la más sencilla y cómoda cuando no hay restricciones sobre el número de características a elegir, es decir, el número de características que se han de elegir lo aprende cada algoritmo, como es el caso de los algoritmos que vamos a utilizar.
@@ -93,18 +92,74 @@ Obtener el subconjunto de entrenamiento que se va a tener en cuenta seg|ú|n
 las caracter|í|sticas que se est|é|n considerando.
 Para cada dato:
    Se saca del conjunto de entrenamiento (leave one out)
-   Se obtiene el clasificador 3NN
-   Se calcula la tasa para este dato
+   Se calcula la tasa para este dato con el clasificador 3NN
    Se acumula la tasa al resto de tasas
 Se divide la acumulaci|ó|n de tasas entre el cardinal del conjunto y se devuelve
 \end{lstlisting}
-La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas, knn)} donde caracteristicas es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True).\\
+La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas, knn)} donde \texttt{caracteristicas} es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True), \texttt{conjunto} es el conjunto de entrenamiento y \texttt{knn} es el clasificador 3NN ya previamente entrenado con el conjunto \texttt{conjunto}.\\
 
 En mi caso para el clasificador 3-NN he utilizado el que ha implementado mi compañero Alejandro García Montoro (de mi mismo grupo de prácticas) con python y CUDA, puesto que es mucho más eficiente.
 
-\subsection{Operadores comunes: Generación de vecinos}
-Se considerarán como vecinas todas aquellas soluciones que difieran en la pertenencia o no de una única característica (si se diferencian en más de una entonces no es vecina de la considerada). Por ejemplo, las soluciones (True, True, False) y (True, False, False) son vecinas porque se diferencian en una sola característica, la segunda.\\
-\texttt{Flip} será el operador de vecino: recibe un vector que será la máscara y una posición y cambia esa posición en la máscara. El que he hecho yo además lo hace por referencia para evitar las copias e intentar mejorar en eficiencia.\\
+\subsection{Proceso de generación de soluciones aleatorias}
+En mi caso para la generación aleatoria de soluciones (para generar la población inicial) he utilizado la función \texttt{choice()} del módulo \texttt{random} de \texttt{numpy} para python, a la que se le puede pasar el vector de donde obtener las muestras (en mi caso un array de \textit{True} y \textit{False}) y el número de muestras a obtener (suponemos \textit{n} ahora mismo, será en cada caso el número de características). El muestreo se hace con reemplazamiento:
+\begin{lstlisting}
+generarSolAleatoria(n) |\textbf{Empezar}|:
+	sol_aleatoria = random.choice(array([True, False]), n)
+	|\textbf{Devolver}| sol_aleatoria
+Fin
+\end{lstlisting}
+
+Como aquí la generación de soluciones aleatorias se hace para generar la población inicial, el pseudocódigo que genera la población inicial es el siguiente:
+\begin{lstlisting}
+generarPoblacionInicial(numPob, numCar, conjunto, clases, knn) |\textbf{Empezar}|:
+   for i desde 0 hasta numCar-1:
+      poblacion[i] = generarSolAleatoria(numCar)
+   Fin
+   poblacionEval = evaluarPoblacionInicial(conjunto, clases, poblacion, knn)
+   |\textbf{Devolver}| poblacionEval
+Fin
+\end{lstlisting}
+
+Donde \texttt{evaluarPoblacionInicial(...)} evalúa la población que se le pasa por parámetros y devuelve un nuevo vector donde cada cromosoma aparece junto con su tasa.
+
+\subsection{Mecanismo de selección considerado}
+Para el mecanismo de selección he usado el torneo binario, que consiste en elegir aleatoriamente a dos cromosomas de la población y quedarnos con el que mayor tasa de acierto tenga En mi caso lo que devuelvo es la posición en la que el mejor de los dos cromosomas se encuentra en el vector \texttt{poblacion}. Veamos el pseudocódigo, en el que llamo \texttt{elegirAleatorio(poblacion)} a la elección aleatoria de un cromosoma de la población \texttt{poblacion} y \texttt{tasa(cromosoma)} a la función que devuelve la tasa del cromosoma \texttt{cromosoma}:
+\begin{lstlisting}
+torneo(poblacion) |\textbf{Empezar}|:
+   crom1 = elegirAleatorio(poblacion)
+   crom2 = elegirAleatorio(poblacion)
+   
+   if tasa(crom1) > tasa(crom2):
+      |\textbf{Devolver}| crom1
+   else:
+      |\textbf{Devolver}| crom2
+Fin
+\end{lstlisting}
+
+\subsection{Operadores comunes: Cruce}
+El operador de cruce que he utilizado ha sido el HUX, que consiste en comparar los dos padres y si ambos tienen en el gen $i$ a \textit{True} o \textit{False} ambos hijos tendrán ese gen a \textit{True} o \textit{False}, respectivamente, y si uno de los padres tienen el gen $i$ y el otro no, entonces un hijo lo tendrá y el otro no, de forma aleatoria. Veamos en pseudocódigo, donde \texttt{U} es un número aleatorio uniforme:
+\begin{lstlisting}
+cruce(padre1, padre2) |\textbf{Empezar}|:
+   n = numero caracter|í|sticas de padre1
+   for i de 0 a n-1:
+      if padre1[i] = padre2[i]:
+         hijo1[i] = padre1[i]
+         hijo2[i] = padre1[i]
+      else:
+         if U < 0.5:
+            hijo1[i] = padre1[i]
+            hijo2[i] = padre2[i]
+         else:
+            hijo1[i] = padre2[i]
+            hijo2[i] = padre1[i]
+   Fin
+   |\textbf{Devolver}| hijo1, hijo2
+Fin
+\end{lstlisting}
+
+\subsection{Operadores comunes: Mutación}
+El operador de mutación (que se usará una vez ya se haya decido que un gen debe mutar) será el mismo que el de vecino considerado en prácticas anteriores: se considerarán como vecinas todas aquellas soluciones que difieran en la pertenencia o no de una única característica (si se diferencian en más de una entonces no es vecina de la considerada). Por ejemplo, las soluciones (True, True, False) y (True, False, False) son vecinas porque se diferencian en una sola característica, la segunda.\\
+\texttt{Flip} será el operador de vecino (y mutación): recibe un vector que será la máscara y una posición y cambia esa posición en la máscara. El que he hecho yo además lo hace por referencia para evitar las copias e intentar mejorar en eficiencia.\\
 
 \begin{lstlisting}
 Flip(mascara, pos) |\textbf{Empezar}|:
@@ -114,173 +169,79 @@ Flip(mascara, pos) |\textbf{Empezar}|:
 Fin
 \end{lstlisting}
 
-\subsection{Proceso de generación de soluciones aleatorias}
-En mi caso para la generación aleatoria de soluciones en los algoritmos BMB e ILS he utilizado la función \texttt{choice()} del módulo \texttt{random} de \texttt{numpy} para python, a la que se le puede pasar el vector de donde obtener las muestras (en mi caso un array de \textit{True} y \textit{False}) y el número de muestras a obtener (suponemos \textit{n} ahora mismo, será en cada caso el número de características). El muestreo se hace con reemplazamiento:
-\begin{lstlisting}
-generarSolAleatoria(n) |\textbf{Empezar}|:
-	sol_aleatoria = np.random.choice(np.array([True, False]), n)
-	|\textbf{Devolver}| sol_aleatoria
-Fin
-\end{lstlisting}
-
-\subsection{Búsqueda Local}
-El algoritmo de búsqueda local implementado ha sido el del primer mejor, es decir, exploramos los vecinos de la solución que tenemos en cada momento y en cuanto obtenemos una mejor nos quedamos con ella y empezamos a generar sus vecinos. Los vecinos se empiezan a generar por una característica aleatoria y a partir de esa característica se van cambiando las demás de forma cíclica en orden: desde la que hemos empezado hasta el final y de nuevo por el principio hasta llegar a la anterior de la primera que habíamos cambiado. Si no nos quedamos con la solución tenemos que dejar la característica que habíamos cambiado como estaba y si nos la quedamos porque tiene una mejor tasa dejamos de generar vecinos de la solución que teníamos, la cambiamos por este mejor vecino y pasamos a generar vecinos de la nueva solución. El algoritmo para cuando da una pasada entera a los vecinos y no ha encontrado una mejor solución que la que tenía.\\
-
-Veamos el pseudocódigo.\\
-\texttt{generarSecuencia(tamaño)} será la función que devuelve el orden en el que se recorrerá el vecindario: empieza desde un número aleatorio (menor que el número de características) y de ahí en orden hasta el total de características y empieza de nuevo hasta el número que se ha generado al principio. Esta función se llamará cada vez que actualicemos la solución y haya que explorar un vecindario nuevo.\\
-Al algoritmo le pasamos como parámetros los datos de entrenamiento, las clases de los datos y el objeto knn que habremos creado previamente entrenándolo con esos datos y clases.
-\begin{lstlisting}
-busquedaLocal(datos, clases, knn) |\textbf{Empezar}|:
-   caract = soluci|ó|n aleatoria inicial
-   tasa actual = calcularTasa(datos, caract, knn)
-   
-   while haya mejora en el vecindario y haya menos de 15000 evaluaciones
-    hacer:
-      
-      posiciones = generarSecuencia(tam(caract))
-      for j en posiciones y mientras vuelta_completa = False y haya menos
-       de 15000 evaluaciones hacer:
-         Flip(caract, j)  # Generamos vecino
-         calcularTasa(datos, caract, knn)
-         if la tasa del vecino es mejor que la actual:
-            actualizamos la tasa actual
-            vuelta_completa = False # hemos encontrado mejora antes de
-             # generar todos los vecinos, salimos del bucle y empezamos a 
-             # generar vecinos de la nueva soluci|ó|n
-         
-         else, volvemos a la antigua soluci|ó|n:
-            Flip(caract, j)
-            
-         if not vuelta_completa:
-            vuelta_completa = True
-      Fin for
-   
-   Fin while
-   
-   |\textbf{Devolver}| caract y tasa actual
-Fin
-   
-\end{lstlisting}
-
 \newpage
 
 \section{Descripción de los algoritmos}
 
-\subsection{Búsqueda Multiarranque Básica (BMB)}
-
-Este algoritmo consiste en generar 25 soluciones aleatorias y optimizarlas con el algoritmo de Búsqueda Local que acabamos de comentar.\\
-El pseudocógido es el siguiente:
+\subsection{Algoritmo Genético Generacional (AGG)}
+En el caso del algoritmo generacional, el esquema de evolución consiste en seleccionar por torneo 30 cromosomas de la población actual (del mismo tamaño que la población) que serán los candidatos a cruzarse para formar los hijos. El pseudocódigo de la función que hace esto es la siguiente:
 \begin{lstlisting}
-busquedaMultiBasica(clases, conjunto, knn) |\textbf{Empezar}|:
-   for i entre 0 y 24:
-      sol_aleatoria = generarSolAleatoria(num_caracteristicas)
-      sol_actual, tasa_actual = busquedaLocal(clases, conjunto, knn)
-		
-      if tasa_actual > mejor_tasa:
-         # Actualizar la mejor tasa y la mejor soluci|ó|n
-         mejor_sol = sol_actual
-         mejor_tasa = tasa_actual
-      Fin
+seleccionGeneracional(poblacion) |\textbf{Empezar}|:
+   for i desde 0 hasta 29:
+      posicion = torneo(poblacion)
+      seleccion[i] = poblacion[posicion]
    Fin
-   |\textbf{Devolver}| mejor_sol, mejor_tasa
+   |\textbf{Devolver}| seleccion
 Fin
 \end{lstlisting}
 
-\subsection{GRASP}
+La probabilidad de que dos parejas de estos seleccionados crucen es 0.7, por lo que el número de parejas a cruzar es 0.7*15. Elegimos por tanto el entero más cercano a 0.7*15, k, y cruzamos las k primeras parejas, que podemos elegir así por ser la selección anterior aleatoria.\\
 
-Este algoritmo es una modificación del greedy básico con el que vamos a hacer las comparaciones. Ahora, en cada paso, en lugar de elegir la mejor característica, se eligen aquellas que estén por encima de un umbral de calidad y dentro de éstas, se elige una aleatoriamente, hasta que no se obtenga mejora. Una vez tenemos construida la solución inicial greedy aleatorizada, la optimizamos con el algoritmo de Búsqueda Local. Este procedimiento lo vamos a hacer 25 veces y nos vamos a quedar con la mejor solución optimizada con Búsqueda Local de estas 25.\\
+En cuanto al esquema de reemplazamiento, consiste en sustituir a la población actual completamente por la nueva con una excepción, que si no se conserva la mejor solución anterior (o no hay una mejor) ésta pasa a sustituir la peor de la población siguiente.\\
+Una vez se ha hecho el reemplazamiento, se pasa a mutar la nueva población. En este algoritmo en cada iteración se mutarán 0.001*30*numero\_caract. Lo que he hecho ha sido coger el entero por encima más cercano a este número para mutar al menos un gen cuando hay pocas características, y elegir aleatoriamente qué cromosoma y qué gen mutará.\\
 
-Vamos primero a poner el pseudocódigo de la función que nos va a elegir la característica siguiente en la solución greedy aleatorizada inicial en base a un umbral $\alpha$:
+Con todo esto, el pseudocódigo es el siguiente:
 \begin{lstlisting}
-siguienteCaracterista(clases, mascara, conjunto, alpha, knn) |\textbf{Empezar}|:
-   pos = posiciones que no est|é|n ya seleccionadas en la m|á|scara
-   tasas = vector vac|í|o donde guardamos las tasas de los vecinos de "mascara"
-   for i en pos:
-      mascara[pos[i]] = True
-      Calculamos con knn la tasa de la m|á|scara con la nueva caracter|í|stica a|ñ|adida
-      tasa[i] = nueva tasa #Guardamos la tasa
-      mascara[pos[i]] = False #Volvemos a la m|\textit{á}|scara original.
-   Fin
+AGG(clases, conjunto, knn) |\textbf{Empezar}|:
+   poblacion = generarPoblacionInicial(30, num_caract, conjunto, clases, knn)
+    # num_caract es el n|ú|mero de caracter|í|sticas
+   mutaciones = ceil(0.001*30*num_caract)
+    # ceil devuelve el entero m|á|s pr|ó|ximo por arriba
+   num_evaluaciones = 30
+    ya que la poblaci|ó| inicial ya est|á| evaluada
    
-   Calculamos el umbral como maximo-alpha*(maximo-minimo)
-    donde maximo y minimo son el m|á|ximo y el m|í|nimo del vector de tasas
-   
-   Seleccionamos los vecinos cuya tasa est|é| por encima de ese umbral
-   
-   Elegimos un vecino aleatorio de los seleccionados
-   
-   |\textbf{Devolver}| la tasa del vecino y la posici|ó|n de la m|á|scara original
-    que hay que modificar para llegar a |é|l.
-Fin
-\end{lstlisting}
-
-Vamos ahora con el pseudocódigo del algoritmo GRASP, en el que vamos a hacer uso de la función anterior:
-\begin{lstlisting}
-GRASP(clases, conjunto, knn) |\textbf{Empezar}|:
-   for i entre 0 y 24:
-      caract = vector de "False"
-      while haya mejora:
-         nueva_tasa, mejor_pos = siguienteCaracteristica(clases,
-          caracteristicas, conjunto, 0.3, knn)
+   while num_evaluaciones < 15000:
+      Ordenamos la poblaci|ó|n seg|ú|n su tasa de menor a mayor
+      seleccion = seleccionGeneracional(poblacion)
+      tope = redondeo de 0.7*15
+      i = 0
+      while i < 2*tope:
+         hijo1, hijo2 = cruce(seleccion[i], seleccion[i+1])
+         obtenemos el subconjunto con las caracter|í|sticas seleccionadas en hijo1
+         tasa = evaluamos hijo1 con el subconjunto
+         obtenemos el subconjunto con las caracter|í|sticas seleccionadas en hijo2
+         tasa = evaluamos hijo2 con el subconjunto
+         reemplazamos en seleccion[i] y seleccion[i+1] con hijo1 e hijo2
+          junto con sus tasas
+         num_evaluaciones = num_evaluaciones + 2
+         i = i+2
+      Fin while interior
       
-         if nueva_tasa > tasa_actual:
-            Actualizamos tasa actual
-            caract[mejor_pos] = True
-         else:
-            mejora = False y paramos de a|ñ|adir caracter|í|sticas
-         Fin
-      Fin
+      for k desde 0 hasta mutaciones-1:
+         crom = aleatorio entre 0 y 29
+         gen = aleatorio entre 0 y num_caract
+         Flip(seleccion[crom], gen)
+         Evaluamos el nuevo individuo y guardamos su tasa
+         num_evaluaciones = num_evaluaciones+1
+      Fin for
+      
+      # Tenemos la poblacion original ordenada de menor a mayor
+      if tasa(poblacion[29]) > maximo de las tasas en la seleccion:
+         modificamos el m|í|nimo en la seleccion con poblacion[29]
+      
+      # Reemplazamos
+      poblacion = seleccion
+   Fin while
    
-      # Optimizamos con B|\textit{ú}|squeda Local
-      sol_opt, tasa_opt = busquedaLocal(clases, conjunto, knn)
-      if tasa_opt > mejor_tasa:
-         Actualizar mejor_tasa y mejor_solucion
-      Fin
-   Fin
-   
-   |\textbf{Devolver}| mejor_solucion, mejor_tasa
+   pos = posici|ó|n del cromosoma con m|á|xima tasa en la poblaci|ó|n
+   |\textbf{Devolver}| poblacion[pos] junto con su tasa
 Fin
 
 \end{lstlisting}
 
-\subsection{Búsqueda Local Reiterada (ILS)}
 
-Este algoritmo consisten en generar una solución aleatoria, optimizarla con el algoritmo de Búsqueda Local, y repetir lo siguiente 24 veces: mutar la mejor solución encontrada hasta el momento y optimizarla de nuevo con Búsqueda Local. Se devolverá la mejor solución encontrada en todo este proceso.\\
-
-Veamos primero el pseudocódigo para la función con la que vamos a mutar una solución, consistente en elegir $t$ características aleatorias de la solución y cambiarlas con el operador \texttt{Flip()}. En mi caso lo que he hecho ha sido hacer una permutación del 0 al $n$, donde $n$ es el número de características en cada caso, y cambiar las $t$ primeras posiciones del vector que he permutado en la solución.
-
-\begin{lstlisting}
-mutar(solucion, n, t) |\textbf{Empezar}|:
-   mutada = copia de solucion
-   pos = permutaci|ó|n del vector [0,...,n]
-   for i entre 0 y t:
-      Flip(mutada, pos[i])
-   Fin
-   |\textbf{Devolver}| mutada
-Fin
-
-\end{lstlisting}
-
-Veamos ahora el pseudocódigo para el algoritmo ILS. Para que se mute siempre al menos una característica cuando el número de características es bajo, utilizo la función \texttt{ceil(x)} para obtener el entero por encima del valor x.
-\begin{lstlisting}
-ILS(clases, conjunto, knn) |\textbf{Empezar}|:
-   n = n|ú|mero de caracter|í|sticas
-   t = ceil(0.1*n)
-   sol_aleatoria = generarSolAleatoria(n)
-   # Inicializamos la mejor soluci|ón| a la optimizaci|ó|n de la aleatoria 
-   mejor_sol, mejor_tasa = busquedaLocal(clases, conjunto, sol_aleatoria, knn)
-   for i entre 0 y 23:
-      mutada = mutar(mejor_sol, n, t)
-      # Optimizamos la mutada
-      sol_actual, tasa_actual = busquedaLocal(clases, conjunto, mutada, knn)
-      if tasa_actual > mejor_tasa:
-         Actualizamos mejor_tasa y mejor_sol
-      Fin
-   Fin
-   |\textbf{Devolver}| mejor_sol, mejor_tasa
-Fin
-
-\end{lstlisting}
+\subsection{Algoritmo Genético Estacionario (AGE)}
+En este caso el esquema de evolución consiste en elegir a dos padres por torneo binario, que serán los únicos que se cruzarán (con probabilidad 1) y el esquema de reemplazamiento consiste en eliminar los dos peores de la población y poner los dos hijos obtenidos del cruce en caso de estos hijos sean mejores. Antes de hacer el reemplazamiento, tenemos que mutar un gen de uno de los dos hijos en caso de que toque en base a una probabilidad, que es 0.001*2*num\_características. Lo he hecho obteniendo un número aleatorio en cada iteración y si dicho número es menor que la probabilidad de mutación se muta un gen y si no, no. Al final, en media, se mutarán 2*num\_características de cada 1000 genes (idea de Jacinto Carrasco Castillo).
 
 \newpage
 
