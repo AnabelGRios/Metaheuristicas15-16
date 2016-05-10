@@ -243,6 +243,60 @@ Fin
 \subsection{Algoritmo Genético Estacionario (AGE)}
 En este caso el esquema de evolución consiste en elegir a dos padres por torneo binario, que serán los únicos que se cruzarán (con probabilidad 1) y el esquema de reemplazamiento consiste en eliminar los dos peores de la población y poner los dos hijos obtenidos del cruce en caso de estos hijos sean mejores. Antes de hacer el reemplazamiento, tenemos que mutar un gen de uno de los dos hijos en caso de que toque en base a una probabilidad, que es 0.001*2*num\_características. Lo he hecho obteniendo un número aleatorio en cada iteración y si dicho número es menor que la probabilidad de mutación se muta un gen y si no, no. Al final, en media, se mutarán 2*num\_características de cada 1000 genes (idea de Jacinto Carrasco Castillo).
 
+Con todo esto, el pseudocódigo es el siguiente, donde \texttt{U} será un número aleatorio uniforme:
+\begin{lstlisting}
+AGE(clases, conjunto, knn) |\textbf{Empezar}|:
+   poblacion = generarPoblacionInicial(30, num_caract, conjunto, clases, knn)
+    # num_caract es el n|ú|mero de caracter|í|sticas
+   num_evaluaciones = 30
+    # ya que la poblaci|ó|n inicial ya est|á| evaluada
+   prob_mutacion = 0.001*2*num_caract
+   
+   while num_evaluaciones < 15000:
+      Ordenamos la poblaci|ó|n seg|ú|n la tasa de menor a mayor
+      padre1 = poblacion[torneo(poblacion)]
+      padre2 = poblacion[torneo(poblacion)]
+      hijo1, hijo2 = cruce(padre1, padre2)
+      if U < prob_mutacion:
+         crom = 0 o 1 aleatoriamente
+         gen = aleatorio entre 0 y num_caract
+         if crom == 0:
+            Flip(hijo1, gen)
+         else:
+            Flip(hijo2, gen)
+      
+      Obtenemos los subconjuntos que dan las caracter|í|sticas 
+       seleccionadas por ambos hijos
+      Evaluamos con knn y los guardamos junto con su tasa cada uno
+      # Llamamos tasa1 y tasa2 a las tasas de hijo1 e hijo2 respec.
+      if tasa1 > tasa2:
+         cambiarSiMejor(tasa1, tasa2, hijo1, hijo2, poblacion)
+      else:
+         cambiarSiMejor(tasa2, tasa1, hijo2, hijo1, poblacion)
+      
+   Fin while
+   pos = posici|ó|n del cromosoma con m|á|xima tasa en la poblaci|ó|n
+   |\textbf{Devolver}| poblacion[pos] junto con su tasa
+Fin
+\end{lstlisting}
+
+donde \texttt{cambiarSiMejor(tasa\_mejor, tasa, hijo\_mejor, hijo, poblacion)} es una función que aprovecha que \texttt{población} está ordenada y tiene los dos peores hijos en las dos primeras posiciones, y comprueba si la mejor tasa de las dos pasadas por argumentos es mejor que el segundo individuo de la población, de ser así saca el segundo e introduce el mejor hijo pasado por parámetros y pasa a comprobar si el peor pasado por parámetros es mejor que el primero de la población. Si la mejor tasa pasada por parámetros no es mejor que la del segundo individuo se comprueba si es mejor que la del primero y se introduce el mejor hijo en esa posición, pero ya no tiene sentido comprobar el otro hijo pasado por parámetros. El pseudocódigo es el siguiente:
+\begin{lstlisting}
+cambiarSiMejor(tasa_mejor, tasa, hijo_mejor, hijo, poblacion) |\textbf{Empezar}|:
+   if tasa_mejor > tasa(poblacion[1]):
+      Se cambia tasa(poblacion[1]) por tasa1
+      Se cambia poblacion[1] por hijo_mejor
+      if tasa > tasa(poblacion[0]):
+         Se cambia tasa(poblacion[0]) por tasa
+         Se cambia poblacion[0] por hijo
+   else:
+      if tasa_mejor > tasa(poblacion[0]):
+         Se cambia tasa(poblacion[0]) por tasa_mejor
+         Se cambia poblacion[0] por hijo_mejor
+Fin
+\end{lstlisting}
+
+
 \newpage
 
 \section{Breve descripción del algoritmo de comparación}
@@ -289,14 +343,14 @@ La práctica la he desarrollado en python junto con dos módulos de python: nump
 
 Para hacer las particiones igualadas lo que he hecho ha sido quedarme, para cada clase, con los índices de los datos pertenecientes a esa clase, hacerles una permutación aleatoria, partir por la mitad y quedarme con la primera mitad para entrenamiento y la segunda mitad para test.\\
 
-Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica2.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para BMB, 3 para GRASP, 4 para ILS y 5 para KNN.
+Para ejecutar la práctica es necesario que los ficheros de datos estén en el mismo directorio en el que se encuentran los ficheros .py y ejecutar desde línea de comandos \texttt{practica3.py semilla base\_de\_datos algoritmo} donde \texttt{base\_de\_datos} será 1 si se quiere ejecutar con wdbc, 2 con movement libras y 3 con arritmia y \texttt{algoritmo} será 1 si se quiere ejecutar SFS, 2 para AGG, 3 para AGE y 4 para KNN.
 
 \newpage
 
 \section{Experimentos y análisis de resultados}
 \subsection{Descripción de los casos del problema empleados}
 
-Los parámetros de los algoritmos, como el parámetro $\alpha$ para el umbral en GRASP, el parámetro $t$ en ILS para decidir cuántas características mutar o el tope de evaluaciones a realizar, los he dejado como se recomendaba en el guión de prácticas.\\
+Los parámetros de los algoritmos, como el tamaño de la población o las probabilidades de cruce y mutación, los he dejado como se recomendaba en el guión de prácticas.\\
 Las particiones que se hacen dependen de la semilla que se le pase al generador de números aleatorios de numpy, así como las soluciones iniciales que se generan y todo lo relativo a probabilidades. La semilla, como ya he comentado, se le pasa al programa por línea de comandos y es el único parámetro que he cambiado de una base de datos a otra. Para todos los algoritmos, el primer par de particiones (que en realidad es la misma partición pero primero se utiliza una mitad para entrenamiento y la otra para test y después al revés) lo he generado con la semilla 567891234, el segundo par está generado con la semilla 123456789, el tercer par con 11235813, el cuarto par con 27182818 y el quinto par con 1414213, de forma que entre los distintos algoritmos las particiones utilizadas han sido las mismas para poder comparar resultados entre unos y otros.
 
 \subsection{Resultados}
