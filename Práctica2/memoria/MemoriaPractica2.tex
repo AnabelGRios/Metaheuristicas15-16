@@ -66,7 +66,7 @@ Vamos a utilizar además validación cruzada: es decir, para cada partición en 
 
 Nos queda describir cómo aprende el clasificador con los datos de entrenamiento. Ya que podemos llegar a tener muchas características de las cuales algunas podrían ser poco o nada significantes, lo que hacemos es elegir un subconjunto de características que describan bien los datos de entrenamiento, de forma que en los datos de test sólo tenemos en cuenta este subconjunto de características a la hora de deducir cuál es la clase de cada nuevo dato. Para esta "deducción" vamos a utilizar la técnica de los 3 vecinos más cercanos (3-NN): buscamos para cada dato los tres vecinos más cercanos en el conjunto de entrenamiento (si el mismo dato al que le vamos a calcular la clase pertenece al conjunto de entrenamiento tenemos que sacarlo previamente del conjunto de entrenamiento. Esto es lo que se llama \textit{leave one out}) teniendo en cuenta las características seleccionadas hasta el momento, consultamos las clases de estos tres vecinos, nos quedamos con la clase que más veces aparezca (o, en caso de empate, con la clase del vecino más cercano) y ésta será la clase del dato. Para obtener la tasa de acierto lo que hacemos es repetir esto para todos los datos, comparar estas clases con las reales y contar el número de veces que acierta.\\
 
-El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características óptimo, aquel que da mayor tasa de acierto) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
+El cómo exploramos el espacio de búsqueda hasta encontrar la mejor solución (el subconjunto de características que da mayor tasa de acierto) es en lo que se diferencian los distintos algoritmos que vamos a ver en esta práctica.
 
 \newpage
 
@@ -94,12 +94,11 @@ Obtener el subconjunto de entrenamiento que se va a tener en cuenta seg|ú|n
 las caracter|í|sticas que se est|é|n considerando.
 Para cada dato:
    Se saca del conjunto de entrenamiento (leave one out)
-   Se obtiene el clasificador 3NN
-   Se calcula la tasa para este dato
+   Se calcula la tasa para este dato con el clasificador 3NN
    Se acumula la tasa al resto de tasas
 Se divide la acumulaci|ó|n de tasas entre el cardinal del conjunto y se devuelve
 \end{lstlisting}
-La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas, knn)} donde caracteristicas es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True).\\
+La función que hace esto la llamaremos \texttt{CalcularTasa(conjunto, caracteristicas, knn)} donde \texttt{caracteristicas} es la máscara que nos indica cuáles estamos considerando (aquellas que estén a True), \texttt{conjunto} es el conjunto de entrenamiento y \texttt{knn} es el clasificador 3NN ya previamente entrenado con el conjunto \texttt{conjunto}.\\
 
 En mi caso para el clasificador 3-NN he utilizado el que ha implementado mi compañero Alejandro García Montoro (de mi mismo grupo de prácticas) con python y CUDA, puesto que es mucho más eficiente.
 
@@ -119,7 +118,7 @@ Fin
 En mi caso para la generación aleatoria de soluciones en los algoritmos BMB e ILS he utilizado la función \texttt{choice()} del módulo \texttt{random} de \texttt{numpy} para python, a la que se le puede pasar el vector de donde obtener las muestras (en mi caso un array de \textit{True} y \textit{False}) y el número de muestras a obtener (suponemos \textit{n} ahora mismo, será en cada caso el número de características). El muestreo se hace con reemplazamiento:
 \begin{lstlisting}
 generarSolAleatoria(n) |\textbf{Empezar}|:
-	sol_aleatoria = np.random.choice(np.array([True, False]), n)
+	sol_aleatoria = random.choice(array([True, False]), n)
 	|\textbf{Devolver}| sol_aleatoria
 Fin
 \end{lstlisting}
