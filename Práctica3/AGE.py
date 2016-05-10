@@ -37,7 +37,7 @@ def AGE(clases, conjunto, knn):
 
 		# Obtenemos los dos hijos y mutamos si procede
 		hijo1, hijo2 = cruce(padre1, padre2)
-		if np.random.random_sample() > prob_mutacion:
+		if np.random.random_sample() < prob_mutacion:
 			crom = np.random.choice(2)
 			gen = np.random.choice(len(conjunto[0]))
 			if crom == 0:
