@@ -76,7 +76,9 @@ A continuación se genera una población inicial, consistente en 30 cromosomas g
 Los dos algoritmos tienen una condición de parada común, que es llamar a la función de evaluación 15000 veces.
 
 \subsection{Esquema de representación de soluciones}
-La representación elegida para las soluciones ha sido la binaria: un vector de $N$ posiciones, donde $N$ es el número de características, en el que aparece \textit{True} o \textit{False} en la posición $i$ según si la característica $i$-ésima ha sido seleccionada o no, respectivamente. Esta representación es la más sencilla y cómoda cuando no hay restricciones sobre el número de características a elegir, es decir, el número de características que se han de elegir lo aprende cada algoritmo, como es el caso de los algoritmos que vamos a utilizar.
+La representación elegida para las soluciones ha sido la binaria: un vector de $N$ posiciones, donde $N$ es el número de características, en el que aparece \textit{True} o \textit{False} en la posición $i$ según si la característica $i$-ésima ha sido seleccionada o no, respectivamente. Esta representación es la más sencilla y cómoda cuando no hay restricciones sobre el número de características a elegir, es decir, el número de características que se han de elegir lo aprende cada algoritmo, como es el caso de los algoritmos que vamos a utilizar.\\
+
+En esta práctica además, vamos a ir guardando junto con cada solución en un array estructurado su tasa, para poder ordenar las poblaciones según su tasa.
 
 \subsection{3-NN}
 Como hemos comentado, la técnica para clasificar que vamos a utilizar en todos los algoritmos será el 3NN. Consiste en considerar, para cada dato, la distancia euclídea entre el dato y todos los demás, es decir, entre las características de los datos (excluyéndose él mismo en caso de que estuviéramos preguntando por algún dato dentro del conjunto de entrenamiento) y quedarnos con las clases de los 3 con la distancia más pequeña. La clase del dato en cuestión será de estas tres la que más se repita o, en caso de empate, la clase que corresponda al vecino más cercano.\\
@@ -123,7 +125,7 @@ Fin
 Donde \texttt{evaluarPoblacionInicial(...)} evalúa la población que se le pasa por parámetros y devuelve un nuevo vector donde cada cromosoma aparece junto con su tasa.
 
 \subsection{Mecanismo de selección considerado}
-Para el mecanismo de selección he usado el torneo binario, que consiste en elegir aleatoriamente a dos cromosomas de la población y quedarnos con el que mayor tasa de acierto tenga En mi caso lo que devuelvo es la posición en la que el mejor de los dos cromosomas se encuentra en el vector \texttt{poblacion}. Veamos el pseudocódigo, en el que llamo \texttt{elegirAleatorio(poblacion)} a la elección aleatoria de un cromosoma de la población \texttt{poblacion} y \texttt{tasa(cromosoma)} a la función que devuelve la tasa del cromosoma \texttt{cromosoma}:
+Para el mecanismo de selección he usado el torneo binario, que consiste en elegir aleatoriamente a dos cromosomas de la población y quedarnos con el que mayor tasa de acierto tenga En mi caso lo que devuelvo es la posición en la que el mejor de los dos cromosomas se encuentra en el vector \texttt{poblacion}. Veamos el pseudocódigo, en el que llamo \texttt{elegirAleatorio(poblacion)} a la elección aleatoria de un cromosoma de la población \texttt{poblacion} y \texttt{tasa(cromosoma)} a la función que devuelve la tasa del cromosoma \texttt{cromosoma}, que ya tenemos almacenada en \texttt{poblacion}:
 \begin{lstlisting}
 torneo(poblacion) |\textbf{Empezar}|:
    crom1 = elegirAleatorio(poblacion)
@@ -137,12 +139,12 @@ Fin
 \end{lstlisting}
 
 \subsection{Operadores comunes: Cruce}
-El operador de cruce que he utilizado ha sido el HUX, que consiste en comparar los dos padres y si ambos tienen en el gen $i$ a \textit{True} o \textit{False} ambos hijos tendrán ese gen a \textit{True} o \textit{False}, respectivamente, y si uno de los padres tienen el gen $i$ y el otro no, entonces un hijo lo tendrá y el otro no, de forma aleatoria. Veamos en pseudocódigo, donde \texttt{U} es un número aleatorio uniforme:
+El operador de cruce que he utilizado ha sido el UX, que consiste en comparar los dos padres y si ambos tienen en el gen $i$ a \textit{True} o \textit{False} ambos hijos tendrán ese gen a \textit{True} o \textit{False}, respectivamente, y si uno de los padres tienen el gen $i$ y el otro no, entonces un hijo lo tendrá y el otro no, de forma aleatoria. Veamos en pseudocódigo, donde \texttt{U} es un número aleatorio uniforme:
 \begin{lstlisting}
 cruce(padre1, padre2) |\textbf{Empezar}|:
    n = numero caracter|í|sticas de padre1
    for i de 0 a n-1:
-      if padre1[i] = padre2[i]:
+      if padre1[i] == padre2[i]:
          hijo1[i] = padre1[i]
          hijo2[i] = padre1[i]
       else:
@@ -153,7 +155,7 @@ cruce(padre1, padre2) |\textbf{Empezar}|:
             hijo1[i] = padre2[i]
             hijo2[i] = padre1[i]
    Fin
-   |\textbf{Devolver}| hijo1, hijo2
+   |\textbf{Devolver}| hijo1 e hijo2
 Fin
 \end{lstlisting}
 
@@ -188,7 +190,7 @@ Fin
 La probabilidad de que dos parejas de estos seleccionados crucen es 0.7, por lo que el número de parejas a cruzar es 0.7*15. Elegimos por tanto el entero más cercano a 0.7*15, k, y cruzamos las k primeras parejas, que podemos elegir así por ser la selección anterior aleatoria.\\
 
 En cuanto al esquema de reemplazamiento, consiste en sustituir a la población actual completamente por la nueva con una excepción, que si no se conserva la mejor solución anterior (o no hay una mejor) ésta pasa a sustituir la peor de la población siguiente.\\
-Una vez se ha hecho el reemplazamiento, se pasa a mutar la nueva población. En este algoritmo en cada iteración se mutarán 0.001*30*numero\_caract. Lo que he hecho ha sido coger el entero por encima más cercano a este número para mutar al menos un gen cuando hay pocas características, y elegir aleatoriamente qué cromosoma y qué gen mutará.\\
+Una vez se ha hecho el reemplazamiento, se pasa a mutar la nueva población. En este algoritmo en cada iteración se mutarán 0.001*30*numero\_caract. Lo que he hecho ha sido coger el entero por encima más cercano a este número para mutar al menos un gen cuando hay pocas características, y elegir aleatoriamente qué cromosomas y qué gen de cada uno de ellos mutarán. \texttt{ceil(x)} devuelve el entero por encima más cercano a \texttt{x}.\\
 
 Con todo esto, el pseudocódigo es el siguiente:
 \begin{lstlisting}
@@ -196,9 +198,8 @@ AGG(clases, conjunto, knn) |\textbf{Empezar}|:
    poblacion = generarPoblacionInicial(30, num_caract, conjunto, clases, knn)
     # num_caract es el n|ú|mero de caracter|í|sticas
    mutaciones = ceil(0.001*30*num_caract)
-    # ceil devuelve el entero m|á|s pr|ó|ximo por arriba
    num_evaluaciones = 30
-    ya que la poblaci|ó| inicial ya est|á| evaluada
+    ya que la poblaci|ó|n inicial ya est|á| evaluada
    
    while num_evaluaciones < 15000:
       Ordenamos la poblaci|ó|n seg|ú|n su tasa de menor a mayor
@@ -207,10 +208,8 @@ AGG(clases, conjunto, knn) |\textbf{Empezar}|:
       i = 0
       while i < 2*tope:
          hijo1, hijo2 = cruce(seleccion[i], seleccion[i+1])
-         obtenemos el subconjunto con las caracter|í|sticas seleccionadas en hijo1
-         tasa = evaluamos hijo1 con el subconjunto
-         obtenemos el subconjunto con las caracter|í|sticas seleccionadas en hijo2
-         tasa = evaluamos hijo2 con el subconjunto
+         tasa1 = calcularTasa(conjunto, hijo1, knn)
+         tasa2 = calcularTasa(conjutno, hijo2, knn)
          reemplazamos en seleccion[i] y seleccion[i+1] con hijo1 e hijo2
           junto con sus tasas
          num_evaluaciones = num_evaluaciones + 2
@@ -265,10 +264,10 @@ AGE(clases, conjunto, knn) |\textbf{Empezar}|:
          else:
             Flip(hijo2, gen)
       
-      Obtenemos los subconjuntos que dan las caracter|í|sticas 
-       seleccionadas por ambos hijos
-      Evaluamos con knn y los guardamos junto con su tasa cada uno
-      # Llamamos tasa1 y tasa2 a las tasas de hijo1 e hijo2 respec.
+      tasa1 = CalcularTasa(conjunto, hijo1, knn)
+      tasa2 = CalcularTasa(conjunto, hijo2, knn)
+      # Guardamos los hijos en la poblaci|\textit{ó}|n si son mejores
+      # que los peores de la poblaci|\textit{ó}|n.
       if tasa1 > tasa2:
          cambiarSiMejor(tasa1, tasa2, hijo1, hijo2, poblacion)
       else:
@@ -280,7 +279,7 @@ AGE(clases, conjunto, knn) |\textbf{Empezar}|:
 Fin
 \end{lstlisting}
 
-donde \texttt{cambiarSiMejor(tasa\_mejor, tasa, hijo\_mejor, hijo, poblacion)} es una función que aprovecha que \texttt{población} está ordenada y tiene los dos peores hijos en las dos primeras posiciones, y comprueba si la mejor tasa de las dos pasadas por argumentos es mejor que el segundo individuo de la población, de ser así saca el segundo e introduce el mejor hijo pasado por parámetros y pasa a comprobar si el peor pasado por parámetros es mejor que el primero de la población. Si la mejor tasa pasada por parámetros no es mejor que la del segundo individuo se comprueba si es mejor que la del primero y se introduce el mejor hijo en esa posición, pero ya no tiene sentido comprobar el otro hijo pasado por parámetros. El pseudocódigo es el siguiente:
+donde \texttt{cambiarSiMejor(tasa\_mejor, tasa, hijo\_mejor, hijo, poblacion)} es una función que aprovecha que \texttt{población} está ordenada y tiene los dos peores hijos en las dos primeras posiciones, y comprueba si la mejor tasa de las dos pasadas por argumentos es mejor que el segundo individuo de la población, de ser así saca el segundo e introduce el mejor hijo pasado por parámetros y pasa a comprobar si el peor pasado por parámetros es mejor que el primero de la población. Si la mejor tasa pasada por parámetros no es mejor que la del segundo individuo se comprueba si es mejor que la del primero y se introduce el mejor hijo en esa posición, pero ya no tiene sentido comprobar el otro hijo pasado por parámetros. El pseudocódigo es el siguiente, donde \texttt{tasa(cromosoma)} devuelve la tasa de un cromosoma en la población donde ya está almacenada su tasa:
 \begin{lstlisting}
 cambiarSiMejor(tasa_mejor, tasa, hijo_mejor, hijo, poblacion) |\textbf{Empezar}|:
    if tasa_mejor > tasa(poblacion[1]):
@@ -490,9 +489,9 @@ AGE  & \multicolumn{1}{c|}{98,2776}                                             
 \caption{Tiempo en segundos} \label{fig:tiempos}
 \end{figure}
 
-Vamos a fijarnos primero en las tasas de acierto, tanto de los conjuntos de train como de test. Como podemos ver, en Wdbc había poco margen de mejora (\texttt{SFS} ya obtiene 97,15 en train y 94,48 en test) pero aun así tanto \texttt{AGG} como \texttt{AGE} tienen mejores tasas: cerca de 98,2 en train y cerca de 96 en test los dos. En libras se nota un poco más la mejora, ya que aquí sí se podía mejorar más (\texttt{SFS} tiene 75,8 en train y 69,8 en test) pero sigue siendo poco, ya que en ningún caso hay más de un 5\% de diferencia con \texttt{SFS}. De los dos genéticos, el que tiene más tasa es el generacional, que llega a 79,6 en train y 73,6 en test. Sin embargo en arritmia ninguno de los dos genéticos llega a superar al \texttt{SFS}, quedando el generacional un casi un 2\% por debajo y el estacionario casi un 4\% por debajo en train y casi un 4\% y un 5\% respectivamente por debajo en test. Esto es debido a que en arritmia hay muchas características que no aportan mejora a las soluciones o que incluso empeoran las soluciones, por lo que es lógico el que el \texttt{SFS}, que elige una a una las características que aportan mayor mejora tenga más tasa en bases de datos como esta, ya que en los genéticos no estamos dando prioridad a aquellas soluciones que tienen menor número de características, es decir, no eliminamos de las soluciones características que no aportan nada o que empeoran las soluciones, quizás si se hubiera considerado esto y se hubiera añadido a la implementación, se hubieran obtenido mejores tasas de acierto, sobre todo en arritmia, pero también hubiera aumentado más aún el tiempo que tardar en finalizar el algoritmo, que como vamos a ver ahora, ya es muy alto comparándolo con \texttt{SFS}.\\
+Vamos a fijarnos primero en las tasas de acierto, tanto de los conjuntos de train como de test. Como podemos ver, en Wdbc había poco margen de mejora (\texttt{SFS} ya obtiene 97,15 en train y 94,48 en test) pero aun así tanto \texttt{AGG} como \texttt{AGE} tienen mejores tasas: cerca de 98,2 en train y cerca de 96 en test los dos. En libras se nota un poco más la mejora, ya que aquí sí se podía mejorar más (\texttt{SFS} tiene 75,8 en train y 69,8 en test) pero sigue siendo poco, ya que en ningún caso hay más de un 5\% de diferencia con \texttt{SFS}. De los dos genéticos, el que tiene más tasa es el generacional, que llega a 79,6 en train y 73,6 en test. Sin embargo en arritmia ninguno de los dos genéticos llega a superar al \texttt{SFS}, quedando el generacional un casi un 2\% por debajo y el estacionario casi un 4\% por debajo en train y casi un 4\% y un 5\% respectivamente por debajo en test. Esto es debido a que en arritmia hay muchas características que no aportan mejora a las soluciones o que incluso empeoran las soluciones, por lo que es lógico el que el \texttt{SFS}, que elige una a una las características que aportan mayor mejora tenga más tasa en bases de datos como esta, ya que en los genéticos no estamos dando prioridad a aquellas soluciones que tienen menor número de características, es decir, no eliminamos de las soluciones características que no aportan nada o que empeoran las soluciones, quizás si se hubiera considerado esto y se hubiera añadido a la implementación, se hubieran obtenido mejores tasas de acierto, sobre todo en arritmia, pero también hubiera aumentado más aún el tiempo que tardan en finalizar los algoritmos, que como vamos a ver ahora, ya es muy alto comparándolo con \texttt{SFS}.\\
 
-Como decíamos, en cuanto a los tiempos, los genéticos tardan más que \texttt{SFS} porque tienen más carga computacional entre la selección, los cruces y las mutaciones, además de que no paran hasta haber llamado 15000 veces a la función de evaluación. Cabe destacar que el generacional, además de obtener mejores tasas, como acabamos de comentar, también tarda un poquito menos que el estacionario (esta diferencia es más significativa en arritmia). Sin embargo en arritmia los dos tardan demasiado para no conseguir ninguna mejora con respecto al \texttt{SFS} por lo que en realidad, si miramos el conjunto, no son buenos para un problema como el de selección de características (estamos hablando de cerca de 14 minutos frente a los segundos que tarda \texttt{SFS} para obtener menor tasa de acierto) en bases de datos grandes con muchas características.\\
+Como decíamos, en cuanto a los tiempos, los genéticos tardan más que \texttt{SFS} porque tienen más carga computacional entre la selección, los cruces y las mutaciones, además de que no paran hasta haber llamado 15000 veces a la función de evaluación, algo que no pasa en \texttt{SFS}, que para cuando no obtiene mejora (muy probablemente antes de llamar a la función de evaluación 15000 veces). Cabe destacar que el generacional, además de obtener mejores tasas, como acabamos de comentar, también tarda un poquito menos que el estacionario (esta diferencia es más significativa en arritmia). Sin embargo en arritmia los dos tardan demasiado para no conseguir ninguna mejora con respecto al \texttt{SFS} por lo que en realidad, si miramos en conjunto, aunque es mejor \texttt{AGG} que \texttt{AGE}, no son buenos ninguno de los dos para un problema como el de selección de características (estamos hablando de cerca de 14 minutos frente a los segundos que tarda \texttt{SFS} para obtener menor tasa de acierto) en bases de datos grandes con muchas características.\\
 
 Con respecto al 3NN al principio parece raro que tenga menos tasa de acierto que los demás (en la mayoría de los casos) puesto que está considerando todas las características. Sin embargo como hemos comentado, no todas las características tienen que ser buenas definiendo una clase, además de que puede haber ruidos que hayan afectado más a unas que a otras. Es por esto que es normal que tenga un poco menos de acierto y que no haya mucha diferencia entre las tasas de acierto para entrenamiento y para test y además que la de entrenamiento no sea mejor que la de test, puesto que en este algoritmo en realidad las dos serían de test ya que no estamos utilizando ninguno de los dos conjuntos para aprender qué características usar al estar utilizando todas las características.
 
