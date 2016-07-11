@@ -15,7 +15,7 @@ def seleccionGeneracional(poblacion):
 
 
 # Algoritmo genético generacional
-def AGG1(clases, conjunto, knn):
+def AM1(clases, conjunto, knn):
 	# Generamos la población inicial, ya evaluada, con lo que tenemos que contar
 	# 10 evaluaciones
 	poblacion = generarPoblacionInicial(10, len(conjunto[0]), conjunto, clases, knn)

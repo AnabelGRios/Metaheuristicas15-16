@@ -7,14 +7,14 @@ import random
 
 from knnLooGPU import *
 from SFS import *
-from AGG1 import *
-from AGG2 import *
-from AGG3 import *
+from AM1 import *
+from AM2 import *
+from AM3 import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("semilla", help="semilla que se va a utilizarn en la ejecución", type=int)
 parser.add_argument("base", help="base de datos a utilizar. Escribir 1 para WDBC, 2 para movement libras y 3 para arritmia", type=int)
-parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para AGG1, 3 para AGG2, 4 para AGG3 y 5 para KNN", type=int)
+parser.add_argument("algoritmo", help="algoritmo a utilizar. Escribir 1 para SFS, 2 para AM1, 3 para AM2, 4 para AM3 y 5 para KNN", type=int)
 args = parser.parse_args()
 
 np.random.seed(args.semilla)
@@ -79,19 +79,19 @@ if args.algoritmo == 1:
 	mejores_car, tasa = SFS(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
-	print("AGG1")
+	print("AM1")
 	com = time.time()
-	mejores_car, tasa = AGG1(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = AM1(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 3:
-	print("AGG2")
+	print("AM2")
 	com = time.time()
-	mejores_car, tasa = AGG2(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = AM2(clases_train, datos_train, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 4:
-	print("AGG3")
+	print("AM3")
 	com = time.time()
-	mejores_car, tasa = AGG3(clases_train, datos_train, knnGPU)
+	mejores_car, tasa = AM3(clases_train, datos_train, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")
@@ -126,19 +126,19 @@ if args.algoritmo == 1:
 	mejores_car, tasa = SFS(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 2:
-	print("AGG1")
+	print("AM1")
 	com = time.time()
-	mejores_car, tasa = AGG1(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = AM1(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 3:
-	print("AGG2")
+	print("AM2")
 	com = time.time()
-	mejores_car, tasa = AGG2(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = AM2(clases_test, datos_test, knnGPU)
 	fin = time.time()
 elif args.algoritmo == 4:
-	print("AGG3")
+	print("AM3")
 	com = time.time()
-	mejores_car, tasa = AGG3(clases_test, datos_test, knnGPU)
+	mejores_car, tasa = AM3(clases_test, datos_test, knnGPU)
 	fin = time.time()
 else:
 	print("KNN")
