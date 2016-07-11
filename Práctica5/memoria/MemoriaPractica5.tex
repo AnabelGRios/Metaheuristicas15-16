@@ -271,6 +271,7 @@ AGG(clases, conjunto, knn) |\textbf{Empezar}|:
       poblacion = seleccion
       num_generaciones = num_generaciones + 1
       
+      # Hibridaci|\textit{ó}|n con BL
       if num_generaciones == 10:  
          poblacion, iter_BL = aplicarBusquedaLocal(clases,
           conjunto, poblacion, knn)    
@@ -381,7 +382,7 @@ Las particiones que se hacen dependen de la semilla que se le pase al generador 
 
 \subsection{Resultados}
 
-Para cada algoritmo se está midiendo el tiempo, en segundos, que tarda en encontrar el subconjunto de características óptimo más lo que tarda en evaluar esta solución. Para el caso del 3NN, como lo estamos lanzando con una máscara entera a True, el tiempo es únicamente el que tarda en hacer la evaluación, mientras que la tasa de reducción es cero por tener todas las características seleccionadas.
+Para cada algoritmo se está midiendo el tiempo, en segundos, que tarda en encontrar el subconjunto de características óptimo más lo que tarda en evaluar esta solución. Para el caso del 3NN, como lo estamos lanzando con una máscara entera a True, el tiempo es únicamente el que tarda en hacer la evaluación, mientras que la tasa de reducción es cero por tener todas las características seleccionadas. Además, voy a comparar también con el el algoritmo generacional hecho en la práctica 3, aprovechando que ya tenía los tiempos sacados y los meméticos están hibridando con él y la búsqueda local.
 
 \begin{table}[H]
 \centering
@@ -566,6 +567,29 @@ De las anteriores gráficas he sacado unas tablas comparativas, una para los por
 \includegraphics[width=0.7\textwidth]{tiempos}
 \caption{Tiempo en segundos} \label{fig:tiempos}
 \end{figure}
+
+Como vemos, en la base de datos más pequeña, WDBC, sí mejoran los meméticos a SFS en el conjunto de train, pero no al genético generacional (AGG), aunque las diferencias tanto con respecto al SFS como al AGG son muy pequeñas (un punto con respecto a SFS y menos con repecto al AGG). Sin embargo en el conjunto de test todos los meméticos y el AGG superan al SFS por un punto. En ambos conjuntos el mejor entre los meméticos es el segundo, el que realiza la BL sobre un cromosoma aleatorio cada 10 generaciones. En las bases de datos arritmia y libras pasa exactamente lo mismo, también el mejor entre los meméticos es el segundo, aunque por poca diferencia, y siguen quedando peor que el AGG, que sigue quedando peor en la mayoría de los casos (en todos menos en libras) que el SFS. En el que más diferencia hay es en arritmia, donde llega a haber más de 3 puntos de diferencia en test entre SFS y el mejor de los meméticos, el segundo.\\
+
+En cuanto a tasas de reducción es normal que el SFS quede muy por encima de los meméticos ya que SFS va construyendo la solución desde cero, añadiendo sólo las características que mejoran la tasa actual, mientras que los meméticos parten siempre de poblaciones generadas aleatoriamente (que tendrán más características seleccionadas en la mayoría de los casos) y no se ha tenido en cuenta en la programación el ir quitando características que no aporten nada o incluso perjudiquen las tasas de acierto.\\
+
+En cuanto a los tiempos de ejecución, en todos los casos excepto en libras para el segundo memético, son mayores que en AGG por poco (aunque esta diferencia se nota más en arritmia, donde el que mayor tiempo de ejecución tiene es precisamente el segundo memético) y mucho mayores que el SFS (algo que es lógico teniendo en cuenta que SFS para la ejecución cuando deja de encontrar mejora (probablemente mucho antes de llamar 1500 veces a la función de evaluación), mientras que tanto los genéticos como los meméticos no paran hasta haber llamado 1500 veces a la función de evaluación). Que los tiempos de ejecución sean mayores en los meméticos que en el generacional puede deberse a que la búsqueda local añada tiempo de ejecución (más que únicamente el algoritmo genético), aunque tampoco hay la suficiente diferencia como para que sea un problema.\\
+
+Sin embargo, sí que queda de manifiesto que para este problema no merece la pena usar ni algoritmos genéticos ni meméticos, ya que no se consiguen tasas mejores en casi ningún caso (y cuando se consiguen es con márgenes muy pobres) y los tiempos de ejecución aumentan mucho con respecto a otras técnicas que obtienen mejores resultados (como pueden ser SFS o GRASP, que tenía mejores resultados en la mayoría de los casos que SFS).\\
+
+De todas formas, si hubiera que elegir uno de los meméticos considerados sería el segundo, por obtener en la mayoría de los casos mejores tasas de acierto que los otros dos meméticos considerados, además de que no hace búsqueda local sobre todos los cromosomas de la población, por lo que tarda menos que el primero (aunque sea por poca diferencia).\\
+
+Con respecto al 3NN al principio parece raro que tenga menos tasa de acierto que los demás
+(en la mayoría de los casos) puesto que está considerando todas las características. Sin embargo
+como hemos comentado, no todas las características tienen que ser buenas definiendo una clase,
+además de que puede haber ruidos que hayan afectado más a unas que a otras. Es por esto que
+es normal que tenga un poco menos de acierto y que no haya mucha diferencia entre las tasas de
+acierto para entrenamiento y para test y además que la de entrenamiento no sea mejor que la de
+test, puesto que en este algoritmo en realidad las dos serían de test ya que no estamos utilizando
+ninguno de los dos conjuntos para aprender qué características usar al estar utilizando todas
+las características.
+
+
+\newpage
 
 \section{Bibliografía}
 \begin{enumerate}
